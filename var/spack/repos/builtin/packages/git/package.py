@@ -32,6 +32,7 @@ class Git(Package):
        projects with speed and efficiency."""
     homepage = "http://git-scm.com"
     url      = "https://github.com/git/git/tarball/v2.7.1"
+    # url      = "https://www.kernel.org/pub/software/scm/git/git-2.9.3.tar.xz"
 
     version('2.11.0', 'c63fb83b86431af96f8e9722ebb3ca01')
     version('2.9.3', 'b0edfc0f3cb046aec7ed68a4b7282a75')
@@ -55,6 +56,13 @@ class Git(Package):
     # version('2.6.0', 'eb76a07148d94802a1745d759716a57e')
     # version('2.5.4', '3eca2390cf1fa698b48e2a233563a76b')
     # version('2.2.1', 'ff41fdb094eed1ec430aed8ee9b9849c')
+
+    resource(
+        name="git-manpages",
+        url="https://www.kernel.org/pub/software/scm/git/"
+        "git-manpages-2.9.3.tar.xz",
+        md5="337165a3b2bbe4814c73075cb6854ca2",
+        placement="git-manpages")
 
     depends_on("autoconf", type='build')
     depends_on("curl")
@@ -86,3 +94,8 @@ class Git(Package):
             filter_file(r' -lrt$', '', 'Makefile')
         make()
         make("install")
+
+        with working_dir("git-manpages"):
+            install_tree("man1", prefix.share_man1)
+            install_tree("man5", prefix.share_man5)
+            install_tree("man7", prefix.share_man7)
