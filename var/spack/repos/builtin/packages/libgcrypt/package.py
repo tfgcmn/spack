@@ -33,6 +33,7 @@ class Libgcrypt(AutotoolsPackage):
        of supporting functions. """
     homepage = "http://www.gnu.org/software/libgcrypt/"
     url      = "ftp://ftp.gnupg.org/gcrypt/libgcrypt/libgcrypt-1.6.2.tar.bz2"
+    url      = "https://ftp.heanet.ie/disk1/gnupg/libgcrypt/libgcrypt-1.6.2.tar.bz2"
 
     version('1.6.2', 'b54395a93cb1e57619943c082da09d5f')
 
