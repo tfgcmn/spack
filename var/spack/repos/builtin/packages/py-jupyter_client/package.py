@@ -25,13 +25,20 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyJupyterClient(Package):
+    """Jupyter protocol implementation and client libraries"""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "http://jupyter.org"
+    url      = "https://pypi.python.org/packages/88/03/d8e218721af0b084d4fda5e3bb89dc201505780f96ae060bf5e3e67c7707/jupyter_client-4.4.0.tar.gz#md5=8a428a07cbcd4f2e4ca7c2f728b718ea"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('4.4.0', '8a428a07cbcd4f2e4ca7c2f728b718ea')
 
-    depends_on('py-setuptools', type='build')
+    extends('python')
+
+    depends_on('py-setuptools',   type='build')
+    depends_on('py-traitlets',    type=nolink)
+    depends_on('py-pyzmq@13:',    type=nolink)
+    depends_on('py-jupyter_core', type=nolink)
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

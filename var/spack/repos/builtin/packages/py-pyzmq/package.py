@@ -25,13 +25,22 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyPyzmq(Package):
+    """Python bindings for 0MQ"""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "https://pyzmq.readthedocs.org"
+    url      = "https://pypi.python.org/packages/ab/3a/5826efd93ebbbdc33203f70c6ceebab1b58ac6cb1e1ab131cc6b990b4cfa/pyzmq-15.4.0.tar.gz#md5=d92fa329c20c72f4831a6aaca8057b2a"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('15.4.0', 'd92fa329c20c72f4831a6aaca8057b2a')
+
+    extends('python')
 
     depends_on('py-setuptools', type='build')
+    depends_on('py-pytest',     type='build')
+    depends_on('zeromq')
+
+    def install(self, spec, prefix):
+        if self.run_tests:
+            setup_py('build_ext', '--inplace')
+            setup_py('test')
+        setup_py('install', '--prefix={0}'.format(prefix))

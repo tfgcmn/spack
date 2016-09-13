@@ -25,13 +25,18 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyBs4(Package):
+    """Dummy package for Beautiful Soup"""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "https://pypi.python.org/pypi/beautifulsoup4"
+    url      = "https://pypi.python.org/packages/10/ed/7e8b97591f6f456174139ec089c769f89a94a1a4025fe967691de971f314/bs4-0.0.1.tar.gz"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('0.0.1', 'fe7e51587ac3b174608f3c4f8bd893ac')
+
+    extends('python')
 
     depends_on('py-setuptools', type='build')
+    depends_on('py-beautifulsoup4')
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

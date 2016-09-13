@@ -25,13 +25,18 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyFlexx(Package):
+    """Write desktop and web apps in pure Python."""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "http://flexx.readthedocs.io"
+    url      = "https://pypi.python.org/packages/0d/82/11900c3972ca2871772ca5d16d9f631a1c2dac53bd75e38bd8253f8fcd2b/flexx-0.4.1.zip#md5=7138a378aa68d781212c4b2cfb6ddfcb"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('0.4.1', '7138a378aa68d781212c4b2cfb6ddfcb')
+
+    extends('python')
 
     depends_on('py-setuptools', type='build')
+    depends_on('py-tornado',    type=nolink)
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

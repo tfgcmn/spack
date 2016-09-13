@@ -25,13 +25,27 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyHttpbin(Package):
+    """HTTP Request and Response Service"""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "https://github.com/Runscope/httpbin"
+    url      = "https://pypi.python.org/packages/61/8d/2e5b787a3381ff6c380cd05a0d0bc3d97888299704294ae198e90693c4cd/httpbin-0.5.0.tar.gz#md5=923793df99156caa484975ade96ee115"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('0.5.0', '923793df99156caa484975ade96ee115')
 
-    depends_on('py-setuptools', type='build')
+    extends('python')
+
+    depends_on('py-setuptools',         type='build')
+    depends_on('py-decorator@3.4.0:',   type=nolink)
+    depends_on('py-flask@0.10.1:',      type=nolink)
+    #depends_on('py-gevent@1.0.2:',      type=nolink)
+    #depends_on('py-greenlet@0.4.2:',    type=nolink)
+    #depends_on('py-gunicorn@19.2:',     type=nolink)
+    depends_on('py-itsdangerous@0.24:', type=nolink)
+    #depends_on('py-jinja2@2.7.2:',      type=nolink)
+    depends_on('py-markupsafe@0.23:',   type=nolink)
+    depends_on('py-six@1.6.1:',         type=nolink)
+    #depends_on('py-werkzeug@0.9.4:',    type=nolink)
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

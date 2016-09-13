@@ -25,13 +25,17 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyPysocks(Package):
+    """A Python SOCKS client module."""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "https://github.com/Anorov/PySocks"
+    url      = "https://pypi.python.org/packages/16/56/9b3513078f837fa8cb88ee01ec1cd805ed8104a37bc02ca8c2588ae8fe5a/PySocks-1.5.7.tar.gz#md5=68f4ad7a8d4fa725656ae3e9dd142d29"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('1.5.7', '68f4ad7a8d4fa725656ae3e9dd142d29')
+
+    extends('python')
 
     depends_on('py-setuptools', type='build')
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

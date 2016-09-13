@@ -25,13 +25,22 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyPytestHttpbin(Package):
+    """Easily test your HTTP library against a local copy of httpbin"""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "https://github.com/kevin1024/pytest-httpbin"
+    url      = "https://pypi.python.org/packages/12/12/5430600cb9417080b561237761ff2dffde520b664cc352433d2e57051222/pytest-httpbin-0.2.3.tar.gz#md5=b8ebb8e2fbac1a445fb5d044f7fec556"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('0.2.3', 'b8ebb8e2fbac1a445fb5d044f7fec556')
+
+    extends('python')
 
     depends_on('py-setuptools', type='build')
+    depends_on('py-pytest',     type=nolink)
+    depends_on('py-flask',      type=nolink)
+    depends_on('py-decorator',  type=nolink)
+    depends_on('py-httpbin',    type=nolink)
+    depends_on('py-six',        type=nolink)
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

@@ -25,13 +25,17 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyWerkzeug(Package):
+    """The Swiss Army knife of Python web development"""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "http://werkzeug.pocoo.org"
+    url      = "https://pypi.python.org/packages/43/2e/d822b4a4216804519ace92e0368dcfc4b0b2887462d852fdd476b253ecc9/Werkzeug-0.11.11.tar.gz#md5=1d34afa1f19abcef4c0da51ebc2c4ea7"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('0.11.11', '1d34afa1f19abcef4c0da51ebc2c4ea7')
+
+    extends('python')
 
     depends_on('py-setuptools', type='build')
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

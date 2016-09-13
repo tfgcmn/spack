@@ -25,13 +25,17 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyIpythonGenutils(Package):
+    """Vestigial utilities from IPython"""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "http://ipython.org"
+    url      = "https://pypi.python.org/packages/71/b7/a64c71578521606edbbce15151358598f3dfb72a3431763edc2baf19e71f/ipython_genutils-0.1.0.tar.gz#md5=9a8afbe0978adbcbfcb3b35b2d015a56"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('0.1.0', '9a8afbe0978adbcbfcb3b35b2d015a56')
+
+    extends('python')
 
     depends_on('py-setuptools', type='build')
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

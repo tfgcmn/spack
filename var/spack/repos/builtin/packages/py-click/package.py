@@ -25,13 +25,17 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyClick(Package):
+    """A simple wrapper around optparse for powerful command line utilities."""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "http://github.com/mitsuhiko/click"
+    url      = "https://pypi.python.org/packages/7a/00/c14926d8232b36b08218067bcd5853caefb4737cda3f0a47437151344792/click-6.6.tar.gz#md5=d0b09582123605220ad6977175f3e51d"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('6.6', 'd0b09582123605220ad6977175f3e51d')
+
+    extends('python')
 
     depends_on('py-setuptools', type='build')
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

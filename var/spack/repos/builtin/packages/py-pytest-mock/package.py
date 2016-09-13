@@ -25,13 +25,19 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyPytestMock(Package):
+    """Thin-wrapper around the mock package for easier use with py.test"""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "https://github.com/pytest-dev/pytest-mock"
+    url      = "https://pypi.python.org/packages/30/11/a5a8009eff04bc15c37e2f8e33d8ed99adf828ec8f551fb31d99f6c73b5b/pytest-mock-1.2.zip"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('1.2', 'a7fa820f7bc71698660945836ff93c73')
 
-    depends_on('py-setuptools', type='build')
+    extends('python')
+
+    depends_on('py-setuptools',  type='build')
+    depends_on('py-pytest@2.7:', type=nolink)
+    depends_on('py-mock',        type=nolink)
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

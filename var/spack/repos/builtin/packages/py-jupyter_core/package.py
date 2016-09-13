@@ -25,13 +25,18 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyJupyterCore(Package):
+    """Jupyter core package. A base package on which Jupyter projects rely."""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "http://jupyter.org"
+    url      = "https://pypi.python.org/packages/32/b6/6460735cd566dcaf0faf7db26d0e7251510b7a76f14572702dcbf7933a92/jupyter_core-4.1.1.tar.gz#md5=2b191b79f1f0cf854c9de7cfdde68f77"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('4.1.1', '2b191b79f1f0cf854c9de7cfdde68f77')
+
+    extends('python')
 
     depends_on('py-setuptools', type='build')
+    depends_on('py-traitlets',  type=nolink)
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

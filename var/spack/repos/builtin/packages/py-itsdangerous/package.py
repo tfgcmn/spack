@@ -25,13 +25,17 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyItsdangerous(Package):
+    """Various helpers to pass trusted data to untrusted environments and back."""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "http://github.com/mitsuhiko/itsdangerous"
+    url      = "https://pypi.python.org/packages/dc/b4/a60bcdba945c00f6d608d8975131ab3f25b22f2bcfe1dab221165194b2d4/itsdangerous-0.24.tar.gz#md5=a3d55aa79369aef5345c036a8a26307f"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('0.24', 'a3d55aa79369aef5345c036a8a26307f')
+
+    extends('python')
 
     depends_on('py-setuptools', type='build')
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

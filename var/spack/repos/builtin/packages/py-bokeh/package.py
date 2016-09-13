@@ -25,13 +25,30 @@
 from spack import *
 
 
-class PyCoverage(PythonPackage):
-    """ Testing coverage checker for python """
+class PyBokeh(Package):
+    """Statistical and novel interactive HTML plots for Python"""
 
-    homepage = "http://nedbatchelder.com/code/coverage/"
-    url      = "https://pypi.python.org/packages/source/c/coverage/coverage-4.0.3.tar.gz"
+    homepage = "http://github.com/bokeh/bokeh"
+    url      = "https://pypi.python.org/packages/de/5d/88a95eacebbd863e77f78cc47152955c8afe28dc4ed1fe243fc3fb40ceb4/bokeh-0.12.2.tar.gz#md5=2d1621bffe6e2ab9d42efbf733861c4f"
 
-    version('4.0.3', 'c7d3db1882484022c81bf619be7b6365')
-    version('4.0a6', '1bb4058062646148965bef0796b61efc')
+    version('0.12.2', '2d1621bffe6e2ab9d42efbf733861c4f')
 
-    depends_on('py-setuptools', type='build')
+    extends('python')
+
+    depends_on('py-setuptools',      type='build')
+    depends_on('py-six@1.5.2:',      type=nolink)
+    depends_on('py-requests@1.2.3:', type=nolink)
+    depends_on('py-pyyaml@3.10:',    type=nolink)
+    depends_on('py-dateutil@2.1:',   type=nolink)
+    depends_on('py-jinja2@2.7:',     type=nolink)
+    depends_on('py-numpy@1.7.1:',    type=nolink)
+    depends_on('py-tornado@4.3:',    type=nolink)
+    depends_on('py-pandas',          type=nolink)
+    depends_on('py-bs4',             type=nolink)
+    depends_on('py-nbformat',        type=nolink)
+    depends_on('py-futures',         type=nolink)
+    depends_on('py-flexx',           type=nolink)
+    depends_on('py-notebook',        type=nolink)
+
+    def install(self, spec, prefix):
+        setup_py('install', '--prefix={0}'.format(prefix))

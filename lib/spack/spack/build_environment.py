@@ -365,6 +365,7 @@ def set_module_variables_for_package(pkg, module):
     m.make = MakeExecutable('make', jobs)
     m.gmake = MakeExecutable('gmake', jobs)
     m.scons = MakeExecutable('scons', jobs)
+    m.bazel = MakeExecutable('bazel', jobs)
 
     # easy shortcut to os.environ
     m.env = os.environ
