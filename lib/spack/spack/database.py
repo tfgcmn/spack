@@ -412,9 +412,10 @@ class Database(object):
             expected = counts[key]
             found = rec.ref_count
             if not expected == found:
-                raise AssertionError(
-                    "Invalid ref_count: %s: %d (expected %d), in DB %s" %
-                    (key, found, expected, self._index_path))
+                #raise AssertionError(
+                tty.warn(
+                    "Invalid ref_count: %s (%s): %d (expected %d), in DB %s" %
+                    (rec.spec.package.name, key, found, expected, self._index_path))
 
     def _write(self, type, value, traceback):
         """Write the in-memory database index to its file path.
