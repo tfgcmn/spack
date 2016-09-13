@@ -17,3 +17,21 @@ compilers:
       f77: /usr/bin/gfortran-4.9
       fc: /usr/bin/gfortran-4.9
     spec: gcc@4.9.2
+- compiler:
+    modules: []
+    operating_system: redhat6
+    paths:
+      cc: /usr/bin/gcc
+      cxx: /usr/bin/g++
+      f77: /usr/bin/gfortran
+      fc: /usr/bin/gfortran
+    spec: gcc@4.4.7
+- compiler:
+    modules: []
+    operating_system: redhat6
+    paths:
+      cc: /wang/environment/software/jessie/_spack/opt/spack/linux-redhat6-x86_64/gcc-4.4.7/gcc-4.9.2-jcewzu6345xahvlb4i7bjd54nnk57hnh/bin/gcc
+      cxx: /wang/environment/software/jessie/_spack/opt/spack/linux-redhat6-x86_64/gcc-4.4.7/gcc-4.9.2-jcewzu6345xahvlb4i7bjd54nnk57hnh/bin/g++
+      f77: /wang/environment/software/jessie/_spack/opt/spack/linux-redhat6-x86_64/gcc-4.4.7/gcc-4.9.2-jcewzu6345xahvlb4i7bjd54nnk57hnh/bin/gfortran
+      fc: /wang/environment/software/jessie/_spack/opt/spack/linux-redhat6-x86_64/gcc-4.4.7/gcc-4.9.2-jcewzu6345xahvlb4i7bjd54nnk57hnh/bin/gfortran
+    spec: gcc@4.9.2
