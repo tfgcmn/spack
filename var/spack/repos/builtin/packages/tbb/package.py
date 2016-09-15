@@ -23,8 +23,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ##############################################################################
 from spack import *
-import glob
-
+import glob, os
 
 class Tbb(Package):
     """Widely used C++ template library for task parallelism.
