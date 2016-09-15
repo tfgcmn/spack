@@ -29,7 +29,7 @@ class PyFlexx(Package):
     """Write desktop and web apps in pure Python."""
 
     homepage = "http://flexx.readthedocs.io"
-    url      = "https://pypi.python.org/packages/0d/82/11900c3972ca2871772ca5d16d9f631a1c2dac53bd75e38bd8253f8fcd2b/flexx-0.4.1.zip#md5=7138a378aa68d781212c4b2cfb6ddfcb"
+    url      = "https://pypi.python.org/packages/0d/82/11900c3972ca2871772ca5d16d9f631a1c2dac53bd75e38bd8253f8fcd2b/flexx-0.4.1.zip"
 
     version('0.4.1', '7138a378aa68d781212c4b2cfb6ddfcb')
 

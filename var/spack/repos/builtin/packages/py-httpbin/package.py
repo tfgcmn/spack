@@ -33,7 +33,7 @@ class PyHttpbin(Package):
 
     version('0.5.0', '923793df99156caa484975ade96ee115')
 
-    extends('python')
+    extends('python', ignore=r'bin/flask')
 
     depends_on('py-setuptools',         type='build')
     depends_on('py-decorator@3.4.0:',   type=nolink)
