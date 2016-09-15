@@ -33,7 +33,7 @@ class PyPytestHttpbin(Package):
 
     version('0.2.3', 'b8ebb8e2fbac1a445fb5d044f7fec556')
 
-    extends('python')
+    extends('python', ignore=r'bin/flask')
 
     depends_on('py-setuptools', type='build')
     depends_on('py-pytest',     type=nolink)

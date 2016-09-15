@@ -33,7 +33,7 @@ class PyPytestMock(Package):
 
     version('1.2', 'a7fa820f7bc71698660945836ff93c73')
 
-    extends('python')
+    extends('python', ignore=r'bin/*')
 
     depends_on('py-setuptools',  type='build')
     depends_on('py-pytest@2.7:', type=nolink)
