@@ -1,0 +1,78 @@
+TOP-LEVEL INSTALLED PACKAGES:
+=============================
+
+  Tools:
+    vim
+    emacs -X
+    tmux
+    mercurial
+    git
+    cmake
+    doxygen
+
+  Libs:
+    boost
+    mkl
+    ipp
+    daal
+    tbb (OSS edition)
+    libpsf
+    yaml-cpp
+
+  Python:
+    py-bokeh
+    py-pyqt
+!   py-pygtk
+!   py-pyside
+  
+    py-brian
+    py-brian2
+    py-elephant
+
+    py-sphinx
+    py-pylint
+    py-sympy
+    py-flake8
+    py-xlrd
+    py-funcsigs
+    py-shiboken
+    py-astroid 
+    py-doxypypy
+    py-ipdb 
+    py-appdirs
+    py-junit-xml
+    py-current 
+    py-html
+    py-jupyter
+    py-myhdl
+    py-lazy
+    py-pyserial
+
+
+TODO:
+=====
+
+* fix bazel (SPACK_ environment variables have to kept down to the calls to gcc, ld, etc)
+  => needs patching, did manage to fix compile steps but not link steps :/
+* tensorflow (req. bazel and py-pyzmq and protobuf somehow?)
+
+Check if really needed:
+  * logilab
+  * py-mpld3
+  * py-numba
+  * py-path
+  * py-pluggy
+  * py-prompt
+  * py-pyflakes
+  * py-tabulate
+  * py-termcolor
+  * py-wrapt
+  * py-xmlrunner
+  * py-pymongo
+
+Lower-level Errors:
+===================
+
+* libxcb => ad25vxx4nru2dexmatrszo4sw5hbkow6 looks odd?!?... dependency on python in spec, but it's only a build dependency => remove old? (will kill old qt which is also odd
+  * qt-4.8.6-xfbkbbrr7ftzxqz4gmmgxatqdh3cwiqr ist komisch weil obige libxcb verwendet wird => py-pyqt neu?
+
