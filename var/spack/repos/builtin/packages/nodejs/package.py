@@ -33,11 +33,12 @@ class Nodejs(Package):
 
     version('4.5.0', '1885586b4b8a2263f77dce27855661e9')
 
-    depends_on('make')
     depends_on('python')
+    depends_on('openssl')
 
     def install(self, spec, prefix):
-        configure('--prefix={0}'.format(prefix))
+        configure('--prefix={0}'.format(prefix),
+                  '--shared-openssl')
 
         make()
         make('install')

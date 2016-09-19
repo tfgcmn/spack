@@ -43,7 +43,7 @@ class Rtags(Package):
         # TODO: should also work using `submodules=True` argument of `version()`
         git = which('git', required=True)
         git('submodule', 'update', '--init', '--recursive')
-        cmake('.', *std_cmake_args)
+        cmake('.', '-DRTAGS_NO_ELISP_FILES=1', '-DRTAGS_NO_LUA_FILES=1', *std_cmake_args)
 
         make()
         make("install")
