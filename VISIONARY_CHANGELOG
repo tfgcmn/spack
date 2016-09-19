@@ -3,12 +3,16 @@ TOP-LEVEL INSTALLED PACKAGES:
 
   Tools:
     vim
-    emacs -X
+    emacs ~X
     tmux
     mercurial
     git
     cmake
     doxygen
+    ncdu
+    nodejs
+    bear
+    rtags
 
   Libs:
     boost
@@ -23,7 +27,7 @@ TOP-LEVEL INSTALLED PACKAGES:
     py-bokeh
     py-pyqt
 !   py-pygtk
-!   py-pyside
+    py-pyside
   
     py-brian
     py-brian2
@@ -73,6 +77,7 @@ Check if really needed:
 Lower-level Errors:
 ===================
 
-* libxcb => ad25vxx4nru2dexmatrszo4sw5hbkow6 looks odd?!?... dependency on python in spec, but it's only a build dependency => remove old? (will kill old qt which is also odd
-  * qt-4.8.6-xfbkbbrr7ftzxqz4gmmgxatqdh3cwiqr ist komisch weil obige libxcb verwendet wird => py-pyqt neu?
-
+* py-pyqt and py-pyside generate a difference in the spec for libxcb
+  one version which explicitly depends on python (WTF?)
+  and one version which does not => two libxcb => two qt => ...
+* py-pygtk => glib in 2nd version due to build fail on older version
