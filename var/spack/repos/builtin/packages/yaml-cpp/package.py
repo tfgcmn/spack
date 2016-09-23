@@ -33,8 +33,8 @@ class YamlCpp(CMakePackage):
 
     version('0.5.3', '4e47733d98266e46a1a73ae0a72954eb')
 
-    variant('fpic',    default=False,
-            description='Build with position independent code')
+    variant('shared', default=True,
+            description='Enable build of shared libraries')
 
     depends_on('boost', when='@:0.5.3')
 
@@ -46,5 +46,7 @@ class YamlCpp(CMakePackage):
             options.extend([
                 '-DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=true'
             ])
+        options.append(
+            '-DBUILD_SHARED_LIBS=%s' % ('ON' if '+shared' in spec else 'OFF'))
 
         return options
