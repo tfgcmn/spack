@@ -12,7 +12,7 @@ TOP-LEVEL INSTALLED PACKAGES:
     ncdu
     nodejs
     bear
-    rtags
+    rtags@dev
 
   Libs:
     boost
@@ -24,11 +24,13 @@ TOP-LEVEL INSTALLED PACKAGES:
     yaml-cpp
 
   Python:
+    py-spykeviewer
+
     py-bokeh
     py-pyqt
 !   py-pygtk
     py-pyside
-  
+
     py-brian
     py-brian2
     py-elephant
