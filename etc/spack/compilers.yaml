@@ -1,0 +1,37 @@
+compilers:
+- compiler:
+    modules: []
+    operating_system: debian8
+    paths:
+      cc: /usr/bin/gcc-4.8
+      cxx: null
+      f77: /usr/bin/gfortran-4.8
+      fc: /usr/bin/gfortran-4.8
+    spec: gcc@4.8
+- compiler:
+    modules: []
+    operating_system: debian8
+    paths:
+      cc: /usr/bin/gcc-4.9
+      cxx: /usr/bin/g++-4.9
+      f77: /usr/bin/gfortran-4.9
+      fc: /usr/bin/gfortran-4.9
+    spec: gcc@4.9.2
+- compiler:
+    modules: []
+    operating_system: debian8
+    paths:
+      cc: /wang/environment/software/spack/opt/spack/linux-debian8-x86_64/gcc-4.9.2/llvm-3.9.0-cutnygmqrnr2hddgspdccdpsfqn6hfgj/bin/clang
+      cxx: /wang/environment/software/spack/opt/spack/linux-debian8-x86_64/gcc-4.9.2/llvm-3.9.0-cutnygmqrnr2hddgspdccdpsfqn6hfgj/bin/clang++
+      f77: null
+      fc: null
+    spec: clang@3.9.0
+- compiler:
+    modules: []
+    operating_system: debian8
+    paths:
+      cc: /wang/environment/software/spack/opt/spack/linux-debian8-x86_64/gcc-4.9.2/gcc-6.2.0-fhir7awimw3chugjsa25vrgn2xkf3lij/bin/gcc
+      cxx: /wang/environment/software/spack/opt/spack/linux-debian8-x86_64/gcc-4.9.2/gcc-6.2.0-fhir7awimw3chugjsa25vrgn2xkf3lij/bin/g++
+      f77: /wang/environment/software/spack/opt/spack/linux-debian8-x86_64/gcc-4.9.2/gcc-6.2.0-fhir7awimw3chugjsa25vrgn2xkf3lij/bin/gfortran
+      fc: /wang/environment/software/spack/opt/spack/linux-debian8-x86_64/gcc-4.9.2/gcc-6.2.0-fhir7awimw3chugjsa25vrgn2xkf3lij/bin/gfortran
+    spec: gcc@6.2.0
