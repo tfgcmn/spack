@@ -26,6 +26,7 @@ from spack import *
 import sys
 import os
 from glob import glob
+import shutil
 
 
 class Boost(Package):
@@ -189,9 +190,10 @@ class Boost(Package):
         options.append('--with-toolset=%s' % boostToolsetId)
         options.append("--with-libraries=%s" % ','.join(withLibs))
 
-        if '+python' in spec:
-            options.append('--with-python=%s' %
-                           join_path(spec['python'].prefix.bin, 'python'))
+        # Leads to "error: No best alternative for /python_for_extensions"
+        # if '+python' in spec:
+        #     options.append('--with-python=%s' %
+        #                    join_path(spec['python'].prefix.bin, 'python'))
 
         with open('user-config.jam', 'w') as f:
             # Boost may end up using gcc even though clang+gfortran is set in
@@ -299,29 +301,42 @@ class Boost(Package):
             return
 
         # Remove libraries that the release version does not support
+        if not spec.satisfies('@1.59.0:'):
+            withLibs.remove('coroutine2')
         if not spec.satisfies('@1.54.0:'):
             withLibs.remove('log')
         if not spec.satisfies('@1.53.0:'):
             withLibs.remove('atomic')
+            withLibs.remove('coroutine')
+        if not spec.satisfies('@1.51.0:'):
+            withLibs.remove('context')
         if not spec.satisfies('@1.48.0:'):
             withLibs.remove('locale')
         if not spec.satisfies('@1.47.0:'):
             withLibs.remove('chrono')
         if not spec.satisfies('@1.43.0:'):
             withLibs.remove('random')
+        if not spec.satisfies('@1.36.0:'):
+            withLibs.remove('exception')
         if '+graph' in spec and '+mpi' in spec:
-            withLibs.remove('graph')
             withLibs.append('graph_parallel')
-
-        # to make Boost find the user-config.jam
-        env['BOOST_BUILD_PATH'] = './'
 
         bootstrap = Executable('./bootstrap.sh')
 
         bootstrap_options = ['--prefix=%s' % prefix]
         self.determine_bootstrap_options(spec, withLibs, bootstrap_options)
 
-        bootstrap(*bootstrap_options)
+        # to make Boost find the user-config.jam
+        if spec.satisfies('@:1.55.0'):
+            home_user_config = os.path.expanduser('~/user-config.jam')
+            if os.path.exists(home_user_config):
+                raise RuntimeError(
+                    "Will not overwrite existing {}".format(home_user_config))
+            shutil.copyfile('user-config.jam', home_user_config)
+        else:
+            env['BOOST_BUILD_PATH'] = os.getcwd()
+
+        bootstrap(*bootstrap_options, env=env)
 
         # b2 used to be called bjam, before 1.47 (sigh)
         b2name = './b2' if spec.satisfies('@1.47:') else './bjam'
@@ -336,7 +351,7 @@ class Boost(Package):
         # In theory it could be done on one call but it fails on
         # Boost.MPI if the threading options are not separated.
         for threadingOpt in threadingOpts:
-            b2('install', 'threading=%s' % threadingOpt, *b2_options)
+            b2('install', 'threading=%s' % threadingOpt, *b2_options, env=env)
 
         if '+multithreaded' in spec and '~taggedlayout' in spec:
             self.add_buildopt_symlinks(prefix)
