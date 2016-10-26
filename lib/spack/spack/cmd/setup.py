@@ -143,11 +143,17 @@ def setup(self, args):
         spec.concretize()
         package = spack.repo.get(spec)
         if not isinstance(package, spack.CMakePackage):
-            tty.die(
+            # JK: changed die -> warn+return because we use `spack setup` for
+            # meta-packages
+            tty.warn(
                 'Support for {0} derived packages not yet implemented'.format(
                     package.build_system_class
                 )
             )
+
+            # JK: this overwrites the CMake-specific function above
+            def write_spconfig(package):
+                spack.build_environment.setup_package(package)
 
         # It's OK if the package is already installed.
 
