@@ -35,7 +35,7 @@ class PyRadicalUtils(Package):
 
     extends('python')
 
-    depends_on('py-setuptools', type='build')
+    depends_on('py-setuptools', type=nolink)
     depends_on('py-colorama',   type=nolink)
     depends_on('py-netifaces',  type=nolink)
 
