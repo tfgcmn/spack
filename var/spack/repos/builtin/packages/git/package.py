@@ -60,7 +60,7 @@ class Git(Package):
     resource(
         name="git-manpages",
         url="https://www.kernel.org/pub/software/scm/git/"
-        "git-manpages-2.9.3.tar.xz",
+        "git-manpages-2.11.0.tar.xz",
         md5="337165a3b2bbe4814c73075cb6854ca2",
         placement="git-manpages")
 
@@ -76,6 +76,8 @@ class Git(Package):
 
     def install(self, spec, prefix):
         env['LDFLAGS'] = "-L%s" % spec['gettext'].prefix.lib + " -lintl"
+        # build tries to execute simple file to check for cross compiling
+        env['LD_LIBRARY_PATH'] = spec['gettext'].prefix.lib
         configure_args = [
             "--prefix=%s" % prefix,
             "--with-curl=%s" % spec['curl'].prefix,
