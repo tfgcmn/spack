@@ -67,7 +67,9 @@ class Git(Package):
     depends_on("autoconf", type='build')
     depends_on("curl")
     depends_on("expat")
-    depends_on("gettext")
+    # disabled: https://github.com/LLNL/spack/issues/1436
+    # who needs localization anyways!!???
+    # depends_on("gettext")
     depends_on("libiconv")
     depends_on("openssl")
     depends_on("pcre")
@@ -75,9 +77,7 @@ class Git(Package):
     depends_on("zlib")
 
     def install(self, spec, prefix):
-        env['LDFLAGS'] = "-L%s" % spec['gettext'].prefix.lib + " -lintl"
-        # build tries to execute simple file to check for cross compiling
-        env['LD_LIBRARY_PATH'] = spec['gettext'].prefix.lib
+        env['NO_GETTEXT'] = "YesPlease"
         configure_args = [
             "--prefix=%s" % prefix,
             "--with-curl=%s" % spec['curl'].prefix,
