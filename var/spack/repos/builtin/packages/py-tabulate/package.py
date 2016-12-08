@@ -31,7 +31,7 @@ class PyTabulate(Package):
     homepage = "https://bitbucket.org/astanin/python-tabulate"
     url      = "https://pypi.io/packages/source/t/tabulate/tabulate-0.7.7.tar.gz"
 
-    version('0.7.7', 'f75aa46cf6e7c5ee51f1ab498d5895f8')
+    version('0.7.7', '39a21aaa9c10be0749c545be34552559')
 
     extends('python')
 

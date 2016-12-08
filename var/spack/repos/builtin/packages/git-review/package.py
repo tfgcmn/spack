@@ -32,7 +32,7 @@ class GitReview(Package):
     #url      = "https://github.com/openstack-infra/git-review/archive/1.25.0.tar.gz"
     url      = "https://pypi.python.org/packages/92/38/b97fee6752540a92f44e405a51c53d3c36b5d57e139683862597b09a5c6c/git-review-1.25.0.tar.gz"
 
-    version('1.25.0', 'd090605cbbd125d8a01693692d39bc70')
+    version('1.25.0', '0a061d0e23ee9b93c6212a3fe68fb7ab')
     version('1.24'  , '145116fe58a3487c3ad1bf55538fd741')
     version('1.23'  , 'b0023ad8c037ab710da81412194c6a3a')
     version('1.22'  , 'e889df5838c059362e5e0d411bde9c48')
