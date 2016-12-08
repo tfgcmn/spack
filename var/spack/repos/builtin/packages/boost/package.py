@@ -190,7 +190,8 @@ class Boost(Package):
             if '+mpi' in spec:
                 f.write('using mpi : %s ;\n' %
                         join_path(spec['mpi'].prefix.bin, 'mpicxx'))
-            if '+python' in spec:
+            # Leads to "error: No best alternative for /python_for_extensions" with boost 1.55.0
+            if '+python' in spec and not spec.satisfies('@1.55.0'):
                 f.write('using python : %s : %s ;\n' %
                         (spec['python'].version.up_to(2),
                          join_path(spec['python'].prefix.bin, 'python')))
