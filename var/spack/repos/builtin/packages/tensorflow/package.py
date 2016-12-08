@@ -50,9 +50,9 @@ class Tensorflow(Package):
 
         configure()
         if '+cuda' in spec:
-            bazel('build', '-c', 'opt', '--config=cuda', '//tensorflow/tools/pip_package:build_pip_package')
+            bazel('-c', 'opt', '--config=cuda', '//tensorflow/tools/pip_package:build_pip_package')
         else:
-            bazel('build', '-c', 'opt', '//tensorflow/tools/pip_package:build_pip_package')
+            bazel('-c', 'opt', '//tensorflow/tools/pip_package:build_pip_package')
 
         build_pip_package = Executable('bazel-bin/tensorflow/tools/pip_package/build_pip_package')
         build_pip_package('%s/tmp_tensorflow_pkg' % self.stage.path)
