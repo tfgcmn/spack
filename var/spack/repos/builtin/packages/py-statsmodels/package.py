@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyStatsmodels(Package):
+class PyStatsmodels(PythonPackage):
     """Statistical computations and models for use with SciPy"""
 
     homepage = "http://www.statsmodels.org"
@@ -33,14 +33,9 @@ class PyStatsmodels(Package):
 
     version('0.8.0rc1', 'da32434ebfebae2c7506e9577ac558f5')
 
-    extends('python')
-
-    depends_on('py-setuptools',    type='build')
-    depends_on('py-numpy@1.5.1:',  type=nolink)
-    depends_on('py-scipy@0.9.0:',  type=nolink)
-    depends_on('py-pandas@0.7.1:', type=nolink)
-    depends_on('py-patsy@0.3.0:',   type=nolink)
-    depends_on('py-cython@0.20.1:', type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-setuptools',     type='build')
+    depends_on('py-numpy@1.5.1:',   type=('build', 'run'))
+    depends_on('py-scipy@0.9.0:',   type=('build', 'run'))
+    depends_on('py-pandas@0.7.1:',  type=('build', 'run'))
+    depends_on('py-patsy@0.3.0:',   type=('build', 'run'))
+    depends_on('py-cython@0.20.1:', type=('build', 'run'))
