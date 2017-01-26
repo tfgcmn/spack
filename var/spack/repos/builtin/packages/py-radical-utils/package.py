@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyRadicalUtils(Package):
+class PyRadicalUtils(PythonPackage):
     """Shared code and tools for various RADICAL Projects"""
 
     homepage = "http://radical.rutgers.edu"
@@ -33,11 +33,6 @@ class PyRadicalUtils(Package):
 
     version('0.41.1', '923446539545dc157768026c957cecb2')
 
-    extends('python')
-
-    depends_on('py-setuptools', type=nolink)
-    depends_on('py-colorama',   type=nolink)
-    depends_on('py-netifaces',  type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-setuptools', type=('build', 'run'))
+    depends_on('py-colorama',   type=('build', 'run'))
+    depends_on('py-netifaces',  type=('build', 'run'))
