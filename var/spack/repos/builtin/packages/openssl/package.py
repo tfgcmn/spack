@@ -39,7 +39,7 @@ class Openssl(Package):
     # remain supported until 2019. We could thus make this version the
     # preferred version, if we find that many packages cannot handle
     # version 1.1.
-    version('1.1.0c', '601e8191f72b18192a937ecf1a800f3f')
+    #version('1.1.0c', '601e8191f72b18192a937ecf1a800f3f')
     version('1.0.2j', '96322138f0b69e61b7212bc53d5e912b')
     version('1.0.2i', '678374e63f8df456a697d3e5e5a931fb')
     version('1.0.2h', '9392e65072ce4b614c1392eefc1f23d0')
