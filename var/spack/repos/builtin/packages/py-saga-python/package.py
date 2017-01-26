@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PySagaPython(Package):
+class PySagaPython(PythonPackage):
     """A light-weight access layer for distributed computing infrastructure"""
 
     homepage = "http://radical.rutgers.edu"
@@ -33,11 +33,6 @@ class PySagaPython(Package):
 
     version('0.41.3', '3f92e16a53635ffe529fca4bae3b705d')
 
-    extends('python')
-
     depends_on('py-setuptools',      type='build')
-    depends_on('py-apache-libcloud', type=nolink)
-    depends_on('py-radical-utils',   type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-apache-libcloud', type=('build', 'run'))
+    depends_on('py-radical-utils',   type=('build', 'run'))
