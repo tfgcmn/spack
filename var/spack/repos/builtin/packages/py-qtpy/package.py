@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyQtpy(Package):
+class PyQtpy(PythonPackage):
     """Provides an abstraction layer on top of the various Qt bindings (PyQt5, PyQt4 and PySide) and additional custom QWidgets."""
 
     homepage = "https://github.com/spyder-ide/qtpy"
@@ -33,11 +33,6 @@ class PyQtpy(Package):
 
     version('1.1.2', '556ecfe8d53c10c1e6d4e07e7c0444fd')
 
-    extends('python')
-
     depends_on('py-setuptools', type='build')
-    depends_on('py-pyqt@4:',    type=nolink)
+    depends_on('py-pyqt@4:',    type=('build', 'run'))
     # or pyside...
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
