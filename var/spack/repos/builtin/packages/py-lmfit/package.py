@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyLmfit(Package):
+class PyLmfit(PythonPackage):
     """Least-Squares Minimization with Bounds and Constraints"""
 
     homepage = "http://lmfit.github.io/lmfit-py/"
@@ -33,12 +33,6 @@ class PyLmfit(Package):
 
     version('0.9.5', '3a38aa3e4510a564d9e2f606d2537522')
 
-    extends('python')
-
-    depends_on('py-numpy@1.5:',  type=nolink)
-    depends_on('py-scipy@0.14:', type=nolink)
+    depends_on('py-numpy@1.5:',  type=('build', 'run'))
+    depends_on('py-scipy@0.14:', type=('build', 'run'))
     depends_on('py-setuptools',  type='build')
-
-    def install(self, spec, prefix):
-        setup_py('build')
-        setup_py('install', '--prefix={0}'.format(prefix))
