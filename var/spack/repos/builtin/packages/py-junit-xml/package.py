@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyJunitXml(Package):
+class PyJunitXml(PythonPackage):
     """Creates JUnit XML test result documents that can be read by tools such as Jenkins"""
 
     homepage = "https://github.com/kyrus/python-junit-xml"
@@ -33,10 +33,5 @@ class PyJunitXml(Package):
 
     version('1.7', '5e6a96edb8a1592f2832241cfd99983e')
 
-    extends('python')
-
     depends_on('py-setuptools', type='build')
-    depends_on('py-six',        type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-six',        type=('build', 'run'))
