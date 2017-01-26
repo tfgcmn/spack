@@ -13,11 +13,11 @@ class Tensorflow(Package):
     depends_on('swig',                 type='build')
 
     extends('python')
-    depends_on('py-numpy@1.8.2:',      type=nolink)
-    depends_on('py-six@1.10.0:',       type=nolink)
-    depends_on('py-protobuf@3.0.0b2:', type=nolink)
-    depends_on('py-wheel',             type=nolink)
-    depends_on('py-mock@2.0.0:',       type=nolink)
+    depends_on('py-numpy@1.8.2:',      type=('build', 'run'))
+    depends_on('py-six@1.10.0:',       type=('build', 'run'))
+    depends_on('py-protobuf@3.0.0b2:', type=('build', 'run'))
+    depends_on('py-wheel',             type=('build', 'run'))
+    depends_on('py-mock@2.0.0:',       type=('build', 'run'))
 
     # FIXME: tensorflow pulls in a lot more dependencies...
     # e.g. eigen3 already exists as a spack package!?
