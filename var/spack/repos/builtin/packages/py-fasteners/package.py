@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyFasteners(Package):
+class PyFasteners(PythonPackage):
     """A python package that provides useful locks."""
 
     # FIXME: Add a proper url for your package's homepage here.
@@ -34,10 +34,5 @@ class PyFasteners(Package):
 
     version('0.14.1', 'fcb13261c9b0039d9b1c4feb9bc75e04')
 
-    extends('python')
-
     depends_on('py-setuptools', type='build')
-    depends_on('py-monotonic',  type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-monotonic',  type=('build', 'run'))
