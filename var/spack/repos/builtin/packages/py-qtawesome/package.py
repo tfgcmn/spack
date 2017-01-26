@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyQtawesome(Package):
+class PyQtawesome(PythonPackage):
     """FontAwesome icons in PyQt and PySide applications"""
 
     homepage = "https://github.com/spyder-ide/qtawesome"
@@ -33,11 +33,6 @@ class PyQtawesome(Package):
 
     version('0.3.3', '830677aa6ca4e7014e228147475183d3')
 
-    extends('python')
-
     # depends_on('py-setuptools', type='build')
-    depends_on('py-qtpy', type=nolink)
-    depends_on('py-six',  type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-qtpy', type=('build', 'run'))
+    depends_on('py-six',  type=('build', 'run'))
