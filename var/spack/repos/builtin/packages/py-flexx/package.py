@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyFlexx(Package):
+class PyFlexx(PythonPackage):
     """Write desktop and web apps in pure Python."""
 
     homepage = "http://flexx.readthedocs.io"
@@ -33,10 +33,5 @@ class PyFlexx(Package):
 
     version('0.4.1', '7138a378aa68d781212c4b2cfb6ddfcb')
 
-    extends('python')
-
     depends_on('py-setuptools', type='build')
-    depends_on('py-tornado',    type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-tornado',    type=('build', 'run'))
