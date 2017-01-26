@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyNeo(Package):
+class PyNeo(PythonPackage):
     """Neo is a package for representing electrophysiology data in Python, together with support for reading a wide range of neurophysiology file formats"""
 
     homepage = "http://neuralensemble.org/neo"
@@ -33,11 +33,6 @@ class PyNeo(Package):
 
     version('0.4.1', 'f706df3a1bce835cb490b812ac198a6e')
 
-    extends('python')
-
     depends_on('py-setuptools',        type='build')
-    depends_on('py-numpy@1.7.1:',      type=nolink)
-    depends_on('py-quantities@0.9.0:', type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-numpy@1.7.1:',      type=('build', 'run'))
+    depends_on('py-quantities@0.9.0:', type=('build', 'run'))
