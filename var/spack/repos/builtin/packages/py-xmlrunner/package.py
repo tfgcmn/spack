@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyXmlrunner(Package):
+class PyXmlrunner(PythonPackage):
     """PyUnit-based test runner with JUnit like XML reporting."""
 
     homepage = "https://github.com/pycontribs/xmlrunner"
@@ -33,8 +33,4 @@ class PyXmlrunner(Package):
 
     version('1.7.7', '7b0b152ed2d278516aedbc0cac22dfb3')
     
-    extends('python')
-    depends_on('py-unittest2', type=nolink, when='^python@:2.7')
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-unittest2', type=('build', 'run'), when='^python@:2.7')
