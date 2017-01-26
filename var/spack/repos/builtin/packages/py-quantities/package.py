@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyQuantities(Package):
+class PyQuantities(PythonPackage):
     """Support for physical quantities with units, based on numpy"""
 
     homepage = "http://python-quantities.readthedocs.org"
@@ -33,9 +33,4 @@ class PyQuantities(Package):
 
     version('0.11.1', 'f4c6287bfd2e93322b25a7c1311a0243')
 
-    extends('python')
-
-    depends_on('py-numpy@1.4.0:', type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-numpy@1.4.0:', type=('build', 'run'))
