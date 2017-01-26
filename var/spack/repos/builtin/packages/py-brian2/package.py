@@ -36,14 +36,14 @@ class PyBrian2(Package):
     extends('python', ignore=r'bin/*') # just copies of binaries...
 
     depends_on('py-setuptools@6.0:',   type='build')
-    #depends_on('py-nosetests@1.0:',    type=nolink) # extra test
-    #depends_on('py-nosetests@1.0:',    type=nolink) # extra docs
-    #depends_on('py-sphinx@1.0.1:',     type=nolink) # extra docs
-    depends_on('py-sympy@0.7.6:',      type=nolink)
-    depends_on('py-pyparsing',         type=nolink)
-    depends_on('py-py-cpuinfo@0.1.6:', type=nolink)
-    depends_on('py-numpy@1.8.2:',      type=nolink)
-    depends_on('py-jinja2@2.7:',       type=nolink)
+    #depends_on('py-nosetests@1.0:',    type=('build', 'run')) # extra test
+    #depends_on('py-nosetests@1.0:',    type=('build', 'run')) # extra docs
+    #depends_on('py-sphinx@1.0.1:',     type=('build', 'run')) # extra docs
+    depends_on('py-sympy@0.7.6:',      type=('build', 'run'))
+    depends_on('py-pyparsing',         type=('build', 'run'))
+    depends_on('py-py-cpuinfo@0.1.6:', type=('build', 'run'))
+    depends_on('py-numpy@1.8.2:',      type=('build', 'run'))
+    depends_on('py-jinja2@2.7:',       type=('build', 'run'))
 
     def install(self, spec, prefix):
         setup_py('install', '--prefix={0}'.format(prefix))
