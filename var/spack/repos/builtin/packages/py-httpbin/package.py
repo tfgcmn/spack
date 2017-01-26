@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyHttpbin(Package):
+class PyHttpbin(PythonPackage):
     """HTTP Request and Response Service"""
 
     homepage = "https://github.com/Runscope/httpbin"
@@ -33,19 +33,14 @@ class PyHttpbin(Package):
 
     version('0.5.0', '923793df99156caa484975ade96ee115')
 
-    extends('python', ignore=r'bin/flask')
-
     depends_on('py-setuptools',         type='build')
-    depends_on('py-decorator@3.4.0:',   type=nolink)
-    depends_on('py-flask@0.10.1:',      type=nolink)
-    #depends_on('py-gevent@1.0.2:',      type=nolink)
-    #depends_on('py-greenlet@0.4.2:',    type=nolink)
-    #depends_on('py-gunicorn@19.2:',     type=nolink)
-    depends_on('py-itsdangerous@0.24:', type=nolink)
-    #depends_on('py-jinja2@2.7.2:',      type=nolink)
-    depends_on('py-markupsafe@0.23:',   type=nolink)
-    depends_on('py-six@1.6.1:',         type=nolink)
-    #depends_on('py-werkzeug@0.9.4:',    type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-decorator@3.4.0:',   type=('build', 'run'))
+    depends_on('py-flask@0.10.1:',      type=('build', 'run'))
+    #depends_on('py-gevent@1.0.2:',      type=('build', 'run'))
+    #depends_on('py-greenlet@0.4.2:',    type=('build', 'run'))
+    #depends_on('py-gunicorn@19.2:',     type=('build', 'run'))
+    depends_on('py-itsdangerous@0.24:', type=('build', 'run'))
+    #depends_on('py-jinja2@2.7.2:',      type=('build', 'run'))
+    depends_on('py-markupsafe@0.23:',   type=('build', 'run'))
+    depends_on('py-six@1.6.1:',         type=('build', 'run'))
+    #depends_on('py-werkzeug@0.9.4:',    type=('build', 'run'))
