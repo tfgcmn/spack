@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyPytestMock(Package):
+class PyPytestMock(PythonPackage):
     """Thin-wrapper around the mock package for easier use with py.test"""
 
     homepage = "https://github.com/pytest-dev/pytest-mock"
@@ -36,8 +36,5 @@ class PyPytestMock(Package):
     extends('python', ignore=r'bin/*')
 
     depends_on('py-setuptools',  type='build')
-    depends_on('py-pytest@2.7:', type=nolink)
-    depends_on('py-mock',        type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-pytest@2.7:', type=('build', 'run'))
+    depends_on('py-mock',        type=('build', 'run'))
