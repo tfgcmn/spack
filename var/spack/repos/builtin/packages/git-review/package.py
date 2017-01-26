@@ -40,11 +40,11 @@ class GitReview(Package):
 
     extends('python')
 
-    depends_on('py-setuptools',    type=nolink) # also needed during runtime
-    depends_on('py-pbr',           type='build')
-    depends_on('py-requests@1.1:', type=nolink)
-    depends_on('git',              type=nolink)
-    depends_on('tk',               type=nolink)
+    depends_on('py-setuptools',    type=('build', 'run')) # also needed during runtime
+    depends_on('py-pbr',           type=('build', 'run'))
+    depends_on('py-requests@1.1:', type=('build', 'run'))
+    depends_on('git',              type=('build', 'run'))
+    depends_on('tk',               type=('build', 'run'))
 
     def install(self, spec, prefix):
 	os.environ['PBR_VERSION'] = str(spec.version)
