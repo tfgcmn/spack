@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyPytestCov(Package):
+class PyPytestCov(PythonPackage):
     """Pytest plugin for measuring coverage."""
 
     homepage = "https://github.com/pytest-dev/pytest-cov"
@@ -36,8 +36,5 @@ class PyPytestCov(Package):
     extends('python', ignore=r'bin/*')
 
     depends_on('py-setuptools',      type='build')
-    depends_on('py-pytest@2.6.0:',   type=nolink)
-    depends_on('py-coverage@3.7.1:', type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-pytest@2.6.0:',   type=('build', 'run'))
+    depends_on('py-coverage@3.7.1:', type=('build', 'run'))
