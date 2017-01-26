@@ -25,15 +25,10 @@
 from spack import *
 
 
-class PyAttrs(Package):
+class PyAttrs(PythonPackage):
     """Python Attributes Without Boilerplate"""
+
     homepage = "http://attrs.org/"
     url = "https://pypi.io/packages/source/a/attrs/attrs-16.3.0.tar.gz"
 
     version('16.3.0', '4ec003c49360853cf935113d1ae56151')
-
-    extends('python')
-    depends_on('py-setuptools', type='build')
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix=%s' % prefix)
