@@ -43,7 +43,7 @@ class PyPytables(PythonPackage):
     depends_on('py-six', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
     depends_on('py-cython', type='build')
-    depends_on('py-six', type=nolink)
+    depends_on('py-six', type=('build', 'run'))
     depends_on('hdf5@1.8.4:1.8.99')
     depends_on('lzo')
     depends_on('bzip2')
@@ -61,6 +61,3 @@ class PyPytables(PythonPackage):
     #    UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-16: ordinal not in range(128)
     #
     # => use sources bundled with pytables for now
-
-    def setup_environment(self, spack_env, run_env):
-        spack_env.set('HDF5_DIR', self.spec['hdf5'].prefix)
