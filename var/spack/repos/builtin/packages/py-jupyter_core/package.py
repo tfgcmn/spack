@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyJupyterCore(Package):
+class PyJupyterCore(PythonPackage):
     """Jupyter core package. A base package on which Jupyter projects rely."""
 
     homepage = "http://jupyter.org"
@@ -33,10 +33,5 @@ class PyJupyterCore(Package):
 
     version('4.1.1', '2b191b79f1f0cf854c9de7cfdde68f77')
 
-    extends('python')
-
     depends_on('py-setuptools', type='build')
-    depends_on('py-traitlets',  type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-traitlets',  type=('build', 'run'))
