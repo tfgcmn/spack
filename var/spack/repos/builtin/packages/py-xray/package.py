@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyXray(Package):
+class PyXray(PythonPackage):
     """N-D labeled arrays and datasets in Python"""
 
     homepage = "https://github.com/pydata/xarray"
@@ -33,12 +33,7 @@ class PyXray(Package):
 
     version('0.7.0', 'e758549b4031784abc7ace6d58d0159c')
 
-    extends('python')
-
-    depends_on('py-setuptools',     type='build')
-    depends_on('py-pandas@0.15.0:', type=nolink)
-    depends_on('py-numpy@1.7:',     type=nolink)
-    #depends_on('py-pytest@2.7.1:',  type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-setuptools',      type='build')
+    depends_on('py-pandas@0.15.0:',  type=('build', 'run'))
+    depends_on('py-numpy@1.7:',      type=('build', 'run'))
+    #depends_on('py-pytest@2.7.1:',  type=('build', 'run'))
