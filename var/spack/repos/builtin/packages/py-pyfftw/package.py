@@ -24,7 +24,7 @@
 ##############################################################################
 from spack import *
 
-class PyPyfftw(Package):
+class PyPyfftw(PythonPackage):
     """A pythonic wrapper around FFTW, the FFT library, presenting a unified interface for all the supported transforms."""
 
     homepage = "http://hgomersall.github.com/pyFFTW"
@@ -32,13 +32,8 @@ class PyPyfftw(Package):
 
     version('0.10.4', '7fb59450308881bb48d9f178947d950e')
 
-    extends('python')
-
     depends_on('fftw')
     depends_on('py-setuptools',    type='build')
-    depends_on('py-cython',        type=nolink)
-    depends_on('py-numpy@1.6:',    type=nolink)
-    depends_on('py-scipy@0.12.0:', type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-cython',        type=('build', 'run'))
+    depends_on('py-numpy@1.6:',    type=('build', 'run'))
+    depends_on('py-scipy@0.12.0:', type=('build', 'run'))
