@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyElephant(Package):
+class PyElephant(PythonPackage):
     """Elephant is a package for analysis of electrophysiology data in Python"""
 
     homepage = "http://neuralensemble.org/elephant"
@@ -33,17 +33,12 @@ class PyElephant(Package):
 
     version('0.3.0', '84e69e6628fd617af469780c30d2da6c')
 
-    extends('python')
-
     depends_on('py-setuptools',         type='build')
-    depends_on('py-neo@0.3.4:',         type=nolink) # > 0.3.3 ?
-    depends_on('py-numpy@1.8.2:',       type=nolink)
-    depends_on('py-quantities@0.10.1:', type=nolink)
-    depends_on('py-scipy@0.14.0:',      type=nolink)
-    depends_on('py-pandas@0.14.1:',     type=nolink)
-    #depends_on('py-numpydoc@0.5:',      type=nolink) # docs
-    #depends_on('py-sphinx@1.2.2:',      type=nolink) # docs
-    #depends_on('py-nose@1.3.3:',        type=nolink) # tests
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-neo@0.3.4:',         type=('build', 'run')) # > 0.3.3 ?
+    depends_on('py-numpy@1.8.2:',       type=('build', 'run'))
+    depends_on('py-quantities@0.10.1:', type=('build', 'run'))
+    depends_on('py-scipy@0.14.0:',      type=('build', 'run'))
+    depends_on('py-pandas@0.14.1:',     type=('build', 'run'))
+    #depends_on('py-numpydoc@0.5:',      type=('build', 'run')) # docs
+    #depends_on('py-sphinx@1.2.2:',      type=('build', 'run')) # docs
+    #depends_on('py-nose@1.3.3:',        type=('build', 'run')) # tests
