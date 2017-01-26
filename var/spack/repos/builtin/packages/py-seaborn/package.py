@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PySeaborn(Package):
+class PySeaborn(PythonPackage):
     """Seaborn: statistical data visualization"""
 
     homepage = "http://stanford.edu/~mwaskom/software/seaborn"
@@ -33,15 +33,10 @@ class PySeaborn(Package):
 
     version('0.7.1', 'ef07e29e0f8a1f2726abe506c1a36e93')
 
-    extends('python')
-
     depends_on('py-setuptools',  type='build')
-    depends_on('py-numpy',       type=nolink)
-    depends_on('py-scipy',       type=nolink)
-    depends_on('py-matplotlib',  type=nolink)
-    depends_on('py-pandas',      type=nolink)
-    depends_on('py-statsmodels', type=nolink)
-    depends_on('py-patsy',       type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-numpy',       type=('build', 'run'))
+    depends_on('py-scipy',       type=('build', 'run'))
+    depends_on('py-matplotlib',  type=('build', 'run'))
+    depends_on('py-pandas',      type=('build', 'run'))
+    depends_on('py-statsmodels', type=('build', 'run'))
+    depends_on('py-patsy',       type=('build', 'run'))
