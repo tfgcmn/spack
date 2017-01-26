@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyJupyterConsole(Package):
+class PyJupyterConsole(PythonPackage):
     """Jupyter terminal console"""
 
     homepage = "http://jupyter.org"
@@ -33,17 +33,12 @@ class PyJupyterConsole(Package):
 
     version('5.0.0', '65d86429f41cc374a144f22526fe5048')
 
-    extends('python')
-
     depends_on('py-setuptools',                 type='build')
-    depends_on('py-pygments',                   type=nolink)
-    depends_on('py-prompt_toolkit@1.0.0:1.9.9', type=nolink)
-    depends_on('py-jupyter_client',             type=nolink)
-    depends_on('py-ipython',                    type=nolink)
-    depends_on('py-ipykernel',                  type=nolink)
+    depends_on('py-pygments',                   type=('build', 'run'))
+    depends_on('py-prompt_toolkit@1.0.0:1.9.9', type=('build', 'run'))
+    depends_on('py-jupyter_client',             type=('build', 'run'))
+    depends_on('py-ipython',                    type=('build', 'run'))
+    depends_on('py-ipykernel',                  type=('build', 'run'))
 
     #pexpect; sys_platform != "win32" and extra == 'test'
     #mock; python_version=="2.7" and extra == 'test'
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
