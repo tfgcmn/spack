@@ -61,7 +61,7 @@ class Git(Package):
         name="git-manpages",
         url="https://www.kernel.org/pub/software/scm/git/"
         "git-manpages-2.11.0.tar.xz",
-        md5="337165a3b2bbe4814c73075cb6854ca2",
+        md5="72718851626e5b2267877cc2194a1ac9",
         placement="git-manpages")
 
     depends_on("autoconf", type='build')
