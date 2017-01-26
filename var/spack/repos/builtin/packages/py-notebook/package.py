@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyNotebook(Package):
+class PyNotebook(PythonPackage):
     """A web-based notebook environment for interactive computing"""
 
     homepage = "http://jupyter.org"
@@ -33,28 +33,21 @@ class PyNotebook(Package):
 
     version('4.2.2', 'd951ac8776154eb56e041011aa093d0a')
 
-    extends('python')
-
     # FIXME: Add additional dependencies if required.
     # depends_on('py-setuptools', type='build')
-    # depends_on('py-foo',        type=nolink)
+    # depends_on('py-foo',        type=('build', 'run'))
     #mock; python_version == "2.7" and extra == 'test'
     #requests; extra == 'test'
     #nose; extra == 'test'
     #Sphinx (>=1.1); extra == 'doc'
 
-    depends_on('py-terminado@0.3.3:', type=nolink)
-    depends_on('py-traitlets',        type=nolink)
-    depends_on('py-tornado@4:',       type=nolink)
-    depends_on('py-nbformat',         type=nolink)
-    depends_on('py-nbconvert',        type=nolink)
-    depends_on('py-jupyter_core',     type=nolink)
-    depends_on('py-jupyter_client',   type=nolink)
-    depends_on('py-jinja2',           type=nolink)
-    depends_on('py-ipython_genutils', type=nolink)
-    depends_on('py-ipykernel',        type=nolink)
-
-
-    def install(self, spec, prefix):
-        # FIXME: Add logic to build and install here.
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-terminado@0.3.3:', type=('build', 'run'))
+    depends_on('py-traitlets',        type=('build', 'run'))
+    depends_on('py-tornado@4:',       type=('build', 'run'))
+    depends_on('py-nbformat',         type=('build', 'run'))
+    depends_on('py-nbconvert',        type=('build', 'run'))
+    depends_on('py-jupyter_core',     type=('build', 'run'))
+    depends_on('py-jupyter_client',   type=('build', 'run'))
+    depends_on('py-jinja2',           type=('build', 'run'))
+    depends_on('py-ipython_genutils', type=('build', 'run'))
+    depends_on('py-ipykernel',        type=('build', 'run'))
