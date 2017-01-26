@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyQtconsole(Package):
+class PyQtconsole(PythonPackage):
     """Jupyter Qt console"""
 
     homepage = "http://ipython.org"
@@ -33,18 +33,13 @@ class PyQtconsole(Package):
 
     version('4.2.1', 'c08ebebc7a60629ebadf685361ca0798')
 
-    extends('python')
-
     depends_on('py-setuptools',          type='build')
-    depends_on('py-ipykernel@4.1:',      type=nolink)
-    depends_on('py-jupyter_client@4.1:', type=nolink)
-    depends_on('py-jupyter_core',        type=nolink)
-    depends_on('py-pygments',            type=nolink)
-    depends_on('py-traitlets',           type=nolink)
+    depends_on('py-ipykernel@4.1:',      type=('build', 'run'))
+    depends_on('py-jupyter_client@4.1:', type=('build', 'run'))
+    depends_on('py-jupyter_core',        type=('build', 'run'))
+    depends_on('py-pygments',            type=('build', 'run'))
+    depends_on('py-traitlets',           type=('build', 'run'))
 
     #Sphinx (>=1.3); extra == 'doc'
     #mock; python_version=="2.7" and extra == 'test'
     #pexpect; sys_platform != "win32" and extra == 'test'
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
