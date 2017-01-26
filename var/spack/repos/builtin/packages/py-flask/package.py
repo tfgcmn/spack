@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyFlask(Package):
+class PyFlask(PythonPackage):
     """A microframework based on Werkzeug, Jinja2 and good intentions"""
 
     homepage = "http://github.com/pallets/flask"
@@ -33,13 +33,8 @@ class PyFlask(Package):
 
     version('0.11.1', 'd2af95d8fe79cf7da099f062dd122a08')
 
-    extends('python')
-
     depends_on('py-setuptools',         type='build')
-    depends_on('py-werkzeug@0.7:',      type=nolink)
-    depends_on('py-jinja2@2.4:',        type=nolink)
-    depends_on('py-itsdangerous@0.21:', type=nolink)
-    depends_on('py-click@2.0:',         type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-werkzeug@0.7:',      type=('build', 'run'))
+    depends_on('py-jinja2@2.4:',        type=('build', 'run'))
+    depends_on('py-itsdangerous@0.21:', type=('build', 'run'))
+    depends_on('py-click@2.0:',         type=('build', 'run'))
