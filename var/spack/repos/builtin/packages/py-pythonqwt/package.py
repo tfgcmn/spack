@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyPythonqwt(Package):
+class PyPythonqwt(PythonPackage):
     """Qt plotting widgets for Python"""
 
     homepage = "https://github.com/PierreRaybaut/PythonQwt"
@@ -33,12 +33,7 @@ class PyPythonqwt(Package):
 
     version('0.5.5', 'a60c7da9fbca667337d14aca094b6fda')
 
-    extends('python')
-
     # depends_on('py-setuptools', type='build')
-    depends_on('py-numpy@1.3:',   type=nolink)
-    depends_on('py-sip',          type=nolink)
-    depends_on('py-pyqt@4:',      type=nolink) # it checks for spyder?
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-numpy@1.3:',   type=('build', 'run'))
+    depends_on('py-sip',          type=('build', 'run'))
+    depends_on('py-pyqt@4:',      type=('build', 'run')) # it checks for spyder?
