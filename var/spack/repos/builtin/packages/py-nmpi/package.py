@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyNmpi(Package):
+class PyNmpi(PythonPackage):
     """Python client for the Human Brain Project Neuromorphic Computing Platform"""
 
     homepage = "https://github.com/HumanBrainProject/hbp-neuromorphic-client"
@@ -41,11 +41,6 @@ class PyNmpi(Package):
     version('0.3.0', '1a2dc04ea0e00f2b56a862720705dd6c')
     version('0.2.0', '6864997bb0fea58dc3a41a466b32aaf4')
 
-    extends('python')
-
-    depends_on('py-requests@2.3.0:',         type=nolink)
-    depends_on('py-saga-python@0.15:',       type=nolink)
-    depends_on('py-sh@1.09:',                type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-requests@2.3.0:',         type=('build', 'run'))
+    depends_on('py-saga-python@0.15:',       type=('build', 'run'))
+    depends_on('py-sh@1.09:',                type=('build', 'run'))
