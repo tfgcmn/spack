@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PySpykeutils(Package):
+class PySpykeutils(PythonPackage):
     """Utilities for analyzing electrophysiological data"""
 
     homepage = "https://github.com/rproepp/spykeutils"
@@ -33,12 +33,7 @@ class PySpykeutils(Package):
 
     version('0.4.3', 'cefe4c48ebfdb9bac7a6cbfaf49dd485')
 
-    extends('python')
-
     depends_on('py-setuptools',      type='build')
-    depends_on('py-scipy',           type=nolink)
-    depends_on('py-quantities',      type=nolink)
-    depends_on('py-neo@0.2.1:',      type=nolink) # < 4.0?
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-scipy',           type=('build', 'run'))
+    depends_on('py-quantities',      type=('build', 'run'))
+    depends_on('py-neo@0.2.1:',      type=('build', 'run')) # < 4.0?
