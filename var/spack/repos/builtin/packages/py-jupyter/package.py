@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyJupyter(Package):
+class PyJupyter(PythonPackage):
     """Jupyter metapackage. Install all the Jupyter components in one go."""
 
     homepage = "http://ipython.org"
@@ -33,15 +33,10 @@ class PyJupyter(Package):
 
     version('1.0.0', 'c6030444c7eb6c05a4d7b1768c72aed7')
 
-    extends('python', ignore=r'lib/python2.7/site-packages/jupyter.py*')
-
     depends_on('py-setuptools',      type='build')
-    depends_on('py-notebook',        type=nolink)
-    depends_on('py-qtconsole',       type=nolink)
-    depends_on('py-jupyter_console', type=nolink)
-    depends_on('py-nbconvert',       type=nolink)
-    depends_on('py-ipykernel',       type=nolink)
-    depends_on('py-ipywidgets',      type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-notebook',        type=('build', 'run'))
+    depends_on('py-qtconsole',       type=('build', 'run'))
+    depends_on('py-jupyter_console', type=('build', 'run'))
+    depends_on('py-nbconvert',       type=('build', 'run'))
+    depends_on('py-ipykernel',       type=('build', 'run'))
+    depends_on('py-ipywidgets',      type=('build', 'run'))
