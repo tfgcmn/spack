@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PySpyder(Package):
+class PySpyder(PythonPackage):
     """Scientific PYthon Development EnviRonment"""
 
     homepage = "https://github.com/spyder-ide/spyder"
@@ -35,24 +35,19 @@ class PySpyder(Package):
     version('2.3.9',   'dd01e07a77123c128ff79ba57b97c1d7',
             url="https://pypi.python.org/packages/fb/37/09b789dbe321894afe1657f11f0026a5ea79987f1c30176b92ee648b3faa/spyder-2.3.9.zip")
 
-    extends('python')
-
     depends_on('py-setuptools',       type='build')
-    depends_on('py-rope@0.9.4:',      type=nolink)
-    depends_on('py-jedi',             type=nolink)
-    depends_on('py-pyflakes',         type=nolink)
-    depends_on('py-pygments@2.0:',    type=nolink)
-    depends_on('py-qtconsole@4.2.0:', type=nolink)
-    depends_on('py-nbconvert',        type=nolink)
-    depends_on('py-sphinx',           type=nolink)
-    depends_on('py-pep8',             type=nolink)
-    depends_on('py-pylint',           type=nolink)
-    depends_on('py-psutil',           type=nolink)
-    depends_on('py-qtawesome',        type=nolink)
-    depends_on('py-qtpy@1.1.0:',      type=nolink)
-    depends_on('py-pickleshare',      type=nolink)
-    depends_on('py-pyzmq',            type=nolink)
-    depends_on('py-pyqt@4:',          type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-rope@0.9.4:',      type=('build', 'run'))
+    depends_on('py-jedi',             type=('build', 'run'))
+    depends_on('py-pyflakes',         type=('build', 'run'))
+    depends_on('py-pygments@2.0:',    type=('build', 'run'))
+    depends_on('py-qtconsole@4.2.0:', type=('build', 'run'))
+    depends_on('py-nbconvert',        type=('build', 'run'))
+    depends_on('py-sphinx',           type=('build', 'run'))
+    depends_on('py-pep8',             type=('build', 'run'))
+    depends_on('py-pylint',           type=('build', 'run'))
+    depends_on('py-psutil',           type=('build', 'run'))
+    depends_on('py-qtawesome',        type=('build', 'run'))
+    depends_on('py-qtpy@1.1.0:',      type=('build', 'run'))
+    depends_on('py-pickleshare',      type=('build', 'run'))
+    depends_on('py-pyzmq',            type=('build', 'run'))
+    depends_on('py-pyqt@4:',          type=('build', 'run'))
