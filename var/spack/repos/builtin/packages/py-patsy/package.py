@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyPatsy(Package):
+class PyPatsy(PythonPackage):
     """A Python package for describing statistical models and for building design matrices."""
 
     homepage = "https://github.com/pydata/patsy"
@@ -33,11 +33,6 @@ class PyPatsy(Package):
 
     version('0.4.1', '286db90a03ad04a1e9e1e418142ca613')
 
-    extends('python')
-
     depends_on('py-setuptools',  type='build')
-    depends_on('py-numpy',       type=nolink)
-    depends_on('py-six',         type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-numpy',       type=('build', 'run'))
+    depends_on('py-six',         type=('build', 'run'))
