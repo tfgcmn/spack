@@ -25,25 +25,21 @@
 from spack import *
 
 
-class PyOdo(Package):
+class PyOdo(PythonPackage):
     """FIXME"""
     homepage = "http://odo.readthedocs.org/"
     url = "https://pypi.io/packages/source/o/odo/odo-0.4.1.tar.gz"
 
     version('0.4.1', '')
 
-    extends('python')
-    depends_on('py-datashape', type=nolink)
-    depends_on('py-numpy', type=nolink)
-    depends_on('py-pandas', type=nolink)
-    depends_on('py-toolz', type=nolink)
-    depends_on('py-multipledispatch', type=nolink)
-    depends_on('py-networkx', type=nolink)
-    depends_on('py-dask', type=nolink)
+    depends_on('py-datashape', type=('build', 'run'))
+    depends_on('py-numpy', type=('build', 'run'))
+    depends_on('py-pandas', type=('build', 'run'))
+    depends_on('py-toolz', type=('build', 'run'))
+    depends_on('py-multipledispatch', type=('build', 'run'))
+    depends_on('py-networkx', type=('build', 'run'))
+    depends_on('py-dask', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
 
     # TODO: set up variants: https://github.com/blaze/odo/tree/master/etc
     # requirements_*.txt
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix=%s' % prefix)
