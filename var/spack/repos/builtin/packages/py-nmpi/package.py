@@ -31,6 +31,10 @@ class PyNmpi(Package):
     homepage = "https://github.com/HumanBrainProject/hbp-neuromorphic-client"
     url      = "https://github.com/HumanBrainProject/hbp-neuromorphic-client/archive/0.4.2.tar.gz"
 
+    version('2017-01-18',
+	    git='https://github.com/HumanBrainProject/hbp-neuromorphic-client.git',
+	    commit='09ba7e4b6ddfd57d6ad3959cca69b824a63a0320')
+
     version('0.4.2', '189b4fbe017d6500f3480d0031745976')
     version('0.4.1', '08645ff62d050e99f9bb57bb7d6b9138')
     version('0.4.0', '595b40a8d7f2ec7b68e0198cf764ea72')
