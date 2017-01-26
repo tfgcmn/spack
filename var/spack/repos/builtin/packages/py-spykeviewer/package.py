@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PySpykeviewer(Package):
+class PySpykeviewer(PythonPackage):
     """A multi-platform GUI application for navigating, analyzing and visualizing electrophysiological datasets"""
 
     homepage = "https://github.com/rproepp/spykeviewer"
@@ -33,20 +33,15 @@ class PySpykeviewer(Package):
 
     version('0.4.4', '08737c4a3cb6de9bef96a9a06acf6224')
 
-    extends('python')
-
     depends_on('py-setuptools',         type='build')
-    depends_on('py-guidata',            type=nolink)
-    depends_on('py-guiqwt@2.1.4:3.9.9', type=nolink)
+    depends_on('py-guidata',            type=('build', 'run'))
+    depends_on('py-guiqwt@2.1.4:3.9.9', type=('build', 'run'))
 
     # spyderlib was renamed to spyder in 3.0...
-    depends_on('py-spyder@2.1.0:2.9.9', type=nolink, when='@:0.4.4')
+    depends_on('py-spyder@2.1.0:2.9.9', type=('build', 'run'), when='@:0.4.4')
 
-    depends_on('py-spykeutils@0.4.0:',  type=nolink)
-    depends_on('py-neo@0.2.1:',         type=nolink)
-    depends_on('py-matplotlib',         type=nolink)
-    depends_on('py-scipy',              type=nolink)
-    depends_on('py-pytables',              type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-spykeutils@0.4.0:',  type=('build', 'run'))
+    depends_on('py-neo@0.2.1:',         type=('build', 'run'))
+    depends_on('py-matplotlib',         type=('build', 'run'))
+    depends_on('py-scipy',              type=('build', 'run'))
+    depends_on('py-pytables',           type=('build', 'run'))
