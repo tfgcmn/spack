@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyPytestHttpbin(Package):
+class PyPytestHttpbin(PythonPackage):
     """Easily test your HTTP library against a local copy of httpbin"""
 
     homepage = "https://github.com/kevin1024/pytest-httpbin"
@@ -36,11 +36,8 @@ class PyPytestHttpbin(Package):
     extends('python', ignore=r'bin/flask')
 
     depends_on('py-setuptools', type='build')
-    depends_on('py-pytest',     type=nolink)
-    depends_on('py-flask',      type=nolink)
-    depends_on('py-decorator',  type=nolink)
-    depends_on('py-httpbin',    type=nolink)
-    depends_on('py-six',        type=nolink)
-
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    depends_on('py-pytest',     type=('build', 'run'))
+    depends_on('py-flask',      type=('build', 'run'))
+    depends_on('py-decorator',  type=('build', 'run'))
+    depends_on('py-httpbin',    type=('build', 'run'))
+    depends_on('py-six',        type=('build', 'run'))
