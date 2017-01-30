@@ -32,3 +32,5 @@ class PyAttrs(PythonPackage):
     url = "https://pypi.io/packages/source/a/attrs/attrs-16.3.0.tar.gz"
 
     version('16.3.0', '4ec003c49360853cf935113d1ae56151')
+
+    depends_on('py-setuptools',         type='build')
