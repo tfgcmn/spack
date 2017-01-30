@@ -46,6 +46,7 @@ class PyPandas(PythonPackage):
     depends_on('py-dateutil', type=('build', 'run'))
     depends_on('py-numpy', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
+    depends_on('py-cython', type='build')
     depends_on('py-pytz', type=('build', 'run'))
     depends_on('py-numexpr', type=('build', 'run'))
     depends_on('py-bottleneck', type=('build', 'run'))
