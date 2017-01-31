@@ -19,6 +19,8 @@ class Tensorflow(Package):
     depends_on('py-wheel',             type=('build', 'run'))
     depends_on('py-mock@2.0.0:',       type=('build', 'run'))
 
+    patch('url-zlib.patch', when='@0.10.0')
+
     # FIXME: tensorflow pulls in a lot more dependencies...
     # e.g. eigen3 already exists as a spack package!?
 
