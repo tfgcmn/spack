@@ -22,26 +22,35 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ##############################################################################
+#
+# This is a template package file for Spack.  We've put "FIXME"
+# next to all the things you'll want to change. Once you've handled
+# them, you can save this file and test your package like this:
+#
+#     spack install py-lazyarray
+#
+# You can edit this file again by typing:
+#
+#     spack edit py-lazyarray
+#
+# See the Spack documentation for more information on packaging.
+# If you submit this package back to Spack as a pull request,
+# please first remove this boilerplate and all FIXME comments.
+#
 from spack import *
 
 
-class PyPynn(Package):
-    """A Python package for simulator-independent specification of neuronal network models"""
+class PyLazyarray(PythonPackage):
+    """FIXME: Put a proper description of your package here."""
 
-    homepage = "http://neuralensemble.org/PyNN/"
-    url      = "https://pypi.python.org/packages/63/c8/be19667dc36adb28bf4ad86c0692d5454eb537ff6fa07b21ca4754fb0b21/PyNN-0.7.5.tar.gz#md5=d8280544e4c9b34b40fd372b16342841"
+    homepage = "http://bitbucket.org/apdavison/lazyarray/"
+    url      = "https://pypi.python.org/packages/f6/5c/32eee3ac7356f21595fb1f9830b984478e6c0c2733c7c718a118d3dc1af3/lazyarray-0.2.8.tar.gz#md5=8e0072f0892b9fc0516e7048f96e9d74"
 
-    version('0.7.5', 'd8280544e4c9b34b40fd372b16342841')
-    version('0.8.1', '7fb165ed5af35a115cb9c60991645ae6', url='https://pypi.python.org/packages/43/30/291dab827c99068ca33a7d3dbfe5927bcfe0338556054bf850334e723931/PyNN-0.8.1.tar.gz')
-    version('0.8beta', git='https://github.com/NeuralEnsemble/PyNN.git', commit='ffb0cb1661f2b0f2778db8f71865978fe7a7a6a4')
+    version('0.2.8', '8e0072f0892b9fc0516e7048f96e9d74')
 
     extends('python')
 
     depends_on('py-setuptools', type='build')
-    depends_on('py-lazyarray@0.2.8')
-    depends_on('py-neo')
-
-    # FIXME: variant for neuron and nest?
 
     def install(self, spec, prefix):
         setup_py('install', '--prefix={0}'.format(prefix))

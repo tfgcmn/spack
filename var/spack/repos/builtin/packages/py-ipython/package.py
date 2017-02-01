@@ -47,3 +47,9 @@ class PyIpython(PythonPackage):
 
     depends_on('py-pickleshare', type=('build', 'run'))
     depends_on('py-simplegeneric', type=('build', 'run'))
+
+    # ECM: readding deps that I introduced in the past (before py-ipython was put upstream)
+    depends_on('py-prompt_toolkit', type=('build', 'run'))
+    depends_on('py-traitlets', type=('build', 'run'))
+    depends_on('py-decorator', type=('build', 'run'))
+    depends_on('py-pexpect', type=('build', 'run'))
