@@ -33,5 +33,7 @@ class Cscope(AutotoolsPackage):
 
     version('15.8b', '8f9409a238ee313a96f9f87fe0f3b176')
 
+    depends_on('ncurses')
+
     # Can be configured to use flex (not necessary)
     # ./configure --with-flex
