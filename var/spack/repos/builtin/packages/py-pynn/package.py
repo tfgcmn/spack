@@ -25,7 +25,7 @@
 from spack import *
 
 
-class PyPynn(Package):
+class PyPynn(PythonPackage):
     """A Python package for simulator-independent specification of neuronal network models"""
 
     homepage = "http://neuralensemble.org/PyNN/"
@@ -35,13 +35,14 @@ class PyPynn(Package):
     version('0.8.1', '7fb165ed5af35a115cb9c60991645ae6', url='https://pypi.python.org/packages/43/30/291dab827c99068ca33a7d3dbfe5927bcfe0338556054bf850334e723931/PyNN-0.8.1.tar.gz')
     version('0.8beta', git='https://github.com/NeuralEnsemble/PyNN.git', commit='ffb0cb1661f2b0f2778db8f71865978fe7a7a6a4')
 
-    extends('python')
-
     depends_on('py-setuptools', type='build')
-    depends_on('py-lazyarray@0.2.8')
+    depends_on('py-lazyarray@0.2.8:')
     depends_on('py-neo')
 
     # FIXME: variant for neuron and nest?
+    # Neuron HAS to be loaded when installing nest --obreitwi
+    # variant("neuron", default=False, description="Build with neuron")
+    # depends_on("neuron", when="+neuron")
 
-    def install(self, spec, prefix):
-        setup_py('install', '--prefix={0}'.format(prefix))
+    # nest does not need variant, it is dynamically loaded via python
+
