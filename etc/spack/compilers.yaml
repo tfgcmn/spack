@@ -8,6 +8,10 @@ compilers:
       f77: /usr/bin/gfortran-4.8
       fc: /usr/bin/gfortran-4.8
     spec: gcc@4.8
+    flags:
+      cflags: -march=core2 -O2 -pipe
+      fflags: -march=core2 -O2 -pipe
+      cxxflags: -march=core2 -O2 -pipe
 - compiler:
     modules: []
     operating_system: debian8
@@ -17,3 +21,7 @@ compilers:
       f77: /usr/bin/gfortran-4.9
       fc: /usr/bin/gfortran-4.9
     spec: gcc@4.9.2
+    flags:
+      cflags: -march=core2 -O2 -pipe
+      fflags: -march=core2 -O2 -pipe
+      cxxflags: -march=core2 -O2 -pipe
