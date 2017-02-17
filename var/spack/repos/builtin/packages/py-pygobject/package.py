@@ -32,7 +32,7 @@ class PyPygobject(AutotoolsPackage):
     homepage = "https://pypi.python.org/pypi/pygobject"
 
     # FIXME: This URL is no longer available for download from PyPi
-    url      = "https://pypi.python.org/packages/6d/15/97c8b5ccca2be14cf59a2f79e15e3a82a1c3408a6b76b4107689a8b94846/pygobject-2.28.3.tar.bz2"
+    url      = "http://ftp.gnome.org/pub/GNOME/sources/pygobject/2.28/pygobject-2.28.3.tar.bz2"
 
     version('2.28.3', 'aa64900b274c4661a5c32e52922977f9')
 
