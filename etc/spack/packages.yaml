@@ -23,3 +23,9 @@ packages:
       pil: [py-pillow]
   tk:
     variants: ['+X']
+  python:
+    variants: ['+ucs4']
+  pango:
+    variants: ['+X']
+  cairo:
+    variants: ['+X']
