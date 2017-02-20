@@ -23,6 +23,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ##############################################################################
 import ast
+import errno
 import os
 import re
 from contextlib import closing
@@ -335,6 +336,10 @@ class Python(Package):
     def site_packages_dir(self):
         return join_path(self.python_lib_dir, 'site-packages')
 
+    @property
+    def easy_install_file(self):
+        return join_path(self.site_packages_dir, "easy-install.pth")
+
     def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
         """Set PYTHONPATH to include site-packages dir for the
         extension and any other python extensions it depends on."""
@@ -437,11 +442,13 @@ class Python(Package):
 
         return match_predicate(ignore_arg, patterns)
 
-    def write_easy_install_pth(self, exts):
+    def write_easy_install_pth(self, exts, prefix=None):
+        if prefix is None:
+            prefix = self.prefix
+
         paths = []
         for ext in sorted(exts.values()):
-            ext_site_packages = join_path(ext.prefix, self.site_packages_dir)
-            easy_pth = join_path(ext_site_packages, "easy-install.pth")
+            easy_pth = join_path(ext.prefix, self.easy_install_file)
 
             if not os.path.isfile(easy_pth):
                 continue
@@ -461,8 +468,7 @@ class Python(Package):
 
                     paths.append(line)
 
-        site_packages = join_path(self.prefix, self.site_packages_dir)
-        main_pth = join_path(site_packages, "easy-install.pth")
+        main_pth = join_path(prefix, self.easy_install_file)
 
         if not paths:
             if os.path.isfile(main_pth):
@@ -485,21 +491,46 @@ sys.__egginsert = p + len(new)
 """)
 
     def activate(self, ext_pkg, **args):
+        path_view = args.get("path_view", None)
+
         ignore = self.python_ignore(ext_pkg, args)
         args.update(ignore=ignore)
 
         super(Python, self).activate(ext_pkg, **args)
 
-        exts = spack.store.layout.extension_map(self.spec)
+        # if we are activating in a filesystem view, we need to remove
+        # the link to the main easy_install.pth file prior to writing
+        # a custom one
+        if path_view is not None:
+            link_pth = join_path(path_view, self.easy_install_file)
+            try:
+                os.remove(link_pth)
+            except OSError as e:
+                if e.errno != errno.ENOENT:  # No such file or directory
+                    raise
+
+        exts = spack.store.layout.extension_map(self.spec, path_view=path_view)
         exts[ext_pkg.name] = ext_pkg.spec
-        self.write_easy_install_pth(exts)
+
+        # also include globally activated extensions in easy_install.pth
+        if path_view is not None:
+            # the directory layout assures that there are no conflicts between
+            # globally and locally activated extensions
+            exts_global = spack.store.layout.extension_map(self.spec,
+                                                           path_view=None)
+            # since extension_map() returns a copy, we can update directly
+            exts.update(exts_global)
+
+        self.write_easy_install_pth(exts, prefix=path_view)
 
     def deactivate(self, ext_pkg, **args):
         args.update(ignore=self.python_ignore(ext_pkg, args))
         super(Python, self).deactivate(ext_pkg, **args)
 
-        exts = spack.store.layout.extension_map(self.spec)
+        path_view = args.get("path_view", None)
+
+        exts = spack.store.layout.extension_map(self.spec, path_view=path_view)
         # Make deactivate idempotent
         if ext_pkg.name in exts:
             del exts[ext_pkg.name]
-            self.write_easy_install_pth(exts)
+            self.write_easy_install_pth(exts, prefix=path_view)

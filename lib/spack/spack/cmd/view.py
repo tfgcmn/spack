@@ -65,9 +65,17 @@ brett.viren@gmail.com ca 2016.
 
 import os
 import re
+import functools as ft
+import shutil
 import spack
 import spack.cmd
+import spack.spec
+from spack.store import layout
+from spack.directory_layout import ExtensionAlreadyInstalledError
+from spack.directory_layout import ExtensionAlreadyInstalledViewError
 import llnl.util.tty as tty
+from llnl.util.filesystem import join_path
+from llnl.util.link_tree import LinkTree
 
 description = "produce a single-rooted directory view of a spec"
 
@@ -88,30 +96,49 @@ def setup_parser(sp):
 
     ssp = sp.add_subparsers(metavar='ACTION', dest='action')
 
-    specs_opts = dict(metavar='spec', nargs='+',
+    specs_opts = dict(metavar='spec', action='store',
                       help="seed specs of the packages to view")
 
     # The action parameterizes the command but in keeping with Spack
     # patterns we make it a subcommand.
-    file_system_view_actions = [
-        ssp.add_parser(
+    file_system_view_actions = {
+        "symlink": ssp.add_parser(
             'symlink', aliases=['add', 'soft'],
             help='add package files to a filesystem view via symbolic links'),
-        ssp.add_parser(
+        "hardlink": ssp.add_parser(
             'hardlink', aliases=['hard'],
             help='add packages files to a filesystem via via hard links'),
-        ssp.add_parser(
+        "remove": ssp.add_parser(
             'remove', aliases=['rm'],
             help='remove packages from a filesystem view'),
-        ssp.add_parser(
+        "statlink": ssp.add_parser(
             'statlink', aliases=['status', 'check'],
             help='check status of packages in a filesystem view')
-    ]
+    }
+
+    actions_with_all_option = ["remove", "statlink"]
+
     # All these options and arguments are common to every action.
-    for act in file_system_view_actions:
+    for cmd, act in file_system_view_actions.iteritems():
         act.add_argument('path', nargs=1,
                          help="path to file system view directory")
-        act.add_argument('specs', **specs_opts)
+
+        if cmd in actions_with_all_option:
+            grp = act.add_mutually_exclusive_group(required=True)
+
+            # with all option, spec is an optional argument
+            so = specs_opts.copy()
+            so["nargs"] = "*"
+            so["default"] = []
+            grp.add_argument('specs', **so)
+            grp.add_argument("-a", "--all", action='store_true',
+                             help="act on all specs in view")
+
+        else:
+            # without all option, spec is required
+            so = specs_opts.copy()
+            so["nargs"] = "+"
+            act.add_argument('specs', **so)
 
     return
 
@@ -120,28 +147,6 @@ def assuredir(path):
     'Assure path exists as a directory'
     if not os.path.exists(path):
         os.makedirs(path)
-
-
-def relative_to(prefix, path):
-    'Return end of `path` relative to `prefix`'
-    assert 0 == path.find(prefix)
-    reldir = path[len(prefix):]
-    if reldir.startswith('/'):
-        reldir = reldir[1:]
-    return reldir
-
-
-def transform_path(spec, path, prefix=None):
-    'Return the a relative path corresponding to given path spec.prefix'
-    if os.path.isabs(path):
-        path = relative_to(spec.prefix, path)
-    subdirs = path.split(os.path.sep)
-    if subdirs[0] == '.spack':
-        lst = ['.spack', spec.name] + subdirs[1:]
-        path = os.path.join(*lst)
-    if prefix:
-        path = os.path.join(prefix, path)
-    return path
 
 
 def purge_empty_directories(path):
@@ -179,13 +184,53 @@ def flatten(seeds, descend=True):
     return flat
 
 
+def metadata_dir_in_view(spec, path):
+    return join_path(path, layout.metadata_dir, spec.name)
+
+
+def ignore_metadata_dir(filename):
+    """Ignore-function to be passed to LinkTree"""
+    return filename in layout.hidden_file_paths
+
+
+def is_linked(spec, path):
+    """Return whether or not spec is linked in path.
+
+    Note: Only checks on name, not hash!
+    """
+    dotspack = metadata_dir_in_view(spec, path)
+    return os.path.exists(os.path.join(dotspack))
+
+
+def spec_in_view(spec, path):
+    "Get spec of package actually linked."
+    dotspack = metadata_dir_in_view(spec, path)
+    with open(join_path(dotspack, layout.spec_file_name)) as f:
+        spec = spack.spec.Spec.from_yaml(f)
+    return spec
+
+
+def all_specs_in_view(path):
+    "Get all specs present in view."
+    dotspack = join_path(path, layout.metadata_dir)
+    if os.path.exists(dotspack):
+        return map(spack.cmd.disambiguate_spec, os.listdir(dotspack))
+    else:
+        tty.error("Not a filesystem view: %s" % path)
+    return []
+
+
 def check_one(spec, path, verbose=False):
     'Check status of view in path against spec'
-    dotspack = os.path.join(path, '.spack', spec.name)
-    if os.path.exists(os.path.join(dotspack)):
-        tty.info('Package in view: "%s"' % spec.name)
+    if is_linked(spec, path):
+        linked_spec = spec_in_view(spec, path)
+        if linked_spec == spec:
+            pass
+        else:
+            tty.warn("Package in %s: %s linked but %s specified."
+                     % (path, linked.short_spec, spec.short_spec))
         return
-    tty.info('Package not in view: "%s"' % spec.name)
+    tty.info('Package not in %s: %s' % (path, spec.name))
     return
 
 
@@ -195,59 +240,117 @@ def remove_one(spec, path, verbose=False):
     if not os.path.exists(path):
         return                  # done, short circuit
 
-    dotspack = transform_path(spec, '.spack', path)
-    if not os.path.exists(dotspack):
+    if not is_linked(spec, path):
         if verbose:
-            tty.info('Skipping nonexistent package: "%s"' % spec.name)
+            tty.info('Skipping package not linked in view: %s' % spec.name)
         return
 
-    if verbose:
-        tty.info('Removing package: "%s"' % spec.name)
-    for dirpath, dirnames, filenames in os.walk(spec.prefix):
-        if not filenames:
-            continue
-        targdir = transform_path(spec, dirpath, path)
-        for fname in filenames:
-            dst = os.path.join(targdir, fname)
-            if not os.path.exists(dst):
-                continue
-            os.unlink(dst)
+    if spec.package.is_extension:
+        if spec.package.is_activated_in(path):
+            spec.package.do_deactivate(path_view=path, verbose=verbose,
+                                       remove_dependents=True)
+    else:
+        tree = LinkTree(spec.prefix)
+        tree.unmerge(path, ignore=ignore_metadata_dir)
+        if verbose:
+            tty.info('Removed package in %s: "%s"' % (path, spec.name))
+
+    remove_meta_folder(spec, path, verbose=verbose)
+
+
+def link_all(specs, path, link=os.symlink, verbose=False):
+    check = ft.partial(check_is_extension, path=path, verbose=verbose)
+    link = ft.partial(link_one, path=path, link=link, verbose=verbose)
+    activate = ft.partial(activate_one, path=path, verbose=verbose)
+
+    specs = set(specs)
+
+    # first check if packages to add are compatible extension-wise
+    extensions = set(filter(check, specs))
+    non_extensions = specs - extensions
+
+    # link files only for non-extensions
+    map(link, non_extensions)
+
+    # activate and write extensions to filesystem view
+    # (if there are any extensions)
+    map(activate, extensions)
 
 
 def link_one(spec, path, link=os.symlink, verbose=False):
     'Link all files in `spec` into directory `path`.'
 
-    dotspack = transform_path(spec, '.spack', path)
-    if os.path.exists(dotspack):
-        tty.warn('Skipping existing package: "%s"' % spec.name)
+    if is_linked(spec, path):
+        tty.warn('Skipping already linked package: %s' % spec.name)
         return
 
+    tree = LinkTree(spec.prefix)
+    tree.merge(path, link=link, ignore=ignore_metadata_dir)
+    link_meta_folder(spec, path, link=link)
+
     if verbose:
-        tty.info('Linking package: "%s"' % spec.name)
-    for dirpath, dirnames, filenames in os.walk(spec.prefix):
-        if not filenames:
-            continue        # avoid explicitly making empty dirs
+        tty.info('Linked package in %s: %s' % (path, spec.short_spec))
 
-        targdir = transform_path(spec, dirpath, path)
-        assuredir(targdir)
 
-        for fname in filenames:
-            src = os.path.join(dirpath, fname)
-            dst = os.path.join(targdir, fname)
-            if os.path.exists(dst):
-                if '.spack' in dst.split(os.path.sep):
-                    continue    # silence these
-                tty.warn("Skipping existing file: %s" % dst)
-                continue
-            link(src, dst)
+def check_is_extension(ext_spec, path, verbose):
+    """Return whether or not ext_spec is an extension."""
+    if not ext_spec.package.is_extension:
+        return False
+
+    # TODO: Update this once more than one extendee is allowed
+    #  for spec in ext_spec.package.extendees:
+    spec = ext_spec.package.extendee_spec
+    try:
+        layout.check_extension_conflict(spec, ext_spec, path_view=path)
+    except (ExtensionAlreadyInstalledError,
+            ExtensionAlreadyInstalledViewError):
+        # we print the warning here because later on the order in which
+        # packages get activated is not clear (set-sorting)
+        tty.warn('Skipping already activated package: %s' % ext_spec.name)
+    return True
+
+
+def activate_one(ext_spec, path, verbose, link=os.symlink):
+    """Return whether or not ext_spec is an extension."""
+    if not ext_spec.package.is_extension:
+        tty.error('Package %s is not an extension.' % spec.name)
+        return
+
+    if is_linked(ext_spec, path) or ext_spec.package.activated:
+        # silent fail because the warning is already printed in
+        # check_is_extension
+        return
+
+    link_meta_folder(ext_spec, path, link=link)
+
+    # activate extensions in fileystem view
+    try:
+        ext_spec.package.do_activate(path_view=path, verbose=verbose)
+    except ExtensionAlreadyInstalledViewError:
+        # the order might be random, this spec might already have been
+        # activated as dependency for another
+        pass
+
+
+def link_meta_folder(spec, path, link=os.symlink):
+    src = layout.metadata_path(spec)
+    tgt = metadata_dir_in_view(spec, path)
+
+    tree = LinkTree(src)
+    tree.merge(tgt, link=link)
+
+
+def remove_meta_folder(spec, path, verbose):
+    path = metadata_dir_in_view(spec, path)
+    assert os.path.exists(path)
+    shutil.rmtree(path)
 
 
 def visitor_symlink(specs, args):
     'Symlink all files found in specs'
     path = args.path[0]
     assuredir(path)
-    for spec in specs:
-        link_one(spec, path, verbose=args.verbose)
+    link_all(specs, path, link=os.symlink, verbose=args.verbose)
 
 
 visitor_add = visitor_symlink
@@ -258,18 +361,42 @@ def visitor_hardlink(specs, args):
     'Hardlink all files found in specs'
     path = args.path[0]
     assuredir(path)
-    for spec in specs:
-        link_one(spec, path, os.link, verbose=args.verbose)
+    link_all(specs, path, link=os.link, verbose=args.verbose)
 
 
 visitor_hard = visitor_hardlink
 
 
-def visitor_remove(specs, args):
+def visitor_remove(specs, args, seeds):
     'Remove all files and directories found in specs from args.path'
     path = args.path[0]
-    for spec in specs:
-        remove_one(spec, path, verbose=args.verbose)
+    remove = ft.partial(remove_one, path=path, verbose=args.verbose)
+    specs = set(specs)
+    seeds = set(seeds)
+
+    # determine the actual subset of specs to remove:
+    all_specs = set(all_specs_in_view(path))
+    to_keep = all_specs - specs
+
+    # add dependencies of specs to keep:
+    to_keep = set(flatten(to_keep))
+    to_delete = all_specs - to_keep
+
+    # remove all specs that depend on the user-supplied specs
+    for s in to_keep:
+        for dep in s.traverse(deptype='run'):
+            if dep in seeds:
+                to_delete.add(s)
+                continue
+    del to_keep
+
+    # deactivate extensions prior to (possibly) unlinking any extendee
+    extensions = set(filter(lambda s: s.package.is_extension, to_delete))
+    non_extensions = to_delete - extensions
+
+    map(remove, extensions)
+    map(remove, non_extensions)
+
     purge_empty_directories(path)
 
 
@@ -279,8 +406,13 @@ visitor_rm = visitor_remove
 def visitor_statlink(specs, args):
     'Give status of view in args.path relative to specs'
     path = args.path[0]
+    specs = sorted(specs, key=lambda s: s.name)
     for spec in specs:
         check_one(spec, path, verbose=args.verbose)
+
+    tty.msg("Specs linked in %s:" % path)
+    spack.cmd.display_specs(specs, flags=True, variants=True,
+                            long=args.verbose)
 
 
 visitor_status = visitor_statlink
@@ -291,7 +423,12 @@ def view(parser, args):
     'Produce a view of a set of packages.'
 
     # Process common args
-    seeds = [spack.cmd.disambiguate_spec(s) for s in args.specs]
+    if getattr(args, "all", False):
+        path = args.path[0]
+        seeds = [spack.cmd.disambiguate_spec(s)
+                 for s in all_specs_in_view(path)]
+    else:
+        seeds = [spack.cmd.disambiguate_spec(s) for s in args.specs]
     specs = flatten(seeds, args.dependencies.lower() in ['yes', 'true'])
     specs = filter_exclude(specs, args.exclude)
 
@@ -300,4 +437,10 @@ def view(parser, args):
         visitor = globals()['visitor_' + args.action]
     except KeyError:
         tty.error('Unknown action: "%s"' % args.action)
-    visitor(specs, args)
+
+    # remove action also needs seeds
+    kwargs = {}
+    if visitor is visitor_remove:
+        kwargs["seeds"] = seeds
+
+    visitor(specs, args, **kwargs)

@@ -28,6 +28,7 @@ import shutil
 import glob
 import tempfile
 import yaml
+import collections
 
 from llnl.util.filesystem import join_path, mkdirp
 
@@ -88,34 +89,38 @@ class DirectoryLayout(object):
         """
         raise NotImplementedError()
 
-    def extension_map(self, spec):
-        """Get a dict of currently installed extension packages for a spec.
+    def extension_map(self, spec, path_view=None):
+        """Get a dict of currently installed extension packages for a spec in a
+           given filesystem view or globally (path_view=None).
 
            Dict maps { name : extension_spec }
            Modifying dict does not affect internals of this layout.
         """
         raise NotImplementedError()
 
-    def check_extension_conflict(self, spec, ext_spec):
-        """Ensure that ext_spec can be activated in spec.
+    def check_extension_conflict(self, spec, ext_spec, path_view=None):
+        """Ensure that ext_spec can be activated in spec at given file system
+           view path or globally (path_view=None).
 
-           If not, raise ExtensionAlreadyInstalledError or
+           If not, raise ExtensionAlreadyInstalledError,
+           ExtensionAlreadyInstalledViewError or
            ExtensionConflictError.
         """
         raise NotImplementedError()
 
-    def check_activated(self, spec, ext_spec):
-        """Ensure that ext_spec can be removed from spec.
+    def check_activated(self, spec, ext_spec, path_view=None):
+        """Ensure that ext_spec can be removed from spec at given file system
+           view path or globally (path_view=None).
 
            If not, raise NoSuchExtensionError.
         """
         raise NotImplementedError()
 
-    def add_extension(self, spec, ext_spec):
+    def add_extension(self, spec, ext_spec, path_view=None):
         """Add to the list of currently installed extensions."""
         raise NotImplementedError()
 
-    def remove_extension(self, spec, ext_spec):
+    def remove_extension(self, spec, ext_spec, path_view=None):
         """Remove from the list of currently installed extensions."""
         raise NotImplementedError()
 
@@ -169,14 +174,20 @@ class YamlDirectoryLayout(DirectoryLayout):
         self.metadata_dir   = kwargs.get('metadata_dir', '.spack')
         self.hash_len       = kwargs.get('hash_len', None)
 
-        self.spec_file_name      = 'spec.yaml'
-        self.extension_file_name = 'extensions.yaml'
-        self.build_log_name      = 'build.out'  # build log.
-        self.build_env_name      = 'build.env'  # build environment
-        self.packages_dir        = 'repos'      # archive of package.py files
+        self.spec_file_name           = 'spec.yaml'
+        self.extension_file_name      = 'extensions.yaml'
+        # extensions local to given filesystem view
+        self.extension_view_file_name = 'extensions-view.yaml'
+        self.build_log_name           = 'build.out'  # build log.
+        self.build_env_name           = 'build.env'  # build environment
+        # archive of package.py files
+        self.packages_dir             = 'repos'
 
         # Cache of already written/read extension maps.
         self._extension_maps = {}
+        # Cache of already written/read extension maps per filesystem view path
+        # maps (path of filesystem view  -> extension_map)
+        self._extension_maps_view = collections.defaultdict(dict)
 
     @property
     def hidden_file_paths(self):
@@ -296,16 +307,28 @@ class YamlDirectoryLayout(DirectoryLayout):
             by_hash[spec.dag_hash()] = spec
         return by_hash
 
-    def extension_file_path(self, spec):
-        """Gets full path to an installed package's extension file"""
-        _check_concrete(spec)
-        return join_path(self.metadata_path(spec), self.extension_file_name)
+    def extension_file_path(self, spec, path_view=None):
+        """Gets full path to an installed package's extension file
 
-    def _write_extensions(self, spec, extensions):
-        path = self.extension_file_path(spec)
+        If path_view is not None, return path to extension file for given
+        filesystem view instead."""
+        _check_concrete(spec)
+        if path_view is None:
+            return join_path(self.metadata_path(spec),
+                             self.extension_file_name)
+        else:
+            return join_path(path_view, self.metadata_dir, spec.name,
+                             self.extension_view_file_name)
+
+    def _write_extensions(self, spec, extensions, path_view=None):
+        path = self.extension_file_path(spec, path_view=path_view)
 
         # Create a temp file in the same directory as the actual file.
         dirname, basename = os.path.split(path)
+
+        # assure that the directory exists
+        mkdirp(dirname)
+
         tmp = tempfile.NamedTemporaryFile(
             prefix=basename, dir=dirname, delete=False)
 
@@ -322,15 +345,23 @@ class YamlDirectoryLayout(DirectoryLayout):
         # Atomic update by moving tmpfile on top of old one.
         os.rename(tmp.name, path)
 
-    def _extension_map(self, spec):
-        """Get a dict<name -> spec> for all extensions currently
-           installed for this package."""
+    def _extension_map(self, spec, path_view=None):
+        """Get a dict<name -> spec> for all extensions currently installed for
+           this package either for a given filesystem view path or globally
+           (path_view=None).
+        """
         _check_concrete(spec)
 
-        if spec not in self._extension_maps:
-            path = self.extension_file_path(spec)
+        if path_view is None:
+            extension_maps = self._extension_maps
+        else:
+
+            extension_maps = self._extension_maps_view[path_view]
+
+        if spec not in extension_maps:
+            path = self.extension_file_path(spec, path_view=path_view)
             if not os.path.exists(path):
-                self._extension_maps[spec] = {}
+                extension_maps[spec] = {}
 
             else:
                 by_hash = self.specs_by_hash()
@@ -353,52 +384,61 @@ class YamlDirectoryLayout(DirectoryLayout):
                                 % (prefix, dag_hash, ext_spec))
 
                         exts[ext_spec.name] = ext_spec
-                self._extension_maps[spec] = exts
+                extension_maps[spec] = exts
 
-        return self._extension_maps[spec]
+        return extension_maps[spec]
 
-    def extension_map(self, spec):
+    def extension_map(self, spec, path_view=None):
         """Defensive copying version of _extension_map() for external API."""
         _check_concrete(spec)
-        return self._extension_map(spec).copy()
+        return self._extension_map(spec, path_view=path_view).copy()
 
-    def check_extension_conflict(self, spec, ext_spec):
-        exts = self._extension_map(spec)
+    def check_extension_conflict(self, spec, ext_spec, path_view=None):
+        # Assure check that the spec is not globally activated to avoid
+        # conflicts. The user should either have one globally activated version
+        # or different versions in each view.
+        if path_view is not None:
+            self.check_extension_conflict(spec, ext_spec, path_view=None)
+        exts = self._extension_map(spec, path_view=path_view)
         if ext_spec.name in exts:
             installed_spec = exts[ext_spec.name]
             if ext_spec == installed_spec:
-                raise ExtensionAlreadyInstalledError(spec, ext_spec)
+                if path_view is None:
+                    raise ExtensionAlreadyInstalledError(spec, ext_spec)
+                else:
+                    raise ExtensionAlreadyInstalledViewError(spec, ext_spec,
+                                                             path_view)
             else:
                 raise ExtensionConflictError(spec, ext_spec, installed_spec)
 
-    def check_activated(self, spec, ext_spec):
-        exts = self._extension_map(spec)
+    def check_activated(self, spec, ext_spec, path_view=None):
+        exts = self._extension_map(spec, path_view=path_view)
         if (ext_spec.name not in exts) or (ext_spec != exts[ext_spec.name]):
             raise NoSuchExtensionError(spec, ext_spec)
 
-    def add_extension(self, spec, ext_spec):
+    def add_extension(self, spec, ext_spec, path_view=None):
         _check_concrete(spec)
         _check_concrete(ext_spec)
 
         # Check whether it's already installed or if it's a conflict.
-        exts = self._extension_map(spec)
-        self.check_extension_conflict(spec, ext_spec)
+        exts = self._extension_map(spec, path_view=path_view)
+        self.check_extension_conflict(spec, ext_spec, path_view=path_view)
 
         # do the actual adding.
         exts[ext_spec.name] = ext_spec
-        self._write_extensions(spec, exts)
+        self._write_extensions(spec, exts, path_view=path_view)
 
-    def remove_extension(self, spec, ext_spec):
+    def remove_extension(self, spec, ext_spec, path_view=None):
         _check_concrete(spec)
         _check_concrete(ext_spec)
 
         # Make sure it's installed before removing.
-        exts = self._extension_map(spec)
-        self.check_activated(spec, ext_spec)
+        exts = self._extension_map(spec, path_view=path_view)
+        self.check_activated(spec, ext_spec, path_view=path_view)
 
         # do the actual removing.
         del exts[ext_spec.name]
-        self._write_extensions(spec, exts)
+        self._write_extensions(spec, exts, path_view=path_view)
 
 
 class DirectoryLayoutError(SpackError):
@@ -458,6 +498,16 @@ class ExtensionAlreadyInstalledError(DirectoryLayoutError):
         super(ExtensionAlreadyInstalledError, self).__init__(
             "%s is already installed in %s"
             % (ext_spec.short_spec, spec.short_spec))
+
+
+class ExtensionAlreadyInstalledViewError(DirectoryLayoutError):
+    """Raised when an extension is added to a package that already has it in a
+    given filesystem view."""
+
+    def __init__(self, spec, ext_spec, path_view):
+        super(ExtensionAlreadyInstalledViewError, self).__init__(
+            "%s is already installed for %s in %s"
+            % (ext_spec.short_spec, spec.short_spec, path_view))
 
 
 class ExtensionConflictError(DirectoryLayoutError):
