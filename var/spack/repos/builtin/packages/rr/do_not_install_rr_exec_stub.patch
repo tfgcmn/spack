@@ -1,0 +1,11 @@
+--- CMakeLists.txt	2016-07-27 14:53:00.579585277 +0200
++++ CMakeLists.txt	2016-07-27 14:58:49.047615292 +0200
+@@ -344,7 +344,7 @@
+                   ${CMAKE_CURRENT_BINARY_DIR}/bin/rr_page_32_replay
+   DESTINATION bin)
+ 
+-install(TARGETS rr ${RR_BIN} rrpreload rr_exec_stub
++install(TARGETS rr ${RR_BIN} rrpreload
+   RUNTIME DESTINATION bin
+   LIBRARY DESTINATION lib
+   ARCHIVE DESTINATION lib)
