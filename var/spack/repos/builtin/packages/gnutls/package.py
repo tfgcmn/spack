@@ -37,6 +37,16 @@ class Gnutls(AutotoolsPackage):
     homepage = "http://www.gnutls.org"
     url      = "http://www.ring.gr.jp/pub/net/gnupg/gnutls/v3.3/gnutls-3.3.9.tar.xz"
 
+    version('3.5.9', '0ab25eb6a1509345dd085bc21a387951')
     version('3.3.9', 'ff61b77e39d09f1140ab5a9cf52c58b6')
 
     depends_on("nettle")
+    depends_on("zlib", when='@3.5:')
+
+    def configure_args(self):
+        args = []
+        if self.spec.satisfies('@3.5:'):
+            args.append('--with-included-libtasn1')
+            args.append('--with-included-unistring')
+            args.append('--without-p11-kit') # p11-kit@0.23.1: ...
+        return args
