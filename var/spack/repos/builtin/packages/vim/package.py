@@ -112,6 +112,17 @@ class Vim(AutotoolsPackage):
         else:
             configure_args.append("--enable-perlinterp=no")
 
+        if '+lua' in spec:
+            configure_args.append("--enable-luainterp=yes")
+            configure_args.append("--with-lua-prefix=%s" % spec['lua'].prefix)
+        else:
+            configure_args.append("--enable-luainterp=dynamic")
+
+        if '+perl' in spec:
+            configure_args.append("--enable-perlinterp=yes")
+        else:
+            configure_args.append("--enable-perlinterp=dynamic")
+
         if '+gui' in spec:
             configure_args.append("--enable-gui=auto")
         else:
