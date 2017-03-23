@@ -58,6 +58,8 @@ class VisionaryDefaults(Package):
     version('0.2.6', git='https://github.com/electronicvisions/spack-visions.git')
     # ECM: 2017-03-03 default to tensorflow built with +cuda
     version('0.2.7', git='https://github.com/electronicvisions/spack-visions.git')
+    # ECM: 2017-03-15 rename some dependencies according to upstream names
+    version('0.2.8', git='https://github.com/electronicvisions/spack-visions.git')
 
 
     # This does not work, spack will try to reinstall gcc :(((((
@@ -76,13 +78,15 @@ class VisionaryDefaults(Package):
     depends_on('tmux')
     depends_on('ncdu')
     depends_on('units')
-    depends_on('ranger')
+    depends_on('ranger', when='@:0.2.7')
+    depends_on('py-ranger', when='@0.2.8:')
 
     depends_on('mosh', when='@0.2:')
 
     depends_on('mercurial')
     depends_on('git')
-    depends_on('git-review')
+    depends_on('git-review', when='@:0.2.7')
+    depends_on('py-git-review', when='@0.2.8:')
 
     depends_on('cmake')
     depends_on('doxygen')
@@ -162,7 +166,8 @@ class VisionaryDefaults(Package):
     depends_on('py-setuptools')
 
     depends_on('py-tabulate')
-    depends_on('py-html')
+    depends_on('py-html', when='@:0.2.7')
+    depends_on('py-html5lib', when='@0.2.8:')
     # depends_on('py-myhdl')
     depends_on('py-pillow')
     # depends_on('py-pyserial')
