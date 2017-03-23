@@ -41,7 +41,7 @@ class PyBrian2(Package):
     #depends_on('py-sphinx@1.0.1:',     type=('build', 'run')) # extra docs
     depends_on('py-sympy@0.7.6:',      type=('build', 'run'))
     depends_on('py-pyparsing',         type=('build', 'run'))
-    depends_on('py-py-cpuinfo@0.1.6:', type=('build', 'run'))
+    depends_on('py-cpuinfo@0.1.6:', type=('build', 'run'))
     depends_on('py-numpy@1.8.2:',      type=('build', 'run'))
     depends_on('py-jinja2@2.7:',       type=('build', 'run'))
 
