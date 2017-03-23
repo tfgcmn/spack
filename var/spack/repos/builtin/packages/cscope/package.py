@@ -36,6 +36,7 @@ class Cscope(AutotoolsPackage):
     variant('flex', default=False, description="Builds with flex")
 
     depends_on('flex', when='+flex')
+    depends_on('ncurses')
 
     def configure_args(self):
         args = []
