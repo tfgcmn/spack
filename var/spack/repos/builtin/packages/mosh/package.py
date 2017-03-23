@@ -37,9 +37,16 @@ class Mosh(AutotoolsPackage):
 
     version('1.2.6', 'bb4e24795bb135a754558176a981ee9e')
 
-    depends_on('protobuf')
+    depends_on('autoconf', type='build')
+    depends_on('automake', type='build')
+    depends_on('libtool',  type='build')
+    depends_on('m4',       type='build')
+
+    depends_on('protobuf', type=('build', 'run'))
     depends_on('ncurses')
     depends_on('zlib')
     depends_on('openssl')
 
     depends_on('perl', type='run')
+
+    patch('protoc.patch')

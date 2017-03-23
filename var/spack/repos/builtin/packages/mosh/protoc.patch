@@ -1,0 +1,11 @@
+--- mosh-1.2.6/src/protobufs/Makefile.am	2017-03-17 16:06:35.396996786 +0100
++++ mosh-1.2.6/src/protobufs/Makefile.am	2017-03-17 16:07:22.367367890 +0100
+@@ -6,7 +6,7 @@ AM_CXXFLAGS = $(WARNING_CXXFLAGS) $(HARD
+ SUFFIXES = .proto .pb.cc
+ 
+ .proto.pb.cc:
+-	$(AM_V_GEN)$(PROTOC) --cpp_out=. -I$(srcdir) $<
++	$(AM_V_GEN)$(PROTOC) --cpp_out=. -I$(srcdir) $(srcdir)/$<
+ 
+ noinst_LIBRARIES = libmoshprotos.a
+ 
