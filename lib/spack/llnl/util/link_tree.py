@@ -81,8 +81,11 @@ class LinkTree(object):
                     touch(marker)
 
             else:
-                assert(not os.path.exists(dest))
-                link(src, dest)
+                # FIXME
+                if not os.path.exists(dest):
+                    link(src, dest)
+                else:
+                    print "FIXME Warning: File already exists:", dest
 
     def unmerge(self, dest_root, **kwargs):
         """Unlink all files in dest that exist in src.

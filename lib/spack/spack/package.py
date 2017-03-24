@@ -1617,7 +1617,7 @@ class PackageBase(object):
         tree = LinkTree(extension.prefix)
         conflict = tree.find_conflict(prefix, ignore=ignore)
         if conflict:
-            raise ExtensionConflictError(conflict)
+            print 'FIXME Warning:', str(ExtensionConflictError(conflict))
 
         tree.merge(prefix, ignore=ignore)
 

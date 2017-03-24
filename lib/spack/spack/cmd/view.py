@@ -300,6 +300,10 @@ def check_is_extension(ext_spec, path, verbose):
     # TODO: Update this once more than one extendee is allowed
     #  for spec in ext_spec.package.extendees:
     spec = ext_spec.package.extendee_spec
+
+    # FIXME: spec might be !concrete if only variant-enabled
+    if not spec.concrete:
+        return False
     try:
         layout.check_extension_conflict(spec, ext_spec, path_view=path)
     except (ExtensionAlreadyInstalledError,
