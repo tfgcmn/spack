@@ -24,6 +24,7 @@
 ##############################################################################
 from spack import *
 
+
 class VisionaryDefaults(Package):
     """Visionary Meta Package"""
 
@@ -61,7 +62,6 @@ class VisionaryDefaults(Package):
     # ECM: 2017-03-15 rename some dependencies according to upstream names
     version('0.2.8', git='https://github.com/electronicvisions/spack-visions.git')
 
-
     # This does not work, spack will try to reinstall gcc :(((((
     # variant('wheezy', default=False)
 
@@ -78,6 +78,7 @@ class VisionaryDefaults(Package):
     depends_on('tmux')
     depends_on('ncdu')
     depends_on('units')
+    # ranger is the old visionary name for LLNL py-ranger
     depends_on('ranger', when='@:0.2.7')
     depends_on('py-ranger', when='@0.2.8:')
 
@@ -85,6 +86,7 @@ class VisionaryDefaults(Package):
 
     depends_on('mercurial')
     depends_on('git')
+    # git-review is the old visionary name for LLNL py-git-review
     depends_on('git-review', when='@:0.2.7')
     depends_on('py-git-review', when='@0.2.8:')
 
@@ -95,6 +97,7 @@ class VisionaryDefaults(Package):
 
     depends_on('gdb')
     depends_on('llvm')
+    # nodejs is the old visionary name for LLNL node-js
     depends_on('nodejs', when='@0.2.2')
     depends_on('node-js', when='@0.2.3:')
 
@@ -119,7 +122,7 @@ class VisionaryDefaults(Package):
     depends_on('py-brian')
     depends_on('py-brian2')
     depends_on('py-elephant')
-    #depends_on('py-spykeviewer')
+    # depends_on('py-spykeviewer')
     depends_on('py-pynn @0.7.5')
 
     # depends_on('python+tk @2.7:2.7.999')
