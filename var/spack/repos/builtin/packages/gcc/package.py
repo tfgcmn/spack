@@ -77,8 +77,8 @@ class Gcc(AutotoolsPackage):
     # depends_on("ppl")
     # depends_on("cloog")
     if sys.platform == 'darwin':
-        patch('darwin/gcc-4.9.patch1', when='@4.9.3')
-        patch('darwin/gcc-4.9.patch2', when='@4.9.3')
+        patch('darwin/gcc-4.9.patch1', when='@4.9.0:4.9.3')
+        patch('darwin/gcc-4.9.patch2', when='@4.9.0:4.9.3')
     else:
         provides('golang', when='@4.7.1:')
 
