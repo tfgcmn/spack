@@ -33,6 +33,7 @@ class Nest(Package):
     list_url = "http://www.nest-simulator.org/download"
     list_depth = 2
 
+    version('2.12.0', '1ded6489466c6054abc0be230d97c424')
     version('2.10.0', 'e97371d8b802818c4a7de35276470c0c')
     version('2.8.0', '3df9d39dfce8a85ee104c7c1d8e5b337')
     version('2.6.0', 'ca7023c3a0ecb914ed2467d5d29265b0')
@@ -54,7 +55,7 @@ class Nest(Package):
             description="Build with MPI bindings")
 
     # cmake to built new versions
-    depends_on('cmake', type='build', when='@3:')
+    depends_on('cmake', type='build', when='@2.12.0:')
     # autotools to built new versions
     depends_on('automake', type='build', when='@:2.10.0')
 
@@ -64,6 +65,11 @@ class Nest(Package):
     depends_on("python", when="+python")
     depends_on("py-numpy", when="+python")
 
+    depends_on("py-cython@0.19.2:", when="@2.12.0: +python")
+    depends_on("py-nose", when="@2.12.0: +python")
+
+    depends_on("doxygen", when="@2.12.0:")
+
     # technically these are optional dependencies, but we always want this!
     depends_on("gsl")
     depends_on("readline")
@@ -71,15 +77,14 @@ class Nest(Package):
     extends("python", when="+python")
     depends_on("py-setuptools", when="+python", type="build")
 
-    @when('@3:')
+    @when('@2.12.0:')
     def install(self, spec, prefix):
         """
-            Install script for old tarballs before the switch to cmake.
+            Install script for new tarballs after the switch to cmake.
         """
         cmake_args = [
-                "--with-openmp",
-                "--with-python"
-            ]
+            '-DCMAKE_INSTALL_PREFIX:PATH={0}'.format(prefix)
+        ]
 
         for v in ["debug", "mpi", "optimize", "python"]:
             if spec.satisfies("+" + v):
