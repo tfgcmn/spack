@@ -60,6 +60,8 @@ class VisionaryDefaults(Package):
     version('0.2.7', git='https://github.com/electronicvisions/spack-visions.git')
     # ECM: 2017-03-15 rename some dependencies according to upstream names
     version('0.2.8', git='https://github.com/electronicvisions/spack-visions.git')
+    # ECM: 2017-04-05 pin googletest to 1.7.0 and add pybind11
+    version('0.2.9', git='https://github.com/electronicvisions/spack-visions.git')
 
 
     # This does not work, spack will try to reinstall gcc :(((((
@@ -104,10 +106,12 @@ class VisionaryDefaults(Package):
     depends_on('tensorflow', when='@0.2.7:')
     depends_on('log4cxx')
     # depends_on('libpsf')
-    depends_on('googletest')
+    depends_on('googletest', when='@:0.2.8')
+    depends_on('googletest', when='@0.2.9:')
     depends_on('gflags')
 
     depends_on('cereal', when='@0.2.1:')
+    depends_on('py-pybind11', when='@0.2.9:')
 
     depends_on('py-bokeh')
     depends_on('py-pygtk', when='@0.2.4:')
