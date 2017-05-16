@@ -62,6 +62,8 @@ class VisionaryDefaults(Package):
     version('0.2.8', git='https://github.com/electronicvisions/spack-visions.git')
     # ECM: 2017-04-05 pin googletest to 1.7.0 and add pybind11
     version('0.2.9', git='https://github.com/electronicvisions/spack-visions.git')
+    # ECM: 2017-05-08 add py-pytest-xdist (requested by Paul)
+    version('0.2.10', git='https://github.com/electronicvisions/spack-visions.git')
 
 
     # This does not work, spack will try to reinstall gcc :(((((
@@ -161,6 +163,7 @@ class VisionaryDefaults(Package):
     depends_on('py-nose')
     depends_on('py-junit-xml')
     depends_on('py-xmlrunner')
+    depends_on('py-pytest-xdist', when='@0.2.10:')
 
     # depends_on('py-appdirs')
     # depends_on('py-current')
