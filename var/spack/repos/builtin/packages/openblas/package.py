@@ -48,6 +48,10 @@ class Openblas(MakefilePackage):
     variant('openmp', default=False, description="Enable OpenMP support.")
     variant('pic', default=True, description='Build position independent code')
 
+    variant('cpu_target', default='',
+	    description='Set CPU target architecture (leave empty for '
+                        'autodetection; GENERIC, SSE_GENERIC, NEHALEM, ...)')
+
     # virtual dependency
     provides('blas')
     provides('lapack')
@@ -89,6 +93,10 @@ class Openblas(MakefilePackage):
             'FC={0}'.format(spack_f77),
             'MAKE_NO_J=1'
         ]
+        if self.spec.variants['cpu_target'].value:
+            make_defs += [
+                'TARGET={}'.format(self.spec.variants['cpu_target'].value)
+            ]
         if self.spec.satisfies('%gcc@:4.8.4'):
             make_defs += ['NO_AVX2=1']
         if '~shared' in self.spec:
