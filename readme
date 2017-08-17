@@ -1,0 +1,13 @@
+
+# Install visionary-defaults by executing the following line
+TMP_TESTDIR=/tmp TMPDIR=/wang/users/wv385/cluster_home/tmp bash -c 'spack install visionary-defaults@0.2.11'
+
+# Try to do it air-gapped
+spack fetch visionary-defaults@0.2.11
+TMP_TESTDIR=/tmp TMPDIR=/wang/users/wv385/cluster_home/tmp bash -c 'srun -p compile --mem=16GB -c8 spack install visionary-defaults@0.2.11'
+
+
+# explanations:
+## TMPDIR needs to be set in order to have enough space to build LLVM (check if that's still true
+## TMP_TESTDIR needs to be set to a non-NFS filesystem, otherwise bazel complains
+
