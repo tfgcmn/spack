@@ -65,7 +65,9 @@ class VisionaryDefaults(Package):
     # ECM: 2017-05-08 add py-pytest-xdist (requested by Paul)
     version('0.2.10', git='https://github.com/electronicvisions/spack-visions.git')
     # ECM: 2017-06-30 add ffmeg (requested by TMA) and py-pylint
-    version('0.2.11', git='https://github.com/electronicvisions/spack-visions.git', default=True)
+    version('0.2.11', git='https://github.com/electronicvisions/spack-visions.git')
+    # AB: 2017-08-19 add py-scikit-learn
+    version('0.2.12', git='https://github.com/electronicvisions/spack-visions.git', default=True)
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
     version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
@@ -100,7 +102,7 @@ class VisionaryDefaults(Package):
     depends_on('cmake')
     depends_on('doxygen')
     depends_on('bear')
-    depends_on('rtags@dev')
+    depends_on('rtags')
     
     # requested by TMA for generating animations ;)
     depends_on('ffmpeg', when='@0.2.11:')
@@ -155,6 +157,7 @@ class VisionaryDefaults(Package):
     depends_on('py-pandas @0.19.0:')
     depends_on('py-pytables @3.3.0:')
     depends_on('py-scipy')
+    depends_on('py-scikit-image', when='@0.2.12:')
     depends_on('py-seaborn')
     depends_on('py-sympy')
     depends_on('py-statsmodels')
