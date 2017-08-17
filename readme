@@ -1,10 +1,10 @@
 
 # Install visionary-defaults by executing the following line
-TMP_TESTDIR=/tmp TMPDIR=/wang/users/wv385/cluster_home/tmp bash -c 'spack install visionary-defaults@0.2.11'
+TMP_TESTDIR=/tmp TMPDIR=/wang/users/wv385/cluster_home/tmp bash -c 'spack install visionary-defaults@0.2.11 %gcc@4.9.2'
 
 # Try to do it air-gapped
 spack fetch visionary-defaults@0.2.11
-TMP_TESTDIR=/tmp TMPDIR=/wang/users/wv385/cluster_home/tmp bash -c 'srun -p compile --mem=16GB -c8 spack install visionary-defaults@0.2.11'
+TMP_TESTDIR=/tmp TMPDIR=/wang/users/wv385/cluster_home/tmp bash -c 'srun -p compile --mem=16GB -c8 spack install visionary-defaults@0.2.11 %gcc@4.9.2'
 
 
 # explanations:
