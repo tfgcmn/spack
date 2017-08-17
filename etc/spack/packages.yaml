@@ -31,3 +31,7 @@ packages:
     variants: ['+X']
   binutils:
     variants: ['+gold+plugins']
+  llvm:
+    variants: ['~shared_libs build_type=Release']
+  openblas:
+    variants: ['cpu_target=NEHALEM']
