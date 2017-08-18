@@ -33,3 +33,5 @@ packages:
     variants: ['+gold+plugins']
   llvm:
     variants: ['~shared_libs build_type=Release']
+  openblas:
+    variants: ['cpu_target=GENERIC']
