@@ -34,9 +34,6 @@ level = "long"
 
 def setup_parser(subparser):
     subparser.add_argument(
-        '-f', '--force', action='store_true',
-        help="activate without first activating dependencies")
-    subparser.add_argument(
         'spec', nargs=argparse.REMAINDER,
         help="spec of package extension to activate")
 
