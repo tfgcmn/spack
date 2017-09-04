@@ -24,6 +24,7 @@
 ##############################################################################
 from spack import *
 
+
 class VisionaryDefaults(Package):
     """Visionary Meta Package"""
 
@@ -67,7 +68,9 @@ class VisionaryDefaults(Package):
     # ECM: 2017-06-30 add ffmeg (requested by TMA) and py-pylint
     version('0.2.11', git='https://github.com/electronicvisions/spack-visions.git')
     # AB: 2017-08-19 add py-scikit-learn
-    version('0.2.12', git='https://github.com/electronicvisions/spack-visions.git', default=True)
+    version('0.2.12', git='https://github.com/electronicvisions/spack-visions.git')
+    # AB: 2017-08-31 remove nest@2.2.2 as it does not build with gcc@6.4.0
+    version('0.2.13', git='https://github.com/electronicvisions/spack-visions.git', default=True)
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
     version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
@@ -103,7 +106,7 @@ class VisionaryDefaults(Package):
     depends_on('doxygen')
     depends_on('bear')
     depends_on('rtags')
-    
+
     # requested by TMA for generating animations ;)
     depends_on('ffmpeg', when='@0.2.11:')
 
@@ -118,8 +121,8 @@ class VisionaryDefaults(Package):
     depends_on('tensorflow', when='@0.2.7:')
     depends_on('log4cxx')
     # depends_on('libpsf')
-    depends_on('googletest', when='@:0.2.8')
-    depends_on('googletest', when='@0.2.9:')
+    depends_on('googletest')
+    depends_on('googletest +gmock', when='@0.2.12:')
     depends_on('gflags')
 
     depends_on('cereal', when='@0.2.1:')
@@ -131,7 +134,7 @@ class VisionaryDefaults(Package):
     depends_on('cairo+X', when='@0.2.4:')
     depends_on('py-pyside')
 
-    depends_on('nest@2.2.2+python', when='@0.2:')
+    depends_on('nest@2.2.2+python', when='@0.2:0.2.12')
     depends_on('py-brian')
     depends_on('py-brian2')
     depends_on('py-elephant')
