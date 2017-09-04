@@ -21,6 +21,7 @@ packages:
       blas: [openblas]
       lapack: [openblas]
       pil: [py-pillow]
+      java: [jdk]
   tk:
     variants: ['+X']
   python:
