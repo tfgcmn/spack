@@ -70,7 +70,9 @@ class VisionaryDefaults(Package):
     # AB: 2017-08-19 add py-scikit-learn
     version('0.2.12', git='https://github.com/electronicvisions/spack-visions.git')
     # AB: 2017-08-31 remove nest@2.2.2 as it does not build with gcc@6.4.0
-    version('0.2.13', git='https://github.com/electronicvisions/spack-visions.git', default=True)
+    version('0.2.13', git='https://github.com/electronicvisions/spack-visions.git')
+    # AB: 2017-09-20 add py-sqlalchemy which is needed for dls stuff
+    version('0.2.14', git='https://github.com/electronicvisions/spack-visions.git', default=True)
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
     version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
@@ -166,6 +168,7 @@ class VisionaryDefaults(Package):
     depends_on('py-statsmodels')
     depends_on('py-lmfit')
     depends_on('py-symfit', when='@0.2.5:')
+    depends_on('py-sqlalchemy', when='@0.2.14:')
 
     depends_on('py-pyyaml')
 
