@@ -7,6 +7,7 @@ class PySbs(PythonPackage):
     url      = "https://gitviz.kip.uni-heidelberg.de"
 
     version('master', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git')
+    version('1.6.2', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git', commit='318ed67dbf6330323c4eb398219701c14eb7a945')
     version('1.5.2', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git', commit='c0adeed57a467b4edaa399a623fb2865ac2a06c6')
     version('1.4.1', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git', commit='655c930dc07efec01ffe02e44fcc99660e4c96c3')
     version('1.4.0', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git', commit='68889dbd832cb6b8bf17f38684634e3126adac1f')
