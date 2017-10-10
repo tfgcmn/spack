@@ -72,7 +72,9 @@ class VisionaryDefaults(Package):
     # AB: 2017-08-31 remove nest@2.2.2 as it does not build with gcc@6.4.0
     version('0.2.13', git='https://github.com/electronicvisions/spack-visions.git')
     # AB: 2017-09-20 add py-sqlalchemy which is needed for dls stuff
-    version('0.2.14', git='https://github.com/electronicvisions/spack-visions.git', default=True)
+    version('0.2.14', git='https://github.com/electronicvisions/spack-visions.git')
+    # JK: 2017-10-10 visionary patches for llvm
+    version('0.2.15', git='https://github.com/electronicvisions/spack-visions.git', default=True)
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
     version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
@@ -113,7 +115,8 @@ class VisionaryDefaults(Package):
     depends_on('ffmpeg', when='@0.2.11:')
 
     depends_on('gdb')
-    depends_on('llvm')
+    depends_on('llvm', when='@:0.2.14')
+    depends_on('llvm+visionary@5.0.0:', when='@0.2.15:')
     # depends_on('nodejs', when='@0.2.2')
     depends_on('node-js', when='@0.2.3:')
 
