@@ -73,11 +73,11 @@ class VisionaryDefaults(Package):
     version('0.2.13', git='https://github.com/electronicvisions/spack-visions.git')
     # AB: 2017-09-20 add py-sqlalchemy which is needed for dls stuff
     version('0.2.14', git='https://github.com/electronicvisions/spack-visions.git')
-    # JK: 2017-10-10 visionary patches for llvm
+    # JK: 2017-10-10 / 2017-10-19 visionary patches for llvm, py-line-profiler
     version('0.2.15', git='https://github.com/electronicvisions/spack-visions.git', default=True)
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
-    version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
+    # version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
 
 
     # This does not work, spack will try to reinstall gcc :(((((
@@ -116,7 +116,7 @@ class VisionaryDefaults(Package):
 
     depends_on('gdb')
     depends_on('llvm', when='@:0.2.14')
-    depends_on('llvm+visionary@5.0.0:', when='@0.2.15:')
+    depends_on('llvm+visionary+python@5.0.0:', when='@0.2.15:')
     # depends_on('nodejs', when='@0.2.2')
     depends_on('node-js', when='@0.2.3:')
 
@@ -126,7 +126,7 @@ class VisionaryDefaults(Package):
     depends_on('tensorflow', when='@0.2.7:')
     depends_on('log4cxx')
     # depends_on('libpsf')
-    depends_on('googletest')
+    depends_on('googletest', when='@:0.2.11')
     depends_on('googletest +gmock', when='@0.2.12:')
     depends_on('gflags')
 
@@ -186,6 +186,7 @@ class VisionaryDefaults(Package):
     depends_on('py-junit-xml')
     depends_on('py-xmlrunner')
     depends_on('py-pytest-xdist', when='@0.2.10:')
+    depends_on('py-line-profiler', when='@0.2.15:')
 
     # depends_on('py-appdirs')
     # depends_on('py-current')
