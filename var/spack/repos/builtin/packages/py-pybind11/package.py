@@ -41,6 +41,8 @@ class PyPybind11(CMakePackage):
     version('2.1.1', '5518988698df937ccee53fb6ba91d12a')
     version('2.1.0', '3cf07043d677d200720c928569635e12')
 
+    conflicts('%gcc@4.9.2', when='@2.2.0:') # gcc segfaults :(
+
     depends_on('py-pytest', type=('build'))
 
     extends('python')
