@@ -73,7 +73,7 @@ class VisionaryDefaults(Package):
     version('0.2.13', git='https://github.com/electronicvisions/spack-visions.git')
     # AB: 2017-09-20 add py-sqlalchemy which is needed for dls stuff
     version('0.2.14', git='https://github.com/electronicvisions/spack-visions.git')
-    # JK: 2017-10-10 / 2017-10-19 visionary patches for llvm, py-line-profiler
+    # JK: 2017-10-10 / 2017-10-19 visionary patches for llvm, py-line-profiler, cppcheck
     version('0.2.15', git='https://github.com/electronicvisions/spack-visions.git', default=True)
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
@@ -110,6 +110,7 @@ class VisionaryDefaults(Package):
     depends_on('doxygen')
     depends_on('bear')
     depends_on('rtags')
+    depends_on('cppcheck', when='@0.2.15:')
 
     # requested by TMA for generating animations ;)
     depends_on('ffmpeg', when='@0.2.11:')
@@ -123,7 +124,7 @@ class VisionaryDefaults(Package):
     depends_on('boost@1.55.0+graph+icu+mpi+python')
     depends_on('yaml-cpp+shared')
     depends_on('tensorflow', when='@:0.2.6')
-    depends_on('tensorflow', when='@0.2.7:')
+    depends_on('tensorflow', when='@0.2.7:')  # +cuda
     depends_on('log4cxx')
     # depends_on('libpsf')
     depends_on('googletest', when='@:0.2.11')
