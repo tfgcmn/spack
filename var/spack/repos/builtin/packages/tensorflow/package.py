@@ -79,8 +79,10 @@ class Tensorflow(Package):
         else:
             bazel('-c', 'opt', '//tensorflow/tools/pip_package:build_pip_package')
 
+        tmp_path = join_path(self.stage.path, 'tmp_tensorflow_pkg')
+        mkdirp(tmp_path)
         build_pip_package = Executable('bazel-bin/tensorflow/tools/pip_package/build_pip_package')
-        build_pip_package('%s/tmp_tensorflow_pkg' % self.stage.path)
+        build_pip_package(tmp_path)
 
         # using setup.py for installation
         # webpage suggests: sudo pip install /tmp/tensorflow_pkg/tensorflow-0.XYZ.whl
