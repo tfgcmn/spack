@@ -29,9 +29,9 @@ class Rtags(CMakePackage):
     """RTags is a client/server application that indexes C/C++ code"""
 
     homepage = "https://github.com/Andersbakken/rtags/"
-    url      = "https://andersbakken.github.io/rtags-releases/rtags-2.12.tar.gz"
+    url      = "https://andersbakken.github.io/rtags-releases/rtags-2.14.tar.gz"
 
-    version('2.12', '84988aaff27915a79d4b4b57299f9a51')
+    version('2.14', 'a1943b98a51b9da3e6ca169bc074469b')
 
     depends_on("llvm@3.3: +clang")
     depends_on("zlib")
@@ -39,8 +39,6 @@ class Rtags(CMakePackage):
     depends_on("lua@5.3:")
     depends_on("bash-completion")
     depends_on("pkg-config", type='build')
-
-    patch("add_string_iterator_erase_compile_check.patch", when='@2.12')
 
     def cmake_args(self):
         args = ['-DCMAKE_EXPORT_COMPILE_COMMANDS=1',
