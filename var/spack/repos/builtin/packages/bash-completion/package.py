@@ -30,6 +30,10 @@ class BashCompletion(AutotoolsPackage):
     homepage = "https://github.com/scop/bash-completion"
     url = "https://github.com/scop/bash-completion/archive/2.3.tar.gz"
 
+    version('2.7', 'c6bf7185f9b4b4bff1d97611bf945b98')
+    version('2.6', '1772bdeba5ecbdc0e530db22400237b0')
+    version('2.5', 'dee1226e81695f45993580264c1ee77a')
+    version('2.4', '9f517a20e51b69697541e1bf1cec2a9e')
     version('2.3', '67e50f5f3c804350b43f2b664c33dde811d24292')
     version('develop',  git='https://github.com/scop/bash-completion.git')
 
