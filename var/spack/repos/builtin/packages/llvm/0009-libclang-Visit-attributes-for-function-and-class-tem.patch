@@ -1,7 +1,7 @@
-From 85c9f9849624fe8986d91cebe6963b475c99fadd Mon Sep 17 00:00:00 2001
+From 2d3c0e5f3e3e6da701f3a5010a9700253deec16d Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Johann=20Kl=C3=A4hn?= <dev@jklaehn.de>
 Date: Fri, 21 Jul 2017 10:16:45 +0200
-Subject: [PATCH 10/12] [libclang] Visit attributes for function and class
+Subject: [PATCH 09/12] [libclang] Visit attributes for function and class
  templates
 
 ---
@@ -11,10 +11,10 @@ Subject: [PATCH 10/12] [libclang] Visit attributes for function and class
  3 files changed, 36 insertions(+), 2 deletions(-)
 
 diff --git a/tools/clang/bindings/python/tests/cindex/test_cursor.py b/tools/clang/bindings/python/tests/cindex/test_cursor.py
-index a14707f03c..f5ed2ef215 100644
+index 2d50ec5901..863919e4c5 100644
 --- a/tools/clang/bindings/python/tests/cindex/test_cursor.py
 +++ b/tools/clang/bindings/python/tests/cindex/test_cursor.py
-@@ -411,6 +411,26 @@ def test_annotation_attribute():
+@@ -397,6 +397,26 @@ def test_annotation_attribute():
      else:
          assert False, "Couldn't find annotation"
  
@@ -69,10 +69,10 @@ index d822210e49..bf415fc8fe 100644
 +// CHECK-NEXT: TemplateTypeParameter=T:22:20 (Definition) Extent=[22:11 - 22:21] [access=public]
 +// CHECK-NEXT: attribute(annotate)=works Extent=[23:46 - 23:63]
 diff --git a/tools/clang/tools/libclang/CIndex.cpp b/tools/clang/tools/libclang/CIndex.cpp
-index b7b46b9bfd..c23076119a 100644
+index 04fd775fb0..27f74b2aa2 100644
 --- a/tools/clang/tools/libclang/CIndex.cpp
 +++ b/tools/clang/tools/libclang/CIndex.cpp
-@@ -912,7 +912,8 @@ bool CursorVisitor::VisitFunctionTemplateDecl(FunctionTemplateDecl *D) {
+@@ -907,7 +907,8 @@ bool CursorVisitor::VisitFunctionTemplateDecl(FunctionTemplateDecl *D) {
    if (VisitTemplateParameters(D->getTemplateParameters()))
      return true;
    
@@ -82,7 +82,7 @@ index b7b46b9bfd..c23076119a 100644
  }
  
  bool CursorVisitor::VisitClassTemplateDecl(ClassTemplateDecl *D) {
-@@ -921,7 +922,8 @@ bool CursorVisitor::VisitClassTemplateDecl(ClassTemplateDecl *D) {
+@@ -916,7 +917,8 @@ bool CursorVisitor::VisitClassTemplateDecl(ClassTemplateDecl *D) {
    if (VisitTemplateParameters(D->getTemplateParameters()))
      return true;
    
