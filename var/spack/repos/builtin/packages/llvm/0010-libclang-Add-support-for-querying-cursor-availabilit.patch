@@ -1,7 +1,7 @@
-From b2551ea68faf152f5954312c2cb666b78614c389 Mon Sep 17 00:00:00 2001
+From 3206e3ef840b1ca16346f2c925edc47c5a9697ad Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Johann=20Kl=C3=A4hn?= <dev@jklaehn.de>
 Date: Tue, 25 Jul 2017 15:49:14 +0200
-Subject: [PATCH 11/12] [libclang] Add support for querying cursor availability
+Subject: [PATCH 10/12] [libclang] Add support for querying cursor availability
 
 This patch allows checking the availability of cursors through libclang and clang.cindex (Python).
 This e.g. allows to check whether a C++ member function has been marked as deleted.
@@ -11,10 +11,10 @@ This e.g. allows to check whether a C++ member function has been marked as delet
  2 files changed, 58 insertions(+)
 
 diff --git a/tools/clang/bindings/python/clang/cindex.py b/tools/clang/bindings/python/clang/cindex.py
-index 2efd644336..90e34a967a 100644
+index a5bb58b44f..b21f2b75f2 100644
 --- a/tools/clang/bindings/python/clang/cindex.py
 +++ b/tools/clang/bindings/python/clang/cindex.py
-@@ -1590,6 +1590,16 @@ class Cursor(Structure):
+@@ -1586,6 +1586,16 @@ class Cursor(Structure):
          return StorageClass.from_id(self._storage_class)
  
      @property
@@ -31,7 +31,7 @@ index 2efd644336..90e34a967a 100644
      def access_specifier(self):
          """
          Retrieves the access specifier (if any) of the entity pointed at by the
-@@ -1934,6 +1944,24 @@ StorageClass.OPENCLWORKGROUPLOCAL = StorageClass(5)
+@@ -1925,6 +1935,24 @@ StorageClass.OPENCLWORKGROUPLOCAL = StorageClass(5)
  StorageClass.AUTO = StorageClass(6)
  StorageClass.REGISTER = StorageClass(7)
  
@@ -56,7 +56,7 @@ index 2efd644336..90e34a967a 100644
  
  ### C++ access specifiers ###
  
-@@ -3481,6 +3509,10 @@ functionList = [
+@@ -3472,6 +3500,10 @@ functionList = [
     [TranslationUnit, SourceLocation],
     Cursor),
  
@@ -67,7 +67,7 @@ index 2efd644336..90e34a967a 100644
    ("clang_getCursorDefinition",
     [Cursor],
     Cursor,
-@@ -4113,6 +4145,7 @@ conf = Config()
+@@ -4096,6 +4128,7 @@ conf = Config()
  register_enumerations()
  
  __all__ = [
@@ -76,7 +76,7 @@ index 2efd644336..90e34a967a 100644
      'CodeCompletionResults',
      'CompilationDatabase',
 diff --git a/tools/clang/bindings/python/tests/cindex/test_cursor.py b/tools/clang/bindings/python/tests/cindex/test_cursor.py
-index f5ed2ef215..d030e7f75a 100644
+index 863919e4c5..6c20577302 100644
 --- a/tools/clang/bindings/python/tests/cindex/test_cursor.py
 +++ b/tools/clang/bindings/python/tests/cindex/test_cursor.py
 @@ -1,6 +1,7 @@
@@ -87,7 +87,7 @@ index f5ed2ef215..d030e7f75a 100644
  from clang.cindex import CursorKind
  from clang.cindex import TemplateArgumentKind
  from clang.cindex import TokenGroup
-@@ -439,6 +440,30 @@ def test_result_type():
+@@ -425,6 +426,30 @@ def test_result_type():
      t = foo.result_type
      assert t.kind == TypeKind.INT
  

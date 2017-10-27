@@ -1,7 +1,7 @@
-From 90458d499656f1518fb0141511a64e330b231afb Mon Sep 17 00:00:00 2001
+From f612539aaee3a46abbbc8fa30d0263d9b49dca86 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Johann=20Kl=C3=A4hn?= <dev@jklaehn.de>
 Date: Mon, 10 Jul 2017 12:34:10 +0200
-Subject: [PATCH 09/12] Fix printing policy for AST context loaded from file
+Subject: [PATCH 08/12] Fix printing policy for AST context loaded from file
 
 In ASTUnit::LoadFromASTFile, the context object is set up using default-constructed
 LangOptions (which only later get populated).  As the language options are used in the constructor
