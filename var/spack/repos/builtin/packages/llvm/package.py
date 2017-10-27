@@ -85,11 +85,11 @@ class Llvm(CMakePackage):
     patch('0004-Defer-addition-of-keywords-to-identifier-table-when-.patch', when='@5.0: +visionary')
     patch('0005-Tooling-Fully-qualify-template-parameters-of-nested-.patch', when='@5.0: +visionary')
     patch('0006-libclang-Add-support-for-obtaining-fully-qualified-n.patch', when='@5.0: +visionary')
-    patch('0007-libclang-Allow-visiting-of-implicit-declarations.patch',     when='@5.0: +visionary')
-    patch('0008-libclang-Add-option-to-keep-whitespace-when-tokenizi.patch', when='@5.0: +visionary')
-    patch('0009-Fix-printing-policy-for-AST-context-loaded-from-file.patch', when='@5.0: +visionary')
-    patch('0010-libclang-Visit-attributes-for-function-and-class-tem.patch', when='@5.0: +visionary')
-    patch('0011-libclang-Add-support-for-querying-cursor-availabilit.patch', when='@5.0: +visionary')
+    patch('0007-libclang-Add-option-to-keep-whitespace-when-tokenizi.patch', when='@5.0: +visionary')
+    patch('0008-Fix-printing-policy-for-AST-context-loaded-from-file.patch', when='@5.0: +visionary')
+    patch('0009-libclang-Visit-attributes-for-function-and-class-tem.patch', when='@5.0: +visionary')
+    patch('0010-libclang-Add-support-for-querying-cursor-availabilit.patch', when='@5.0: +visionary')
+    patch('0011-libclang-Allow-visiting-of-implicit-declarations-and.patch', when='@5.0: +visionary')
     patch('0012-libclang-WIP-Fix-get_tokens-in-macro-expansion.patch',       when='@5.0: +visionary')
 
     # Build dependency

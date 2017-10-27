@@ -1,4 +1,4 @@
-From 435f0b5638d935b452bb11144fb5076118449222 Mon Sep 17 00:00:00 2001
+From 8566bbfaf8a34bf088cacf632b647922257d7d5f Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Johann=20Kl=C3=A4hn?= <johann.klaehn@kip.uni-heidelberg.de>
 Date: Mon, 31 Jul 2017 14:09:52 +0200
 Subject: [PATCH 12/12] [libclang] WIP: Fix get_tokens in macro expansion
@@ -9,10 +9,10 @@ Subject: [PATCH 12/12] [libclang] WIP: Fix get_tokens in macro expansion
  2 files changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/tools/clang/bindings/python/tests/cindex/test_cursor.py b/tools/clang/bindings/python/tests/cindex/test_cursor.py
-index d030e7f75a..19e95b4395 100644
+index 43606b605c..5c6f9fb320 100644
 --- a/tools/clang/bindings/python/tests/cindex/test_cursor.py
 +++ b/tools/clang/bindings/python/tests/cindex/test_cursor.py
-@@ -504,6 +504,21 @@ def test_get_tokens_with_whitespace():
+@@ -523,6 +523,21 @@ def test_get_tokens_with_whitespace():
      assert ''.join(t.spelling for t in tokens) == source
      assert len(tokens) == 27
  
@@ -35,7 +35,7 @@ index d030e7f75a..19e95b4395 100644
      tu = get_tu('void foo(int i, int j);')
      foo = get_cursor(tu, 'foo')
 diff --git a/tools/clang/tools/libclang/CIndex.cpp b/tools/clang/tools/libclang/CIndex.cpp
-index c23076119a..347beb39b0 100644
+index f32611b8d7..5849c7dfde 100644
 --- a/tools/clang/tools/libclang/CIndex.cpp
 +++ b/tools/clang/tools/libclang/CIndex.cpp
 @@ -144,8 +144,8 @@ CXSourceRange cxloc::translateSourceRange(const SourceManager &SM,
