@@ -33,3 +33,8 @@ class Nghttp2(AutotoolsPackage):
     url      = "https://github.com/nghttp2/nghttp2/releases/download/v1.26.0/nghttp2-1.26.0.tar.gz"
 
     version('1.26.0', '83fa813b22bacbc6ea80dfb24847569f')
+
+    def configure_args(self):
+        # building the python bindings fails and nghttp2 is currently only used
+        # by curl as a library => only build the library
+        return ["--enable-lib-only"]
