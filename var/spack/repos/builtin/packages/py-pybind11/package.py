@@ -37,11 +37,15 @@ class PyPybind11(CMakePackage):
     homepage = "https://pybind11.readthedocs.io"
     url      = "https://github.com/pybind/pybind11/archive/v2.1.0.tar.gz"
 
+    version('2.2.1', 'bab1d46bbc465af5af3a4129b12bfa3b')
     version('2.2.0', '978b26aea1c6bfc4f88518ef33771af2')
     version('2.1.1', '5518988698df937ccee53fb6ba91d12a')
     version('2.1.0', '3cf07043d677d200720c928569635e12')
 
-    conflicts('%gcc@4.9.2', when='@2.2.0:') # gcc segfaults :(
+    # fails to compile (see https://github.com/pybind/pybind11/pull/1062)
+    conflicts('%gcc@:4.9.999', when='@2.2.0')
+    # gcc segfaults during compilation
+    conflicts('%gcc@4.9.2', when='@2.2.0:')
 
     depends_on('py-pytest', type=('build'))
 
