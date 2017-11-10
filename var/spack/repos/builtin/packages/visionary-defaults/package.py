@@ -74,7 +74,9 @@ class VisionaryDefaults(Package):
     # AB: 2017-09-20 add py-sqlalchemy which is needed for dls stuff
     version('0.2.14', git='https://github.com/electronicvisions/spack-visions.git')
     # JK: 2017-10-10 / 2017-10-19 visionary patches for llvm, py-line-profiler, cppcheck
-    version('0.2.15', git='https://github.com/electronicvisions/spack-visions.git', default=True)
+    version('0.2.15', git='https://github.com/electronicvisions/spack-visions.git')
+    # JK: 2017-11-07 add explicit py-pytest dependency, add py-flake8
+    version('0.2.16', git='https://github.com/electronicvisions/spack-visions.git', default=True)
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
     # version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
@@ -132,7 +134,9 @@ class VisionaryDefaults(Package):
     depends_on('gflags')
 
     depends_on('cereal', when='@0.2.1:')
-    depends_on('py-pybind11', when='@0.2.9:')
+    # pybind11 2.2.0: leads to segfaulting of gcc 4.9.2 during compilation :/
+    # FIXME: recheck and upgrade
+    depends_on('py-pybind11@2.1.1', when='@0.2.9:')
 
     depends_on('py-bokeh')
     depends_on('py-pygtk', when='@0.2.4:')
@@ -177,7 +181,7 @@ class VisionaryDefaults(Package):
     depends_on('py-pyyaml')
 
     depends_on('py-autopep8')
-    # depends_on('py-flake8')
+    depends_on('py-flake8', when='@0.2.16:')
     # depends_on('py-pylint')
     depends_on('py-jedi', when='@0.2.6:')
 
@@ -186,6 +190,7 @@ class VisionaryDefaults(Package):
     depends_on('py-nose')
     depends_on('py-junit-xml')
     depends_on('py-xmlrunner')
+    depends_on('py-pytest', when='@0.2.16:')
     depends_on('py-pytest-xdist', when='@0.2.10:')
     depends_on('py-line-profiler', when='@0.2.15:')
 
