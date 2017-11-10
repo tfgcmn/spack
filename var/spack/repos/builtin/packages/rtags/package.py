@@ -31,7 +31,7 @@ class Rtags(CMakePackage):
     homepage = "https://github.com/Andersbakken/rtags/"
     url      = "https://andersbakken.github.io/rtags-releases/rtags-2.14.tar.gz"
 
-    version('2.14', 'a1943b98a51b9da3e6ca169bc074469b')
+    version('2.14', 'c52fd1d6241c3ec14dc87c3dcafd8ba3')
 
     depends_on("llvm@3.3: +clang")
     depends_on("zlib")
