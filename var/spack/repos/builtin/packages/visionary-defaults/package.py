@@ -92,7 +92,8 @@ class VisionaryDefaults(Package):
 
     depends_on('vim', when='@:0.2.1')
     depends_on('vim +python +cscope +ruby +huge', when='@0.2.2:0.2.5')
-    depends_on('vim +python +ruby +lua +perl +cscope +huge', when='@0.2.6:')
+    depends_on('vim +python +ruby +lua +perl +cscope +huge', when='@0.2.6:0.2.15')
+    depends_on('vim +python +ruby +perl +cscope +huge', when='@0.2.16:')
 
     depends_on('emacs ~X')
     depends_on('tmux')
