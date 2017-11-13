@@ -42,17 +42,7 @@ class PyPybind11(CMakePackage):
     version('2.1.1', '5518988698df937ccee53fb6ba91d12a')
     version('2.1.0', '3cf07043d677d200720c928569635e12')
 
-    # fails to compile (see https://github.com/pybind/pybind11/pull/1062)
-    conflicts('%gcc@:4.9.999', when='@2.2.0')
-    # gcc segfaults during compilation
-    conflicts('%gcc@4.9.2', when='@2.2.0:')
-
-    depends_on('py-pytest', type=('build'))
-
-    extends('python')
-
     def cmake_args(self):
         args = []
-        args.append('-DPYTHON_EXECUTABLE:FILEPATH=%s'
-                    % self.spec['python'].command.path)
+        args.append('-DPYBIND11_TEST=Off')
         return args
