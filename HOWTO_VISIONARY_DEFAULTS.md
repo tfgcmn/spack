@@ -1,6 +1,11 @@
-- always (!) set your umask firsd:
+- note that you have to build on a machine whose instruction set is
+  common to all machines the software will be used on.  in our case
+  that likely is one of the older cluster nodes, i.e. AMTHostN.
+  (passing `-march` and `-mtune` flags did not work reliably)
+
+- always (!) set your umask first:
   ```
-  umask 0222
+  umask 0002
   ```
 
 - fetch outstanding pull requests, e.g.:
@@ -10,7 +15,12 @@
   git merge PR_filesystemview
   ```
 
-- unload any modules you may have loaded and load the spack commands:
+- unload any modules you may have loaded:
+  ```
+  module purge
+  ```
+
+- load the spack commands:
   ```
   source share/spack/setup-env.sh
   ```
@@ -18,12 +28,10 @@
 - install visionary-defaults:
   ```
   export TEST_TMPDIR=/tmp # set to a non-NFS filesystem (for bazel)
-  spack install 'visionary-defaults@0.2.15^py-pybind11@2.1.1'
+  spack install visionary-defaults
   ```
-  Note that the version of py-pybind11 has to be specified explicitly since pybind11 2.2.0 fails to
-  build with gcc 4.9.2.
 
 - Create a filesystem view:
   ```
-  spack view -d yes add -i spackview visionary-defaults
+  spack view -d yes hardlink -i spackview visionary-defaults
   ```
