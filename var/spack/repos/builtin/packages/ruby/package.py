@@ -48,6 +48,7 @@ class Ruby(Package):
             options.append("--with-openssl-dir=%s" % spec['openssl'].prefix)
         if '+readline' in spec:
             options.append("--with-readline-dir=%s" % spec['readline'].prefix)
+        options.append("--disable-install-rdoc")
         configure(*options)
         make()
         make("install")
