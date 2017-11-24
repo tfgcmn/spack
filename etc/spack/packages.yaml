@@ -24,8 +24,6 @@ packages:
       java: [jdk]
   tk:
     variants: ['+X']
-  python:
-    variants: ['+ucs4']
   pango:
     variants: ['+X']
   cairo:
