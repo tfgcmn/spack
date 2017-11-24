@@ -39,7 +39,7 @@ class VisionaryDefaults(Package):
     # $ spack compiler find --scope site .
     # $ spack install visionary-defaults %gcc@6.2.0
 
-    homepage = None
+    homepage = ''
     # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
     url = 'https://github.com/electronicvisions/spack-visions/archive/master.tar.gz'
     version('0.1', git='https://github.com/electronicvisions/spack-visions.git')
@@ -152,10 +152,7 @@ class VisionaryDefaults(Package):
     #depends_on('py-spykeviewer')
     depends_on('py-pynn @0.7.5')
 
-    # depends_on('python+tk @2.7:2.7.999')
-    depends_on('python @2.7:2.7.999', when='@:0.2.1')
-    depends_on('python @2.7:2.7.999 +ucs4', when='@0.2.2:')
-    depends_on('python @3.6.0:', when='@0.3.0:')
+    depends_on('python')
     depends_on('py-cython')
     depends_on('py-pip')
     depends_on('py-pylint', when='@0.2.11:')
