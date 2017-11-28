@@ -165,6 +165,11 @@ build_jobs = _config.get('build_jobs', multiprocessing.cpu_count())
 package_testing = PackageTesting()
 
 
+# If this is True, spack will prefix the c compilers with ccache
+# and hence enable compiler caching
+ccache = _config.get('ccache', False)
+
+
 #-----------------------------------------------------------------------------
 # When packages call 'from spack import *', this extra stuff is brought in.
 #
