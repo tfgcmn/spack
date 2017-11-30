@@ -28,6 +28,7 @@
 - install visionary-defaults:
   ```
   export TEST_TMPDIR=/tmp # set to a non-NFS filesystem (for bazel)
+  export HOME=/tmp # set to a non-NFS filesystem (because bazel uses ~/.cache/bazel)
   spack install visionary-defaults
   ```
 
