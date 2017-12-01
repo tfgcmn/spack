@@ -8,11 +8,11 @@
   umask 0002
   ```
 
-- fetch outstanding pull requests, e.g.:
+- set up the repository
   ```
-  git remote add upstream https://github.com/LLNL/spack.git
-  git fetch upstream pull/3227/head:PR_filesystemview
-  git merge PR_filesystemview
+  git init --shared=all
+  git remote add origin https://github.com/electronicvisions/spack
+  git checkout 2017-12-01
   ```
 
 - unload any modules you may have loaded:
@@ -25,11 +25,17 @@
   source share/spack/setup-env.sh
   ```
 
+- install a newer compiler:
+  ```
+  spack fetch --dependencies gcc@7.2.0
+  srun --pty --mem 14G -N1 -c8 -p compile spack install gcc@7.2.0 %gcc@4.9.2
+  ```
+
+- activate compiler:
+
 - install visionary-defaults:
   ```
-  export TEST_TMPDIR=/tmp # set to a non-NFS filesystem (for bazel)
-  export HOME=/tmp # set to a non-NFS filesystem (because bazel uses ~/.cache/bazel)
-  spack install visionary-defaults
+  srun --pty --mem 14G -N1 -c8 -p compile spack install visionary-defaults
   ```
 
 - Create a filesystem view:
