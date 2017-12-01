@@ -83,7 +83,7 @@ class VisionaryDefaults(Package):
 
 
     # This does not work, spack will try to reinstall gcc :(((((
-    # variant('wheezy', default=False)
+    variant('tensorflow', default=False)
 
     # depends_on('gcc@6.2.0+binutils+gold %gcc@4.7', when="+wheezy")
     # depends_on('gcc@6.2.0+binutils+gold %gcc@4.9.2', when="~wheezy")
@@ -126,8 +126,7 @@ class VisionaryDefaults(Package):
 
     depends_on('boost@1.55.0+graph+icu+mpi+python')
     depends_on('yaml-cpp+shared')
-    depends_on('tensorflow', when='@:0.2.6')
-    depends_on('tensorflow', when='@0.2.7:')  # +cuda
+    depends_on('tensorflow', when='+tensorflow')
     depends_on('log4cxx')
     # depends_on('libpsf')
     depends_on('googletest', when='@:0.2.11')
