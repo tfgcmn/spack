@@ -28,17 +28,27 @@
 - install a newer compiler:
   ```
   spack fetch --dependencies gcc@7.2.0
-  srun --pty --mem 14G -N1 -c8 -p compile spack install gcc@7.2.0 %gcc@4.9.2
+  srun --pty --mem 14G -N1 -c8 -p compile -t 8:00:00 spack install gcc@7.2.0 %gcc@4.9.2
   ```
 
 - activate compiler:
+  ```
+  spack compiler find --scope site opt/spack/linux-debian8-x86_64/gcc-4.9.2/gcc-7.2.0-*
+  ```
 
 - install visionary-defaults:
   ```
-  srun --pty --mem 14G -N1 -c8 -p compile spack install visionary-defaults
+  spack fetch --dependencies visionary-defaults+tensorflow
+  srun --pty --mem 14G -N1 -c8 -p compile -t 8:00:00 spack install visionary-defaults~tensorflow
+  ```
+
+- install visionary-defaults+tensorflow (i.e. compile tensorflow on frontend):
+  ```
+  spack install -j3 visionary-defaults+tensorflow
   ```
 
 - Create a filesystem view:
   ```
-  spack view -d yes hardlink -i spackview visionary-defaults
+  spack view -dependencies yes hardlink -i spackview visionary-defaults+tensorflow
+  spack view -dependencies no hardlink -i spackview gcc@7.2.0
   ```
