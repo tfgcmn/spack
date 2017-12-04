@@ -73,15 +73,18 @@ class Tensorflow(Package):
         # clean bazel build cache
         which('bazel')('clean')
 
-        env['TESTTMP_DIR'] = '/tmp'
+        tmp_path = join_path(self.stage.path, 'tmp_tensorflow_pkg')
+        mkdirp(tmp_path)
+        # set to a non-NFS filesystem (because bazel uses ~/.cache/bazel)
+        env['TESTTMP_DIR'] = tmp_path
+        env['HOME'] = tmp_path
+
         configure()
         if '+cuda' in spec:
             bazel('-c', 'opt', '--config=cuda', '//tensorflow/tools/pip_package:build_pip_package')
         else:
             bazel('-c', 'opt', '//tensorflow/tools/pip_package:build_pip_package')
 
-        tmp_path = join_path('/tmp', 'tmp_tensorflow_pkg')
-        mkdirp(tmp_path)
         build_pip_package = Executable('bazel-bin/tensorflow/tools/pip_package/build_pip_package')
         build_pip_package(tmp_path)
 
