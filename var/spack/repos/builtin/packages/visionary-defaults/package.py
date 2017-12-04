@@ -76,7 +76,9 @@ class VisionaryDefaults(Package):
     # JK: 2017-10-10 / 2017-10-19 visionary patches for llvm, py-line-profiler, cppcheck
     version('0.2.15', git='https://github.com/electronicvisions/spack-visions.git')
     # JK: 2017-11-07 add explicit py-pytest dependency, add py-flake8
-    version('0.2.16', git='https://github.com/electronicvisions/spack-visions.git', default=True)
+    version('0.2.16', git='https://github.com/electronicvisions/spack-visions.git')
+    # JK: 2017-12-04 add genpybind, pybind11 2.2.0
+    version('0.2.17', git='https://github.com/electronicvisions/spack-visions.git', default=True)
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
     # version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
@@ -121,6 +123,7 @@ class VisionaryDefaults(Package):
     depends_on('gdb')
     depends_on('llvm', when='@:0.2.14')
     depends_on('llvm+visionary+python@5.0.0:', when='@0.2.15:')
+    depends_on('genpybind', when='@0.2.17:')
     # depends_on('nodejs', when='@0.2.2')
     depends_on('node-js', when='@0.2.3:')
 
@@ -136,7 +139,8 @@ class VisionaryDefaults(Package):
     depends_on('cereal', when='@0.2.1:')
     # pybind11 2.2.0: leads to segfaulting of gcc 4.9.2 during compilation :/
     # FIXME: recheck and upgrade
-    depends_on('py-pybind11@2.1.1', when='@0.2.9:')
+    depends_on('py-pybind11@2.1.1', when='@0.2.9:0.2.16')
+    depends_on('py-pybind11@2.2.0:', when='@0.2.17:')
 
     depends_on('py-bokeh')
     depends_on('py-pygtk', when='@0.2.4:')
