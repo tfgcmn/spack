@@ -52,3 +52,8 @@
   spack view -dependencies yes hardlink -i spackview visionary-defaults+tensorflow
   spack view -dependencies no hardlink -i spackview gcc@7.2.0
   ```
+
+- Make the view world-readable (because e.g. jenkins is not a member of the F9 group)
+  ```
+  chmod -R o+rX spackview opt
+  ```
