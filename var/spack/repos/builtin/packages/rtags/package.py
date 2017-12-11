@@ -38,7 +38,8 @@ class Rtags(CMakePackage):
     depends_on("zlib")
     depends_on("openssl")
     depends_on("lua@5.3:")
-    depends_on("bash-completion")
+    # FIXME: removed for versions > 2.14 because this pulls in bash as a dependency...
+    depends_on("bash-completion", when="@:2.14")
     depends_on("pkgconfig", type='build')
 
     def cmake_args(self):
