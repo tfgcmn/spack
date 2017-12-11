@@ -122,7 +122,7 @@ class VisionaryDefaults(Package):
 
     depends_on('gdb')
     depends_on('llvm', when='@:0.2.14')
-    depends_on('llvm+visionary+python@5.0.0:', when='@0.2.15:')
+    depends_on('llvm+visionary+python~libcxx@5.0.0: build_type=Release', when='@0.2.15:')
     depends_on('genpybind', when='@0.2.17:')
     # depends_on('nodejs', when='@0.2.2')
     depends_on('node-js', when='@0.2.3:')
