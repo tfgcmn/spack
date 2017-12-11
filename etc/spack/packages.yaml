@@ -31,7 +31,7 @@ packages:
   binutils:
     variants: ['+gold+plugins']
   llvm:
-    variants: ['~shared_libs+visionary+python build_type=Release']
+    variants: ['~shared_libs+visionary+python~libcxx build_type=Release']
   openblas:
     variants: ['cpu_target=NEHALEM']
   pcre:
