@@ -164,6 +164,7 @@ class VisionaryDefaults(Package):
     # depends_on('py-ipdb')
     # depends_on('py-jupyter')
     # depends_on('py-notebook')
+    depends_on('py-virtualenv')
 
     depends_on('py-matplotlib~tk+qt+ipython')
     # depends_on('py-matplotlib+tk+ipython')
