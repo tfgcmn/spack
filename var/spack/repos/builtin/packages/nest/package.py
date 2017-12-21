@@ -33,6 +33,7 @@ class Nest(Package):
     list_url = "http://www.nest-simulator.org/download"
     list_depth = 2
 
+    version('2.14.0', 'f484894d5cdcde68c96ff3e34c5d6c5c')
     version('2.12.0', '1ded6489466c6054abc0be230d97c424')
     version('2.10.0', 'e97371d8b802818c4a7de35276470c0c')
     version('2.8.0', '3df9d39dfce8a85ee104c7c1d8e5b337')
@@ -103,7 +104,8 @@ class Nest(Package):
             Install script for old tarballs before the switch to cmake.
         """
         configure_args = [
-                '--prefix=%s' % prefix,
+                "CXXFLAGS=-std=c++03",
+                "--prefix=%s" % prefix,
                 "--with-openmp",
             ]
 
