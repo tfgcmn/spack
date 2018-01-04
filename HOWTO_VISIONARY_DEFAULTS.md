@@ -57,3 +57,15 @@
   ```
   chmod -R o+rX spackview opt
   ```
+
+- Optional: To generate an image (speeds up access via NFS) file:
+  ```
+  dd if=/dev/zero of=spackview.img bs=1 count=0 seek=12G
+  mkfs.ext2 spackview.img
+  mkdir image_tmp
+  mount spackview.img image_tmp
+  cp -a spackview/* image_tmp/
+  cp -a spackview/.[a-z]* image_tmp/
+  umount image_tmp
+  rmdir image_tmp
+  ```
