@@ -637,7 +637,8 @@ class Python(AutotoolsPackage):
                                       self.site_packages_dir,
                                       'sitecustomize.py')
         with open(sitecustomizepath, 'w') as f:
-            f.write("import sys\nsys.prefix='{0}\n'".format(prefix))
+            f.write("import sys\nsys.prefix='{0}\n'".format(
+                                            os.path.abspath(prefix)))
 
     def activate(self, ext_pkg, **args):
         ignore = self.python_ignore(ext_pkg, args)
@@ -654,8 +655,8 @@ class Python(AutotoolsPackage):
         self.write_easy_install_pth(
             exts,
             prefix=extensions_layout.extendee_target_directory(self))
-        self.write_sitecustomize(
-            prefix=extensions_layout.extendee_target_directory(self))
+        #self.write_sitecustomize(
+        #    prefix=extensions_layout.extendee_target_directory(self))
 
     def deactivate(self, ext_pkg, **args):
         args.update(ignore=self.python_ignore(ext_pkg, args))
