@@ -629,6 +629,16 @@ class Python(AutotoolsPackage):
                         "sys.path[p:p]=new; "
                         "sys.__egginsert = p+len(new)\n")
 
+    def write_sitecustomize(self, prefix=None):
+        if not prefix:
+            prefix = self.prefix
+
+        sitecustomizepath = join_path(prefix,
+                                      self.site_packages_dir,
+                                      'sitecustomize.py')
+        with open(sitecustomizepath, 'w') as f:
+            f.write("import sys\nsys.prefix='{0}\n'".format(prefix))
+
     def activate(self, ext_pkg, **args):
         ignore = self.python_ignore(ext_pkg, args)
         args.update(ignore=ignore)
@@ -643,6 +653,8 @@ class Python(AutotoolsPackage):
 
         self.write_easy_install_pth(
             exts,
+            prefix=extensions_layout.extendee_target_directory(self))
+        self.write_sitecustomize(
             prefix=extensions_layout.extendee_target_directory(self))
 
     def deactivate(self, ext_pkg, **args):
