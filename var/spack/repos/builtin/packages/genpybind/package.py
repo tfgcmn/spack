@@ -39,6 +39,8 @@ class Genpybind(WafPackage):
     depends_on('binutils', type='build')
     depends_on('python@2.7:', type=('build', 'run'))
 
+    extends('python')
+
     def configure_args(self):
         args = super(Genpybind, self).configure_args()
         args.append("--disable-tests")
