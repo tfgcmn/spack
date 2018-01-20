@@ -48,7 +48,7 @@ class VisionaryDefaultsDevelopmisc(Package):
     depends_on('ncdu')
     depends_on('node-js')
     depends_on('py-autopep8')
-    depends_on('py-doxypy')
+    depends_on('py-doxypypy')
     depends_on('py-flake8')
     depends_on('py-git-review')
     depends_on('py-jedi')

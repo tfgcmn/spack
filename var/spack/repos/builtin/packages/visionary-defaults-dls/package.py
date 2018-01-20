@@ -33,7 +33,22 @@ class VisionaryDefaultsDls(Package):
     url = 'https://github.com/electronicvisions/spack-visions/archive/master.tar.gz'
     version('1.0', git='https://github.com/electronicvisions/spack-visions.git')
 
+    # depends_on('libusb-1.0')  external dependency
+    depends_on('boost+python')
+    depends_on('cereal')
+    depends_on('gccxml')
+    depends_on('genpybind')
+    depends_on('googletest+gmock')
+    depends_on('llvm')
+    depends_on('log4cxx')
+    depends_on('doxygen')
+    depends_on('py-nose')
+    depends_on('py-numpy')
+    depends_on('py-matplotlib')
+    depends_on('py-pybind11')
     depends_on('py-sqlalchemy')
+    depends_on('python')
+    depends_on('tar')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
