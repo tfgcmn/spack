@@ -1,0 +1,13 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                . share/spack/setup-env.sh
+                echo $(which spack)
+            }
+        }
+    }
+
+}
