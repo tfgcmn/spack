@@ -5,8 +5,7 @@ node {
         sh "echo ${GERRIT_REFSPEC}"
         sh "echo ${PWD}"
         dir('spack')
-        sh ". share/spack/setup-env.sh"
-
+        sh "source share/spack/setup-env.sh"
         sh "spack list"
     }
 }
