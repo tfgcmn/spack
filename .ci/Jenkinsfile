@@ -7,6 +7,6 @@ node {
         dir('spack')
         sh ". share/spack/setup-env.sh"
 
-        sh "echo \$5(which spack)"
+        sh "echo #{(which spack)}"
     }
 }
