@@ -1,14 +1,9 @@
-pipeline {
-    agent any
+#!/usr/bin/env groovy
 
-    stages {
-        stage('Build') {
-            steps {
-                echo $GERRIT_REFSPEC
-                source share/spack/setup-env.sh
-                echo $(which spack)
-            }
-        }
+node {
+    stage('Build') {
+        sh "echo $GERRIT_REFSPEC"
+        sh ". share/spack/setup-env.sh"
+        sh "echo $(which spack)"
     }
-
 }
