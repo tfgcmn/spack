@@ -4,6 +4,8 @@ node {
     stage('Build') {
         sh "echo ${GERRIT_REFSPEC}"
         sh ". share/spack/setup-env.sh"
+        sh "echo ${PWD}"
+        sh "echo \$5(ls)"
         sh "echo \$5(which spack)"
     }
 }
