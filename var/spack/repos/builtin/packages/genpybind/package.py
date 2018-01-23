@@ -31,7 +31,8 @@ class Genpybind(WafPackage):
     homepage = "https://github.com/kljohann/genpybind"
     url      = ""
 
-    version('develop', git='https://github.com/kljohann/genpybind.git')
+ #   version('develop', git='https://github.com/kljohann/genpybind.git')
+    version('develop', git='file:///wang/users/kljohann/cluster_home/repos/genpybind')
 
     depends_on(
         'llvm+clang+python+visionary@5.0.0:5.999.999',
