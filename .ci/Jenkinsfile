@@ -1,11 +1,25 @@
 #!/usr/bin/env groovy
 
-node {
-    stage('Build') {
-        sh "echo ${GERRIT_REFSPEC}"
-        sh "echo ${PWD}"
-        dir('spack')
-        sh "source share/spack/setup-env.sh"
-        sh "spack list"
+pipeline {
+
+ /*   environment {
+
+    }*/
+
+    stages {
+ /*       stage('compiler') {
+
+        }*/
+
+        stage('dlspy2') {
+            dir("/wang/environment/software/jessie/spack/$GERRIT_REFSPEC") {
+                sh ".ci/02_install.sh dls_py2 'visionary-defaults-dls ^python@2.7.14 %gcc@7.2.0' 'gcc@7.2.0 %gcc@7.2.0'"
+            }
+        }
+
+  /*      stage('dlspy3') {
+
+        }*/
+    
     }
 }
