@@ -3,7 +3,7 @@
 node {
 
     stage('compiler') {
-        dir("/wang/environment/software/jessie/spack/$GERRIT_REFSPEC") {
+        dir("/wang/environment/software/jessie/spack/${GERRIT_REFSPEC}_staging") {
             sh '''
                 set +x
                 . share/spack/setup-env.sh
@@ -14,7 +14,7 @@ node {
     }
 
     stage('dlspy2') {
-        dir("/wang/environment/software/jessie/spack/$GERRIT_REFSPEC") {
+        dir("/wang/environment/software/jessie/spack/${GERRIT_REFSPEC}_staging") {
             sh '''
                 set +x
                 . share/spack/setup-env.sh
@@ -25,7 +25,7 @@ node {
     }
 
     stage('dlspy3') {
-        dir("/wang/environment/software/jessie/spack/$GERRIT_REFSPEC") {
+        dir("/wang/environment/software/jessie/spack/${GERRIT_REFSPEC}_staging") {
             sh '''
                 set +x
                 . share/spack/setup-env.sh
