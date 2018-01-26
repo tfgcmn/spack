@@ -4,12 +4,18 @@ node {
 
     stage('compiler') {
         dir("/wang/environment/software/jessie/spack/${GERRIT_REFSPEC}_staging") {
-            sh '''
-                set +x
-                . share/spack/setup-env.sh
-                set -x
-                bash .ci/01_ensure_gcc.sh
-            '''
+//            sh '''
+//                set +x
+//                . share/spack/setup-env.sh
+//                set -x
+//                bash .ci/01_ensure_gcc.sh
+//            '''
+            sh '''cd /wang/environment/software/jessie/spack/${REF_SPEC}_staging
+            set +x
+            . share/spack/setup-env.sh
+            set -x
+
+            bash -x .ci/02_install.sh dls_py3 \'visionary-defaults-dls ^python@3.6.3 %gcc@7.2.0\' \'gcc@7.2.0 %gcc@7.2.0\''''
         }
     }
 
