@@ -25,3 +25,5 @@
 /bin/spackc
 *.in.log
 *.out.log
+modules/
+views/
