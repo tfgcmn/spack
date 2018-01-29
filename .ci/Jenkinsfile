@@ -2,9 +2,9 @@
 
 node {
     LIVE_INSTANCE="/wang/environment/software/jessie/spack/${GERRIT_BRANCH}_live"
-    STAGE_INSTANCE="/wang/environment/software/jessie/spack/${GERRIT_BRANCH}_stage"
+    STAGE_INSTANCE="/wang/environment/software/jessie/spack/${GERRIT_BRANCH}_staging"
 
-    if (${GERRIT_EVENT_TYPE}=="change-merged") {
+    if (GERRIT_EVENT_TYPE=="change-merged") {
         WORKING_DIR=LIVE_INSTANCE
     } else {
         WORKING_DIR=STAGE_INSTANCE
@@ -14,10 +14,10 @@ node {
 
     if (${GERRIT_EVENT_TYPE}!="change-merged") {
         stage('stack') {
-            sh '''
-            . share/spack/setup-env.sh
-            spack stack ${LIVE_INSTANCE}
-            '''
+            sh "echo ${WORKING_DIR} && " +
+                "cd ${WORKING_DIR} &&" +
+                ". share/spack/setup-env.sh && " +
+                "spack stack ${LIVE_INSTANCE}"
         }
     }
 

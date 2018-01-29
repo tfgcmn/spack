@@ -6,7 +6,12 @@ modulespec=$2
 compiler=$3
 
 spack fetch -D "$modulespec"
-srun -p compile -c8 -t6:00:00 spack install --only dependencies --show-log-on-error "$modulespec"
+if [ "$4" = "local" ]
+then
+    spack install --only dependencies --show-log-on-error -j4 "$modulespec"
+else
+    srun -p compile -c8 -t6:00:00 spack install --only dependencies --show-log-on-error "$modulespec"
+fi
 # fancy bash-magic to get the hash of the installed package
 newhash=$(spack install --show-log-on-error "$modulespec" | tail -n1 | tr "-" "\n" | tail -n1)
 
