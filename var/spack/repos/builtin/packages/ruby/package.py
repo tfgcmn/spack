@@ -64,6 +64,9 @@ class Ruby(AutotoolsPackage):
         if '+readline' in self.spec:
             args.append("--with-readline-dir=%s"
                         % self.spec['readline'].prefix)
+        if self.spec.satisfies("@:2.4"):
+            args.append('--disable-install-rdoc')
+
         args.append('--with-tk=%s' % self.spec['tk'].prefix)
         return args
 
@@ -92,20 +95,3 @@ class Ruby(AutotoolsPackage):
         module.ruby = Executable(join_path(self.spec.prefix.bin, 'ruby'))
         module.gem = Executable(join_path(self.spec.prefix.bin, 'gem'))
 
-    @run_after('install')
-    def post_install(self):
-        """ RubyGems updated their SSL certificates at some point, so
-        new certificates must be installed after Ruby is installed
-        in order to download gems; see
-        http://guides.rubygems.org/ssl-certificate-update/
-        for details.
-        """
-        rubygems_updated_cert_path = join_path(self.stage.source_path,
-                                               'rubygems-updated-ssl-cert',
-                                               'GlobalSignRootCA.pem')
-        rubygems_certs_path = join_path(self.spec.prefix.lib,
-                                        'ruby',
-                                        '{0}'.format(self.spec.version.dotted),
-                                        'rubygems',
-                                        'ssl_certs')
-        install(rubygems_updated_cert_path, rubygems_certs_path)

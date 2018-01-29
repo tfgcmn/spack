@@ -36,3 +36,7 @@ packages:
     variants: ['cpu_target=NEHALEM']
   pcre:
     variants: ['+jit']
+  gcc:
+    compiler: [gcc@4.9.2]
+  ruby:
+    variants: ['~openssl']

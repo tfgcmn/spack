@@ -37,7 +37,7 @@ class VisionaryDefaultsWafer(Package):
 
     variant('tensorflow', default=False)
 
-    depends_on('binutils+gold+plugins', when='@0.2.5:')
+    depends_on('binutils+gold+plugins')
 
     depends_on('vim +python +ruby +perl +cscope +huge')
 
@@ -78,7 +78,7 @@ class VisionaryDefaultsWafer(Package):
 
     depends_on('py-bokeh')
     depends_on('py-pygtk')
-    depends_on('gtkplus+X')
+    depends_on('gtkplus')
     depends_on('cairo+X')
     depends_on('py-pyside')
 
@@ -116,8 +116,8 @@ class VisionaryDefaultsWafer(Package):
 
     depends_on('py-pyyaml')
 
-    depends_on('py-autopep8')
-    depends_on('py-flake8')
+    # depends_on('py-autopep8')
+    # depends_on('py-flake8')
     # depends_on('py-pylint')
     depends_on('py-jedi')
 

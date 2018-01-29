@@ -1,7 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -xe
 
 viewfolder=$1
 modulename=$2
+
+mkdir -p $(dirname $2)
 
 rm -f ${modulename}
 touch ${modulename}
@@ -57,3 +59,5 @@ echo 'prepend-path  CPLUS_INCLUDE_PATH  ${module_basedir}/include' >> ${modulena
 echo 'prepend-path  PKG_CONFIG_PATH     ${module_basedir}/lib/pkgconfig' >> ${modulename}
 echo 'prepend-path  PKG_CONFIG_PATH     ${module_basedir}/lib64/pkgconfig' >> ${modulename}
 echo 'prepend-path  CMAKE_PREFIX_PATH   ${module_basedir}' >> ${modulename}
+echo '' >> ${modulename}
+echo "## Module generated on: $(date +%Y%m%d)" >> ${modulename}

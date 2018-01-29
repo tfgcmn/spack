@@ -1,9 +1,17 @@
 #!/usr/bin/env groovy
 
 node {
+withEnv(
+    [
+    'ftp_proxy=ftp://proxy1.kip.uni-heidelberg.de:2121',
+    'http_proxy=http://proxy1.kip.uni-heidelberg.de:8080',
+    'https_proxy=http://proxy1.kip.uni-heidelberg.de:8080',
+    'no_proxy=localhost,kip,kip.uni-heidelberg.de,129.206.179.*,129.20'
+    ]
+){
     LIVE_INSTANCE="/wang/environment/software/jessie/spack/${GERRIT_BRANCH}_live"
     STAGE_INSTANCE="/wang/environment/software/jessie/spack/${GERRIT_BRANCH}_staging"
-    COMPILER="gcc@7.2.0 %gcc@7.2.0"
+    COMPILER="gcc@7.2.0 %gcc"
     PY2="python@2.7.14"
     PY3="python@3.6.3"
 
@@ -17,15 +25,15 @@ node {
         checkout scm
     }
 
-    if (${GERRIT_EVENT_TYPE}!="change-merged") {
-        stage('stack') {
-            sh "cd ${WORKING_DIR} && " +
-                "git clean -dfx && " +
-                ". share/spack/setup-env.sh && " +
-                "spack stack ${LIVE_INSTANCE}"
-        }
-    }
-
+// Readd when LIVE_INSTANCE exists
+//    if (GERRIT_EVENT_TYPE!="change-merged") {
+//        stage('stack') {
+//            sh "cd ${WORKING_DIR} && " +
+//                "git clean -dfx && " +
+//                ". share/spack/setup-env.sh && " +
+//                "spack stack ${LIVE_INSTANCE}"
+//        }
+//    }
     stage('compiler') {
         sh "cd ${WORKING_DIR} && " +
             "set +x && " +
@@ -35,52 +43,59 @@ node {
     }
 
     stage('dlspy2') {
-        sh "cd ${WORKING_DIR} && " +
+        sh "env && " +
+            "cd ${WORKING_DIR} && " +
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -x .ci/02_install.sh dls_py2 \'visionary-defaults-dls ^${PY2}\' \'${COMPILER}\'"
+            "bash -ex .ci/02_install.sh dls_py2 \'visionary-defaults-dls ^${PY2}\' \'${COMPILER}\'"
     }
 
     stage('dlspy3') {
-        sh "cd ${WORKING_DIR} && " +
+        sh "env && " +
+            "cd ${WORKING_DIR} && " +
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -x .ci/02_install.sh dls_py3 \'visionary-defaults-dls ^${PY3}\' \'${COMPILER}\'"
+            "bash -ex .ci/02_install.sh dls_py3 \'visionary-defaults-dls ^${PY3}\' \'${COMPILER}\'"
     }
 
     stage('wafer') {
-        sh "cd ${WORKING_DIR} && " +
+        sh "env && " +
+            "cd ${WORKING_DIR} && " +
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -x .ci/02_install.sh wafer_wot_py2 \'visionary-defaults-wafer ^${PY2}\' \'${COMPILER}\' && " +
-            "bash -x .ci/02_install.sh wafer_wt_py2 \'visionary-defaults-wafer ^${PY2}\' \'${COMPILER}\' 'local'"
+            "bash -ex .ci/02_install.sh wafer_wot_py2 \'visionary-defaults-wafer ^${PY2}\' \'${COMPILER}\' && " +
+            "bash -ex .ci/02_install.sh wafer_wt_py2 \'visionary-defaults-wafer ^${PY2}\' \'${COMPILER}\' 'local'"
     }
 
     stage('analysis_py2') {
-        sh "cd ${WORKING_DIR} && " +
+        sh "env && " +
+            "cd ${WORKING_DIR} && " +
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -x .ci/02_install.sh analysis_py2 \'visionary-defaults-analysis ^${PY2}\' \'${COMPILER}\'"
+            "bash -ex .ci/02_install.sh analysis_py2 \'visionary-defaults-analysis ^${PY2}\' \'${COMPILER}\'"
     }
 
     stage('analysis_py3') {
-        sh "cd ${WORKING_DIR} && " +
+        sh "env && " +
+            "cd ${WORKING_DIR} && " +
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -x .ci/02_install.sh analysis_py3 \'visionary-defaults-analysis ^${PY3}\' \'${COMPILER}\'"
+            "bash -ex .ci/02_install.sh analysis_py3 \'visionary-defaults-analysis ^${PY3}\' \'${COMPILER}\'"
     }
 
     stage('simulation_py2') {
-        sh "cd ${WORKING_DIR} && " +
+        sh "env && " +
+            "cd ${WORKING_DIR} && " +
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -x .ci/02_install.sh simulation_py2 \'visionary-defaults-simulation ^${PY2}\' \'${COMPILER}\'"
+            "bash -ex .ci/02_install.sh simulation_py2 \'visionary-defaults-simulation ^${PY2}\' \'${COMPILER}\'"
     }
 
+}
 }
