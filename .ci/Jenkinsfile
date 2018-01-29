@@ -13,12 +13,14 @@ node {
         WORKING_DIR=STAGE_INSTANCE
     }
 
-    print WORKING_DIR
+    dir(WORKING_DIR) {
+        checkout scm
+    }
 
     if (${GERRIT_EVENT_TYPE}!="change-merged") {
         stage('stack') {
-            sh "echo ${WORKING_DIR} && " +
-                "cd ${WORKING_DIR} &&" +
+            sh "cd ${WORKING_DIR} && " +
+                "git clean -dfx && " +
                 ". share/spack/setup-env.sh && " +
                 "spack stack ${LIVE_INSTANCE}"
         }
@@ -80,6 +82,5 @@ node {
             "set -x && " +
             "bash -x .ci/02_install.sh simulation_py2 \'visionary-defaults-simulation ^${PY2}\' \'${COMPILER}\'"
     }
-
 
 }
