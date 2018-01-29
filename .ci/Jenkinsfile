@@ -1,10 +1,29 @@
 #!/usr/bin/env groovy
 
 node {
+    LIVE_INSTANCE="/wang/environment/software/jessie/spack/${GERRIT_BRANCH}_live"
+    STAGE_INSTANCE="/wang/environment/software/jessie/spack/${GERRIT_BRANCH}_stage"
+
+    if (${GERRIT_EVENT_TYPE}=="change-merged") {
+        WORKING_DIR=LIVE_INSTANCE
+    } else {
+        WORKING_DIR=STAGE_INSTANCE
+    }
+
+    print WORKING_DIR
+
+    if (${GERRIT_EVENT_TYPE}!="change-merged") {
+        stage('stack') {
+            sh '''
+            . share/spack/setup-env.sh
+            spack stack ${LIVE_INSTANCE}
+            '''
+        }
+    }
 
     stage('compiler') {
         sh '''
-        cd "/wang/environment/software/jessie/spack/${GERRIT_REFSPEC}_staging"
+        cd ${WORKING_DIR}
         set +x
         . share/spack/setup-env.sh
         set -x
