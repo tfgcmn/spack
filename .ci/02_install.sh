@@ -15,4 +15,4 @@ spack view --dependencies yes hardlink -i $viewname /$newhash
 spack view --dependencies no hardlink -i $viewname $compiler
 
 DIR="$( cd "$( dirname "$0}" )" && pwd )"
-bash $DIR/00_module.sh $viewname "modules/${modulename}_$BUILD_ID"
+bash $DIR/00_module.sh "${PWD}/$viewname" "${PWD}/modules/${modulename}_$BUILD_ID"

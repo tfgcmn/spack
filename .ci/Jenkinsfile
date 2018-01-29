@@ -10,12 +10,12 @@ node {
 //                set -x
 //                bash .ci/01_ensure_gcc.sh
 //            '''
-            sh '''cd /wang/environment/software/jessie/spack/${REF_SPEC}_staging
+            sh '''
             set +x
             . share/spack/setup-env.sh
             set -x
-
-            bash -x .ci/02_install.sh dls_py3 \'visionary-defaults-dls ^python@3.6.3 %gcc@7.2.0\' \'gcc@7.2.0 %gcc@7.2.0\''''
+            bash -x .ci/01_ensure_gcc.sh
+            '''
         }
     }
 
@@ -25,7 +25,7 @@ node {
                 set +x
                 . share/spack/setup-env.sh
                 set -x
-                .ci/02_install.sh dls_py2 \'visionary-defaults-dls ^python@2.7.14 %gcc@7.2.0\' \'gcc@7.2.0 %gcc@7.2.0\'
+                bash -x .ci/02_install.sh dls_py2 \'visionary-defaults-dls ^python@2.7.14 %gcc@7.2.0\' \'gcc@7.2.0 %gcc@7.2.0\'
                '''
         }
     }
