@@ -41,6 +41,15 @@ withEnv(
             "bash -x .ci/01_ensure_gcc.sh "
     }
 
+    stage('dlsdemos') {
+        sh "env && " +
+            "cd ${WORKING_DIR} && " +
+            "set +x && " +
+            ". share/spack/setup-env.sh &&" +
+            "set -x && " +
+            "bash -ex .ci/02_install.sh dls_demos \'visionary-dls-demos ^${PY2}\' \'${COMPILER}\'"
+    }
+
     stage('dlspy2') {
         sh "env && " +
             "cd ${WORKING_DIR} && " +
