@@ -34,7 +34,7 @@ class VisionaryDefaultsDls(Package):
     version('1.0', git='https://github.com/electronicvisions/spack-visions.git')
 
     # depends_on('libusb-1.0')  external dependency
-    depends_on('boost+python')
+    depends_on('boost@1.55.0+python')
     depends_on('cereal')
     depends_on('gccxml')
     depends_on('genpybind')
