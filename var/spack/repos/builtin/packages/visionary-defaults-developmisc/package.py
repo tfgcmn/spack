@@ -34,6 +34,7 @@ class VisionaryDefaultsDevelopmisc(Package):
     version('1.0', git='https://github.com/electronicvisions/spack-visions.git')
 
     depends_on('bear')
+    depends_on('cloc')
     depends_on('cmake')
     depends_on('cppcheck')
     depends_on('doxygen')

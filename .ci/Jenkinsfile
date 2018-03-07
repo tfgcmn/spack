@@ -96,6 +96,15 @@ withEnv(
             "bash -ex .ci/02_install.sh simulation_py2 \'visionary-defaults-simulation ^${PY2}\' \'${COMPILER}\'"
     }
 
+    stage('developmisc_py2') {
+        sh "env && " +
+            "cd ${WORKING_DIR} && " +
+            "set +x && " +
+            ". share/spack/setup-env.sh &&" +
+            "set -x && " +
+            "bash -ex .ci/02_install.sh developmisc \'visionary-defaults-developmisc ^${PY2}\' \'${COMPILER}\'"
+    }
+
     stage('dlsdemos') {
         sh "env && " +
             "cd ${WORKING_DIR} && " +
