@@ -25,8 +25,8 @@ withEnv(
         checkout scm
     }
 
-   if (GERRIT_EVENT_TYPE!="change-merged") {
-       stage('stack') {
+   stage('stack') {
+       if (GERRIT_EVENT_TYPE!="change-merged") {
            sh "cd ${WORKING_DIR} && " +
                "git clean -dfx && " +
                ". share/spack/setup-env.sh && " +
@@ -39,15 +39,6 @@ withEnv(
             ". share/spack/setup-env.sh && " +
             "set -x && " +
             "bash -x .ci/01_ensure_gcc.sh "
-    }
-
-    stage('dlsdemos') {
-        sh "env && " +
-            "cd ${WORKING_DIR} && " +
-            "set +x && " +
-            ". share/spack/setup-env.sh &&" +
-            "set -x && " +
-            "bash -ex .ci/02_install.sh dls_demos \'visionary-dls-demos ^${PY2}\' \'${COMPILER}\'"
     }
 
     stage('dlspy2') {
@@ -103,6 +94,15 @@ withEnv(
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
             "bash -ex .ci/02_install.sh simulation_py2 \'visionary-defaults-simulation ^${PY2}\' \'${COMPILER}\'"
+    }
+
+    stage('dlsdemos') {
+        sh "env && " +
+            "cd ${WORKING_DIR} && " +
+            "set +x && " +
+            ". share/spack/setup-env.sh &&" +
+            "set -x && " +
+            "bash -ex .ci/02_install.sh dls_demos \'visionary-dls-demos ^${PY2}\' \'${COMPILER}\'"
     }
 
 }
