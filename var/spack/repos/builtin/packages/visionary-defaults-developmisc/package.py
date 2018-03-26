@@ -64,6 +64,7 @@ class VisionaryDefaultsDevelopmisc(Package):
     depends_on('tmux')
     depends_on('units')
     depends_on('vim +python +ruby +perl +cscope +huge +x')
+    depends_on('verilator')
     depends_on('yaml-cpp+shared')
 
     def install(self, spec, prefix):
