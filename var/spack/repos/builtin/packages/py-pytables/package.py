@@ -35,12 +35,27 @@ class PyPytables(PythonPackage):
             url='https://github.com/PyTables/PyTables/archive/v3.3.0.tar.gz')
     version('3.2.2', '7cbb0972e4d6580f629996a5bed92441')
 
+    variant('avx2', description='', default=False)
+    variant('sse2', description='', default=False)
+    variant('auto', description='', default=True)
+
     depends_on('hdf5@1.8.0:1.8.999')
     depends_on('py-numpy@1.8.0:', type=('build', 'run'))
     depends_on('py-numexpr@2.5.2:', type=('build', 'run'))
     depends_on('py-cython', type=('build', 'run'))
     depends_on('py-six', type=('build', 'run'))
-    depends_on('py-setuptools', type='build')
+    depends_on('py-setuptools', type=('build', 'run'))
+    depends_on('py-cpuinfo', type='build')
+
+    patch('microarch.patch', when='~auto')
 
     def setup_environment(self, spack_env, run_env):
         spack_env.set('HDF5_DIR', self.spec['hdf5'].prefix)
+        cpu_flags = []
+        if self.spec.satisfies('+avx2'):
+            cpu_flags.append('avx2')
+        if self.spec.satisfies('+sse2'):
+            cpu_flags.append('sse2')
+        if self.spec.satisfies('~auto'):
+            cpu_flags = ' '.join(cpu_flags)
+            spack_env.set('SPACK_TARGET_FLAGS', cpu_flags)

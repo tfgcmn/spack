@@ -40,3 +40,5 @@ packages:
     compiler: [gcc@4.9.2]
   ruby:
     variants: ['~openssl']
+  py-pytables:
+    variants: ['~auto', '~avx2', '+sse2']
