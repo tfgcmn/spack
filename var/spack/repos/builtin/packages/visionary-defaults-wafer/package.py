@@ -81,6 +81,7 @@ class VisionaryDefaultsWafer(Package):
     depends_on('gtkplus')
     depends_on('cairo+X')
     depends_on('py-pyside')
+    depends_on('py-slurm-pipeline')
 
     depends_on('nest@2.2.2+python')
     depends_on('py-brian')

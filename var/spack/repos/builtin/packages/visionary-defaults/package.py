@@ -147,6 +147,7 @@ class VisionaryDefaults(Package):
     depends_on('gtkplus+X', when='@0.2.4:')
     depends_on('cairo+X', when='@0.2.4:')
     depends_on('py-pyside')
+    depends_on('py-slurm-pipeline')
 
     depends_on('nest@2.2.2+python', when='@0.2:0.2.12')
     depends_on('py-brian')
