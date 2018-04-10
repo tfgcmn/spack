@@ -50,6 +50,7 @@ class VisionaryDefaultsDevelopmisc(Package):
     depends_on('py-autopep8')
     depends_on('py-doxypypy')
     depends_on('py-flake8')
+    depends_on('py-gdbgui')
     depends_on('py-git-review')
     depends_on('py-jedi')
     depends_on('py-junit-xml')

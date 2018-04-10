@@ -25,16 +25,20 @@
 from spack import *
 
 
-class PyCython(PythonPackage):
-    """The Cython compiler for writing C extensions for the Python language."""
-    homepage = "https://pypi.python.org/pypi/cython"
-    url      = "https://pypi.io/packages/source/c/cython/Cython-0.25.2.tar.gz"
+class PyFlaskSocketio(PythonPackage):
+    """Flask-SocketIO gives Flask applications access to low latency
+    bi-directional communications between the clients and the server.
+    The client-side application can use any of the SocketIO official clients
+    libraries in Javascript, C++, Java and Swift, or any compatible client to
+    establish a permanent connection to the server.
+    """
 
-    version('0.28.1', 'c549effadb52d90bdcb1affc1e5dbb97')
-    version('0.25.2', '642c81285e1bb833b14ab3f439964086')
-    version('0.23.5', '66b62989a67c55af016c916da36e7514')
-    version('0.23.4', '157df1f69bcec6b56fd97e0f2e057f6e')
+    homepage = "https://flask-socketio.readthedocs.io"
+    url      = "https://pypi.io/packages/source/F/Flask-SocketIO/Flask-SocketIO-2.9.6.tar.gz"
 
-    # These versions contain illegal Python3 code...
-    version('0.22', '1ae25add4ef7b63ee9b4af697300d6b6')
-    version('0.21.2', 'd21adb870c75680dc857cd05d41046a4')
+    version('2.9.6', 'bca83faf38355bd91911f2f140f9b50f')
+
+    depends_on('py-setuptools',             type='build')
+    depends_on('py-flask@0.9:',             type=('build', 'run'))
+    depends_on('py-python-socketio@1.6.1:', type=('build', 'run'))
+    depends_on('py-werkzeug',               type=('build', 'run'))
