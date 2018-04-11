@@ -33,15 +33,19 @@ class VisionaryDefaultsDls(Package):
     url = 'https://github.com/electronicvisions/spack-visions/archive/master.tar.gz'
     version('1.0', git='https://github.com/electronicvisions/spack-visions.git')
 
+    # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
+    variant('gccxml', default=False)
+
     # depends_on('libusb-1.0')  external dependency
     depends_on('boost@1.55.0+python')
     depends_on('cereal')
-    depends_on('gccxml')
+    depends_on('gccxml', when='+gccxml')
     depends_on('genpybind')
+    depends_on('gflags')
     depends_on('googletest+gmock')
     depends_on('llvm')
     depends_on('log4cxx')
-    depends_on('doxygen')
+    depends_on('doxygen+graphviz')
     depends_on('py-nose')
     depends_on('py-numpy')
     depends_on('py-matplotlib')

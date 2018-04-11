@@ -79,13 +79,28 @@ class VisionaryDefaults(Package):
     version('0.2.16', git='https://github.com/electronicvisions/spack-visions.git')
     # JK: 2017-12-04 add genpybind, pybind11 2.2.0
     version('0.2.17', git='https://github.com/electronicvisions/spack-visions.git', default=True)
+    # ECM: 2018-04-11 add automake, bazel, gccxml, intel-tbb, liblockfile, pkg-config, texinfo, xerces-c (and doxygen uses graphviz)
+    version('0.2.18', git='https://github.com/electronicvisions/spack-visions.git', default=True)
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
     # version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
 
-
     # This does not work, spack will try to reinstall gcc :(((((
     variant('tensorflow', default=False)
+
+    # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
+    variant('gccxml', default=False)
+
+
+    depends_on('autoconf', when='@0.2.18:')
+    depends_on('automake', when='@0.2.18:')
+    depends_on('bazel', when='@0.2.18:')
+    depends_on('gccxml', when='@0.2.18: +gccxml')
+    depends_on('intel-tbb', when='@0.2.18:')
+    depends_on('liblockfile', when='@0.2.18:')
+    depends_on('pkg-config', when='@0.2.18:')
+    depends_on('texinfo', when='@0.2.18:')
+    depends_on('xerces-c', when='@0.2.18:')
 
     # depends_on('gcc@6.2.0+binutils+gold %gcc@4.7', when="+wheezy")
     # depends_on('gcc@6.2.0+binutils+gold %gcc@4.9.2', when="~wheezy")
@@ -112,7 +127,8 @@ class VisionaryDefaults(Package):
     depends_on('py-git-review', when='@0.2.8:')
 
     depends_on('cmake')
-    depends_on('doxygen')
+    depends_on('doxygen', when='@:0.2.17')
+    depends_on('doxygen+graphviz', when='@0.2.18:')
     depends_on('bear')
     depends_on('rtags')
     depends_on('cppcheck +htmlreport', when='@0.2.15:')
@@ -145,7 +161,7 @@ class VisionaryDefaults(Package):
 
     depends_on('py-bokeh')
     depends_on('py-pygtk', when='@0.2.4:')
-    depends_on('gtkplus+X', when='@0.2.4:')
+    depends_on('gtkplus', when='@0.2.4:')
     depends_on('cairo+X', when='@0.2.4:')
     depends_on('py-pyside')
     depends_on('py-slurm-pipeline')

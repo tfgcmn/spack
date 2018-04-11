@@ -38,6 +38,7 @@ class PyCffi(PythonPackage):
 
     depends_on('py-setuptools', type='build')
     depends_on('py-pycparser', type=('build', 'run'))
+    depends_on('pkgconfig', type='build')
     depends_on('libffi')
 
     def setup_environment(self, spack_env, run_env):

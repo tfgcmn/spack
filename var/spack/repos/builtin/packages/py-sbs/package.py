@@ -14,9 +14,10 @@ class PySbs(PythonPackage):
     version('1.4.0', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git', commit='68889dbd832cb6b8bf17f38684634e3126adac1f')
     version('1.3.2', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git', commit='87bb9787b4bdc741e349ad17191165a496e85042')
 
+    depends_on('pkgconfig', type="build")
     depends_on('py-setuptools', type="build")
     depends_on('py-cython', type='build')
-    depends_on('py-numpy', type=("build", "run"))
+    depends_on('py-numpy', type=("build", "link", "run"))
     depends_on('py-scipy', type=("build", "run"))
     depends_on('py-matplotlib', type=("build", "run"))
     depends_on('py-pynn@0.8:', type=("build", "run"))
@@ -25,3 +26,8 @@ class PySbs(PythonPackage):
     def patch(self):
         # remove unnecessary h5py dependency from source code
         filter_file("^import h5py$", "# import h5py", "sbs/meta.py")
+
+    def patch(self):
+        filter_file(r"import os$", r"import os, numpy", "setup.py")
+        filter_file("zip_safe=True,", "zip_safe=True, include_dirs=[numpy.get_include()],",
+                    "setup.py", )

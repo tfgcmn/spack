@@ -55,6 +55,8 @@ class Nest(Package):
     variant("mpi", default=False,
             description="Build with MPI bindings")
 
+    depends_on('libtool')
+
     # cmake to built new versions
     depends_on('cmake', type='build', when='@2.12.0:')
     # autotools to built new versions

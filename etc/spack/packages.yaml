@@ -22,6 +22,7 @@ packages:
       lapack: [openblas]
       pil: [py-pillow]
       java: [jdk]
+      pkgconfig: [pkg-config]
   tk:
     variants: ['+X']
   pango:

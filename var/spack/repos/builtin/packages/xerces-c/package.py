@@ -37,5 +37,12 @@ class XercesC(AutotoolsPackage):
 
     version('3.1.4', 'd04ae9d8b2dee2157c6db95fa908abfd')
 
+    depends_on('libiconv')
+
+    def setup_environment(self, spack_env, run_env):
+        # ECM: upstream fixed search-prefix handling in PR 7651
+        spack_env.append_flags('LDFLAGS', '-L{0} -liconv'.format(
+            self.spec['libiconv'].prefix.lib))
+
     def configure_args(self):
         return ['--disable-network']

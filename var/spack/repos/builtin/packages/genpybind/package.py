@@ -29,10 +29,10 @@ class Genpybind(WafPackage):
     """Autogeneration of Python bindings from manually annotated C++ headers"""
 
     homepage = "https://github.com/kljohann/genpybind"
-    url      = ""
+    url      = "https://github.com/kljohann/genpybind/archive/v0.1.0.tar.gz"
 
- #   version('develop', git='https://github.com/kljohann/genpybind.git')
-    version('develop', git='file:///wang/users/kljohann/cluster_home/repos/genpybind')
+    version('0.1.0', '345ca9c6ca96f79c8a217e44a9c99fe6')
+    version('develop', git='https://github.com/kljohann/genpybind.git')
 
     depends_on(
         'llvm+clang+python+visionary@5.0.0:5.999.999',

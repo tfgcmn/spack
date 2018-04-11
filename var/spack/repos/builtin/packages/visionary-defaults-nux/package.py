@@ -25,34 +25,37 @@
 from spack import *
 
 
-class VisionaryDefaultsSpikey(Package):
-    """Visionary Meta Package for the spikey platform."""
-
+class VisionaryDefaultsNux(Package):
+    """Visionary Meta Package"""
 
     homepage = ''
     # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
     url = 'https://github.com/electronicvisions/spack-visions/archive/master.tar.gz'
     version('1.0', git='https://github.com/electronicvisions/spack-visions.git')
 
-    # build dependencies for the Spikey software stack
-    # taken from: https://electronicvisions.github.io/hbp-sp9-guidebook/pm/spikey/appendix.html#setup-software;
-    depends_on('boost+python')
-#    depends_on('libusb')  # needs to be an external requirement
-    depends_on('log4cxx')
-    depends_on('qt@4.8.6')
-    depends_on('googletest')
-    depends_on('gsl')
-    depends_on('pkg-config')
-    depends_on('py-nose')
-    # runtime dependencies of experiments
-    depends_on('python@:2.8')
-    depends_on('py-numpy')
-    depends_on('py-scipy')
-    depends_on('py-matplotlib')
+    # cf. binutils package
+    depends_on('zlib')
+    depends_on('m4')
+
+    # 2.6.0 was used in the past, but misses a pre-generated scan.c
+    # 2.6.1 seems to work too (and 2.6.3 breaks; 2.6.4 not tested)
+    depends_on('flex@2.6.1')
+
+    # was 3.0.4 in the past
+    depends_on('bison')
+    depends_on('gettext')
+    depends_on('texinfo')
+    depends_on('wget')
+
+    # cf. gcc package (maybe unused due to re-downloading?)
+    depends_on('gmp@4.3.2:')
+    depends_on('mpfr@2.4.2:')
+    depends_on('mpc@0.8.1:') #, when='@4.5:')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        install(__file__, join_path(prefix.etc, 'visionary-defaults-spikey.py'))
+        install(__file__, join_path(prefix.etc, 'visionary-defaults.py'))
 
         # we could create some filesystem view here?
+

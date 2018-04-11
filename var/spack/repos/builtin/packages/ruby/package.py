@@ -39,6 +39,7 @@ class Ruby(AutotoolsPackage):
 
     extendable = True
 
+    depends_on('pkgconfig', type='build')
     depends_on('libffi')
     depends_on('zlib')
     depends_on('libx11')
@@ -46,6 +47,10 @@ class Ruby(AutotoolsPackage):
     depends_on('tk')
     depends_on('openssl', when='+openssl')
     depends_on('readline', when='+readline')
+
+    # gcc 7 requires some patches (cf. https://bugs.ruby-lang.org/issues/13150)
+    patch('ruby_23_gcc7.patch', level=0, when='@2.2.0:2.2.999')
+    patch('ruby_23_gcc7.patch', level=0, when='@2.3.0:2.3.4')
 
     resource(
         name='rubygems-updated-ssl-cert',
@@ -68,6 +73,7 @@ class Ruby(AutotoolsPackage):
             args.append('--disable-install-rdoc')
 
         args.append('--with-tk=%s' % self.spec['tk'].prefix)
+        args.append('--with-tcl=%s' % self.spec['tcl'].prefix)
         return args
 
     def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
