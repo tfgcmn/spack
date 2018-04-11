@@ -47,6 +47,7 @@ class VisionaryDefaultsDevelopmisc(Package):
     depends_on('mosh')
     depends_on('ncdu')
     depends_on('node-js')
+    depends_on('openssh')
     depends_on('py-autopep8')
     depends_on('py-doxypypy')
     depends_on('py-flake8')

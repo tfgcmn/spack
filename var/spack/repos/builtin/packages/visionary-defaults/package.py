@@ -126,6 +126,7 @@ class VisionaryDefaults(Package):
     depends_on('genpybind', when='@0.2.17:')
     # depends_on('nodejs', when='@0.2.2')
     depends_on('node-js', when='@0.2.3:')
+    depends_on('openssh')
 
     depends_on('boost@1.55.0+graph+icu+mpi+python')
     depends_on('yaml-cpp+shared')

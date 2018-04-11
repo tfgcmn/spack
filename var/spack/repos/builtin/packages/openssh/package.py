@@ -53,3 +53,6 @@ class Openssh(AutotoolsPackage):
     depends_on('libedit')
     depends_on('ncurses')
     depends_on('zlib')
+
+    def configure_args(self):
+        return ['--with-privsep-path=' + join_path(self.prefix, 'run/sshd')]
