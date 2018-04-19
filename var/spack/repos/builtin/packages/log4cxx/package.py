@@ -41,6 +41,7 @@ class Log4cxx(AutotoolsPackage):
     # patches from https://aur.archlinux.org/packages/log4cxx/
     patch('log4cxx-0.10.0-missing_includes.patch')
     patch('log4cxx-0.10.0-narrowing-fixes-from-upstream.patch')
+    patch('log4cxx-0.10.0-llvm-libcxx.patch', when='@0.10.0%clang')
 
     def configure_args(self):
         args = ['--disable-static']
