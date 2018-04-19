@@ -36,7 +36,7 @@ class VisionaryDefaultsDevelopmisc(Package):
     depends_on('bear')
     depends_on('cloc')
     depends_on('cmake')
-    depends_on('cppcheck')
+    depends_on('cppcheck +htmlreport')
     depends_on('doxygen')
     depends_on('emacs ~X')
     depends_on('gdb')

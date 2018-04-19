@@ -115,7 +115,7 @@ class VisionaryDefaults(Package):
     depends_on('doxygen')
     depends_on('bear')
     depends_on('rtags')
-    depends_on('cppcheck', when='@0.2.15:')
+    depends_on('cppcheck +htmlreport', when='@0.2.15:')
 
     # requested by TMA for generating animations ;)
     depends_on('ffmpeg', when='@0.2.11:')
