@@ -167,6 +167,15 @@ class Boost(Package):
     patch('boost_1.63.0_pgi.patch', when='@1.63.0%pgi')
     patch('boost_1.63.0_pgi_17.4_workaround.patch', when='@1.63.0%pgi@17.4')
 
+    # Patch fix from https://svn.boost.org/trac10/ticket/13291#comment:1
+    patch('boost_1.66.0_add_read_size_helper.patch', when='@1.66.0:')
+
+    # Patch fix from https://github.com/boostorg/config/issues/225
+    patch('boost_1.66.0_gcc49_has_include.patch', when='@1.59.0:')
+
+    # Patch fix from https://github.com/boostorg/type_traits/issues/69
+    patch('boost_1.66.0_gcc42_common_arithmetic_type.patch', when='@1.60.0:')
+
     def url_for_version(self, version):
         url = "http://downloads.sourceforge.net/project/boost/boost/{0}/boost_{1}.tar.bz2"
         return url.format(version.dotted, version.underscored)

@@ -1,0 +1,17 @@
+diff -rpu boost_1_66_0_old/boost/asio/basic_streambuf.hpp boost_1_66_0/boost/asio/basic_streambuf.hpp
+--- boost_1_66_0_old/boost/asio/basic_streambuf.hpp	2017-12-14 00:56:41.000000000 +0100
++++ boost_1_66_0/boost/asio/basic_streambuf.hpp	2018-05-02 13:02:36.069614524 +0200
+@@ -442,6 +442,13 @@ public:
+ 
+ private:
+   basic_streambuf<Allocator>& sb_;
++
++  // Helper function to get the preferred size for reading data.
++  friend std::size_t read_size_helper(
++      basic_streambuf_ref& sb, std::size_t max_size)
++  {
++    return read_size_helper(sb.sb_, max_size);
++  }
+ };
+ 
+ } // namespace asio
