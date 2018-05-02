@@ -230,6 +230,8 @@ class VisionaryDefaults(Package):
     # depends_on('py-shiboken')
     # depends_on('py-xlrd')
 
+    depends_on('py-cartopy', when='@:0.2.18')
+
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.

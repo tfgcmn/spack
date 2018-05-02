@@ -158,6 +158,7 @@ class VisionaryDefaultsWafer(Package):
     # depends_on('py-pyserial')
     # depends_on('py-shiboken')
     # depends_on('py-xlrd')
+    depends_on('py-cartopy')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
