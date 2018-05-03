@@ -140,13 +140,18 @@ class Boost(Package):
             description="Augment library layout with versioned subdirs")
     variant('clanglibcpp', default=False,
             description='Compile with clang libc++ instead of libstdc++')
+    variant('numpy', default=False,
+            description='Enable numpy support for boost::python')
 
     depends_on('icu4c', when='+icu')
     depends_on('python', when='+python')
     depends_on('mpi', when='+mpi')
     depends_on('bzip2', when='+iostreams')
     depends_on('zlib', when='+iostreams')
+    depends_on('py-numpy', when='+numpy')
 
+    conflicts('+numpy', when='@:1.62.999')
+    conflicts('~python', when='+numpy')
     conflicts('+taggedlayout', when='+versionedlayout')
 
     # Patch fix from https://svn.boost.org/trac/boost/ticket/11856
