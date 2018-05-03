@@ -40,15 +40,15 @@ class VisionaryDefaultsWafer(Package):
     # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
     variant('gccxml', default=False)
 
-    depends_on('autoconf', when='@0.2.18:')
-    depends_on('automake', when='@0.2.18:')
-    depends_on('bazel', when='@0.2.18:')
-    depends_on('gccxml', when='@0.2.18: +gccxml')
-    depends_on('intel-tbb', when='@0.2.18:')
-    depends_on('liblockfile', when='@0.2.18:')
-    depends_on('pkg-config', when='@0.2.18:')
-    depends_on('texinfo', when='@0.2.18:')
-    depends_on('xerces-c', when='@0.2.18:')
+    depends_on('autoconf')
+    depends_on('automake')
+    depends_on('bazel')
+    depends_on('gccxml')
+    depends_on('intel-tbb')
+    depends_on('liblockfile')
+    depends_on('pkg-config')
+    depends_on('texinfo')
+    depends_on('xerces-c')
 
     depends_on('binutils+gold+plugins')
 
@@ -77,7 +77,7 @@ class VisionaryDefaultsWafer(Package):
     depends_on('genpybind')
     depends_on('node-js')
 
-    depends_on('boost@1.55.0+graph+icu+mpi+python')
+    depends_on('boost@1.66.0+graph+icu+mpi+python+numpy')
     depends_on('yaml-cpp+shared')
     depends_on('tensorflow', when='+tensorflow')
     depends_on('log4cxx')

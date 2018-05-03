@@ -37,7 +37,7 @@ class VisionaryDefaultsDls(Package):
     variant('gccxml', default=False)
 
     # depends_on('libusb-1.0')  external dependency
-    depends_on('boost@1.55.0+python')
+    depends_on('boost@1.66.0+graph+icu+mpi+python+numpy')
     depends_on('cereal')
     depends_on('gccxml', when='+gccxml')
     depends_on('genpybind')

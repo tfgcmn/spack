@@ -78,9 +78,11 @@ class VisionaryDefaults(Package):
     # JK: 2017-11-07 add explicit py-pytest dependency, add py-flake8
     version('0.2.16', git='https://github.com/electronicvisions/spack-visions.git')
     # JK: 2017-12-04 add genpybind, pybind11 2.2.0
-    version('0.2.17', git='https://github.com/electronicvisions/spack-visions.git', default=True)
+    version('0.2.17', git='https://github.com/electronicvisions/spack-visions.git')
     # ECM: 2018-04-11 add automake, bazel, gccxml, intel-tbb, liblockfile, pkg-config, texinfo, xerces-c (and doxygen uses graphviz)
-    version('0.2.18', git='https://github.com/electronicvisions/spack-visions.git', default=True)
+    version('0.2.18', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
+    # ECM: 2018-05-03 switch to boost 1.66.0 (with numpy support)
+    version('0.2.19', git='https://github.com/electronicvisions/spack-visions.git')
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
     # version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
@@ -144,7 +146,8 @@ class VisionaryDefaults(Package):
     depends_on('node-js', when='@0.2.3:')
     depends_on('openssh')
 
-    depends_on('boost@1.55.0+graph+icu+mpi+python')
+    depends_on('boost@1.55.0+graph+icu+mpi+python', when='@:0.2.18')
+    depends_on('boost@1.66.0+graph+icu+mpi+python+numpy', when='@0.2.19:')
     depends_on('yaml-cpp+shared')
     depends_on('tensorflow', when='+tensorflow')
     depends_on('log4cxx')
