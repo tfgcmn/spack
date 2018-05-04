@@ -44,6 +44,7 @@ class VisionaryDefaultsWafer(Package):
     depends_on('automake')
     depends_on('bazel')
     depends_on('gccxml')
+    depends_on('gsl')
     depends_on('intel-tbb')
     depends_on('liblockfile')
     depends_on('pkg-config')

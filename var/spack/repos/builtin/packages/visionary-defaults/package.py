@@ -79,7 +79,7 @@ class VisionaryDefaults(Package):
     version('0.2.16', git='https://github.com/electronicvisions/spack-visions.git')
     # JK: 2017-12-04 add genpybind, pybind11 2.2.0
     version('0.2.17', git='https://github.com/electronicvisions/spack-visions.git')
-    # ECM: 2018-04-11 add automake, bazel, gccxml, intel-tbb, liblockfile, pkg-config, texinfo, xerces-c (and doxygen uses graphviz)
+    # ECM: 2018-04-11 add automake, bazel, gccxml, intel-tbb, liblockfile, pkg-config, texinfo, xerces-c (and doxygen uses graphviz), gsl
     version('0.2.18', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
     # ECM: 2018-05-03 switch to boost 1.66.0 (with numpy support)
     version('0.2.19', git='https://github.com/electronicvisions/spack-visions.git')
@@ -98,6 +98,7 @@ class VisionaryDefaults(Package):
     depends_on('automake', when='@0.2.18:')
     depends_on('bazel', when='@0.2.18:')
     depends_on('gccxml', when='@0.2.18: +gccxml')
+    depends_on('gsl', when='@0.2.18:')
     depends_on('intel-tbb', when='@0.2.18:')
     depends_on('liblockfile', when='@0.2.18:')
     depends_on('pkg-config', when='@0.2.18:')
