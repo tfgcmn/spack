@@ -52,3 +52,12 @@ class PyCartopy(PythonPackage):
     # testing dependencies
     # depends_on('py-mock@1.0.1',    type='test')
     # depends_on('py-pytest@3.0.0:', type='test')
+
+    phases = ['build_ext', 'install']
+
+    def build_ext_args(self, spec, prefix):
+        args = [
+                '-I{}'.format(spec['proj'].prefix.include),
+                '-L{}'.format(spec['proj'].prefix.lib),
+               ]
+        return args
