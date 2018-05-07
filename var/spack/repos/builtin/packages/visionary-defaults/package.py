@@ -101,7 +101,10 @@ class VisionaryDefaults(Package):
     depends_on('gsl', when='@0.2.18:')
     depends_on('intel-tbb', when='@0.2.18:')
     depends_on('liblockfile', when='@0.2.18:')
+    depends_on('npm', when='@0.2.18:')
     depends_on('pkg-config', when='@0.2.18:')
+    depends_on('py-cartopy', when='@:0.2.18')
+    depends_on('py-mock', when='@0.2.18:')
     depends_on('texinfo', when='@0.2.18:')
     depends_on('xerces-c', when='@0.2.18:')
 
@@ -233,8 +236,6 @@ class VisionaryDefaults(Package):
     # depends_on('py-pyserial')
     # depends_on('py-shiboken')
     # depends_on('py-xlrd')
-
-    depends_on('py-cartopy', when='@:0.2.18')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)

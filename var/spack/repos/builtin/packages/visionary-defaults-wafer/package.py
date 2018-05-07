@@ -47,7 +47,10 @@ class VisionaryDefaultsWafer(Package):
     depends_on('gsl')
     depends_on('intel-tbb')
     depends_on('liblockfile')
-    depends_on('pkg-config')
+    depends_on('npm', when='@0.2.18:')
+    depends_on('pkg-config', when='@0.2.18:')
+    depends_on('py-cartopy', when='@:0.2.18')
+    depends_on('py-mock', when='@0.2.18:')
     depends_on('texinfo')
     depends_on('xerces-c')
 
