@@ -91,7 +91,7 @@ class VisionaryDefaults(Package):
     # ECM: 2018-05-03 switch to boost 1.66.0 (with numpy support)
     # OJB: 2018-05-08 add emscripten
     version('0.2.19', git='https://github.com/electronicvisions/spack-visions.git')
-    # TW: 2018-06-14 add libelf for DLS
+    # TW: 2018-06-14 add libelf for DLS, and yaml-cpp@0.6.2
     version('0.2.20', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
 
 
@@ -167,7 +167,8 @@ class VisionaryDefaults(Package):
 
     depends_on('boost@1.55.0+graph+icu+mpi+python', when='@:0.2.18')
     depends_on('boost@1.66.0+graph+icu+mpi+python+numpy', when='@0.2.19:')
-    depends_on('yaml-cpp+shared')
+    depends_on('yaml-cpp@0.5.3+shared', when='@:0.2.19')
+    depends_on('yaml-cpp@0.6.2+shared', when='@0.2.20:')
     depends_on('tensorflow', when='+tensorflow')
     depends_on('log4cxx')
     # depends_on('libpsf')
