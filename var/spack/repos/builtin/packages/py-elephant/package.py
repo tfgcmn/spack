@@ -32,6 +32,7 @@ class PyElephant(PythonPackage):
     homepage = "http://neuralensemble.org/elephant"
     url      = "https://pypi.io/packages/source/e/elephant/elephant-0.3.0.tar.gz"
 
+    version('0.5.0', 'fc64516556ac748cbfefa6d829a81f25')
     version('0.4.1', '0e6214c96cae6ce777e4b3cf29bbdaa9')
     version('0.3.0', '84e69e6628fd617af469780c30d2da6c')
 
