@@ -9,9 +9,9 @@ spack fetch -D "$modulespec"
 spack spec -I "$modulespec"
 if [ "$4" = "local" ]
 then
-    spack install --only dependencies --show-log-on-error -j4 "$modulespec"
+    spack install --source --only dependencies --show-log-on-error -j4 "$modulespec"
 else
-    srun -p jenkins -c8 -t6:00:00 spack install --only dependencies --show-log-on-error "$modulespec"
+    srun -p jenkins -c8 -t6:00:00 spack install --source --only dependencies --show-log-on-error "$modulespec"
 fi
 # fancy bash-magic to get the hash of the installed package
 # For most builds the last output line of `spack install` reports the installation directory,
