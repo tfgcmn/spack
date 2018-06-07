@@ -31,8 +31,13 @@ class VisionaryDefaultsSpikey(Package):
 
     homepage = ''
     # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
-    url = 'https://github.com/electronicvisions/spack-visions/archive/master.tar.gz'
-    version('1.0', git='https://github.com/electronicvisions/spack-visions.git')
+    url = 'https://github.com/electronicvisions/spack/archive/v0.8.tar.gz'
+
+    # This is only a dummy tarball (see difference between version numbers)
+    # TODO: as soon as a MetaPackage-concept has been merged, please update this package
+    version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
+
+    depends_on('visionary-defaults-common')
 
     # build dependencies for the Spikey software stack
     # taken from: https://electronicvisions.github.io/hbp-sp9-guidebook/pm/spikey/appendix.html#setup-software;

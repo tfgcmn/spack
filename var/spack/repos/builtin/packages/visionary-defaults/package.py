@@ -41,7 +41,13 @@ class VisionaryDefaults(Package):
 
     homepage = ''
     # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
-    url = 'https://github.com/electronicvisions/spack-visions/archive/master.tar.gz'
+    url = 'https://github.com/electronicvisions/spack/archive/v0.8.tar.gz'
+
+    # This is only a dummy tarball (see difference between version numbers)
+    # TODO: as soon as a MetaPackage-concept has been merged, please update this package
+    version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
+
+    # TODO: delete all other versions --obreitwi, 08-06-18 08:06:53
     version('0.1', git='https://github.com/electronicvisions/spack-visions.git')
     # ECM: added on 2017-01-31
     version('0.2', git='https://github.com/electronicvisions/spack-visions.git')
@@ -84,6 +90,8 @@ class VisionaryDefaults(Package):
     # ECM: 2018-05-03 switch to boost 1.66.0 (with numpy support)
     version('0.2.19', git='https://github.com/electronicvisions/spack-visions.git')
 
+    depends_on('visionary-defaults-common')
+
     # ECM: 2017-04-28 pin python to >= 3.6.0
     # version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')
 
@@ -92,7 +100,6 @@ class VisionaryDefaults(Package):
 
     # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
     variant('gccxml', default=False)
-
 
     depends_on('autoconf', when='@0.2.18:')
     depends_on('automake', when='@0.2.18:')

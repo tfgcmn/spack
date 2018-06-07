@@ -24,9 +24,21 @@
 ##############################################################################
 from spack import *
 
+import os.path as osp
 
-class VisionaryDefaultsSimulation(Package):
-    """Visionary Meta Package"""
+class VisionaryDefaultsCommon(Package):
+    """Packages common to all visionary-defaults meta packages"""
+
+    # This is a meta-package.  Instructions:
+    # $ cd /tmp
+    # $ spack install binutils+plugins+gold
+    # $ spack find binutils+plugins+gold
+    # -- linux-debian8-x86_64 / gcc@4.X.X -----------------------------
+    # qxd4ne6 binutils@2.27
+    # $ spack install gcc@6.2.0+binutils+gold ^/qxd4ne6
+    # $ spack cd -i "gcc@6.2.0+binutils+gold"
+    # $ spack compiler find --scope site .
+    # $ spack install visionary-defaults %gcc@6.2.0
 
     homepage = ''
     # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
@@ -36,18 +48,12 @@ class VisionaryDefaultsSimulation(Package):
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
-    depends_on('visionary-defaults-common')
-
-    depends_on('nest')
-    depends_on('py-ipython')
-    depends_on('py-pandas')
-    depends_on('py-pyyaml')
-    depends_on('py-sbs')
-    depends_on('py-scikit-learn')
+    depends_on('zsh')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        install(__file__, join_path(prefix.etc, 'visionary-defaults.py'))
+        filename = osp.basename(osp.dirname(__file__)) # gives name of parent folder
+        install(__file__, join_path(prefix.etc, filename + '.py'))
 
         # we could create some filesystem view here?
