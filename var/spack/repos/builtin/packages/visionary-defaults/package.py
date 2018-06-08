@@ -90,7 +90,8 @@ class VisionaryDefaults(Package):
     version('0.2.18', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
     # ECM: 2018-05-03 switch to boost 1.66.0 (with numpy support)
     version('0.2.19', git='https://github.com/electronicvisions/spack-visions.git')
-
+    # TW: 2018-06-14 add libelf for DLS
+    version('0.2.20', git='https://github.com/electronicvisions/spack-visions.git')
     depends_on('visionary-defaults-common')
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
@@ -108,6 +109,7 @@ class VisionaryDefaults(Package):
     depends_on('gccxml', when='@0.2.18: +gccxml')
     depends_on('gsl', when='@0.2.18:')
     depends_on('intel-tbb', when='@0.2.18:')
+    depends_on('libelf', when='@0.2.20:')
     depends_on('liblockfile', when='@0.2.18:')
     depends_on('npm', when='@0.2.18:')
     depends_on('pkg-config', when='@0.2.18:')

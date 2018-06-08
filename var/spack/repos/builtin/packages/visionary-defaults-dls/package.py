@@ -49,6 +49,7 @@ class VisionaryDefaultsDls(Package):
     depends_on('genpybind')
     depends_on('gflags')
     depends_on('googletest+gmock')
+    depends_on('libelf')
     depends_on('llvm')
     depends_on('log4cxx')
     depends_on('munge')
