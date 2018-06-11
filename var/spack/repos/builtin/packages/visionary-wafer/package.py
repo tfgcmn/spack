@@ -48,130 +48,32 @@ class VisionaryWafer(Package):
     # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
     variant('gccxml', default=False)
 
-    depends_on('autoconf')
-    depends_on('automake')
-    depends_on('bazel')
     depends_on('gccxml', when='+gccxml')
     depends_on('gsl')
     depends_on('intel-tbb')
     depends_on('liblockfile')
     depends_on('npm')
     depends_on('pkg-config')
-    depends_on('py-cartopy')
     depends_on('py-lxml') # collab tests
-    depends_on('py-mock')
-    depends_on('texinfo')
     depends_on('xerces-c')
-
-    depends_on('binutils+gold+plugins')
-
-    depends_on('vim +python +ruby +perl +cscope +huge')
-
-    depends_on('emacs ~X')
-    depends_on('tmux')
-    depends_on('ncdu')
-    depends_on('units')
-    depends_on('py-ranger')
-
-    depends_on('mosh')
-
-    depends_on('mercurial')
-    depends_on('git')
-    depends_on('py-git-review')
-
-    depends_on('cmake')
-    depends_on('doxygen+graphviz')
-    depends_on('bear')
-    depends_on('rtags')
-    depends_on('cppcheck')
-
-    depends_on('gdb')
-    depends_on('llvm+visionary+python~libcxx@5.0.0: build_type=Release')
-    depends_on('genpybind')
-    depends_on('node-js')
-
     depends_on('boost@1.66.0+graph+icu+mpi+python+numpy')
-    depends_on('yaml-cpp+shared')
     depends_on('tensorflow', when='+tensorflow')
     depends_on('log4cxx')
     depends_on('googletest +gmock')
-    depends_on('gflags')
-
-    depends_on('cereal')
-    # pybind11 2.2.0: leads to segfaulting of gcc 4.9.2 during compilation :/
-    # FIXME: recheck and upgrade
-    depends_on('py-pybind11@2.2.0:')
-
-    depends_on('py-bokeh')
-    depends_on('py-pygtk')
-    depends_on('gtkplus')
-    depends_on('cairo+X')
-    depends_on('py-pyside')
     depends_on('py-slurm-pipeline')
-
     depends_on('nest@2.2.2+python')
     depends_on('py-brian')
     depends_on('py-brian2')
     depends_on('py-elephant')
-    #depends_on('py-spykeviewer')
     depends_on('py-pynn @0.7.5')
-
-    depends_on('python')
-    depends_on('py-cython')
-    depends_on('py-pip')
-    depends_on('py-pylint')
-
-    depends_on('py-ipython')
-    # depends_on('py-ipdb')
-    # depends_on('py-jupyter')
-    # depends_on('py-notebook')
-    depends_on('py-virtualenv')
-
     depends_on('py-matplotlib~tk+qt+ipython')
-    # depends_on('py-matplotlib+tk+ipython')
     depends_on('py-numpy')
     depends_on('py-pandas @0.19.0:')
     depends_on('py-pytables @3.3.0:')
     depends_on('py-scipy')
     depends_on('py-scikit-image')
-    depends_on('py-seaborn')
-    depends_on('py-sympy')
-    depends_on('py-statsmodels')
     depends_on('py-lmfit')
-    depends_on('py-symfit')
-    depends_on('py-sqlalchemy')
-
-    depends_on('py-pyyaml')
-
-    # depends_on('py-autopep8')
-    # depends_on('py-flake8')
-    # depends_on('py-pylint')
-    depends_on('py-jedi')
-
-    depends_on('py-sphinx')
-    depends_on('py-doxypy')
-    depends_on('py-nose')
-    depends_on('py-junit-xml')
-    depends_on('py-xmlrunner')
-    depends_on('py-pytest')
-    depends_on('py-pytest-xdist')
-    depends_on('py-line-profiler')
-
-    # depends_on('py-appdirs')
-    # depends_on('py-current')
-    # depends_on('py-funcsigs')
-    # depends_on('py-lazy')
-    depends_on('py-attrs')
-    depends_on('py-setuptools')
-
     depends_on('py-tabulate')
-    depends_on('py-html5lib')
-    # depends_on('py-myhdl')
-    depends_on('py-pillow')
-    # depends_on('py-pyserial')
-    # depends_on('py-shiboken')
-    # depends_on('py-xlrd')
-    depends_on('py-cartopy')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
