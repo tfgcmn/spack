@@ -48,6 +48,7 @@ class VisionaryDefaultsSpikey(Package):
     depends_on('googletest')
     depends_on('gsl')
     depends_on('pkg-config')
+    depends_on('py-lxml') # collab tests
     depends_on('py-nose')
     # runtime dependencies of experiments
     depends_on('python@:2.8')

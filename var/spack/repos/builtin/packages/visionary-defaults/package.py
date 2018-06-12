@@ -86,6 +86,7 @@ class VisionaryDefaults(Package):
     # JK: 2017-12-04 add genpybind, pybind11 2.2.0
     version('0.2.17', git='https://github.com/electronicvisions/spack-visions.git')
     # ECM: 2018-04-11 add automake, bazel, gccxml, intel-tbb, liblockfile, pkg-config, texinfo, xerces-c (and doxygen uses graphviz), gsl
+    # ECM: 2018-06-12 add py-lxml for collab tests
     version('0.2.18', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
     # ECM: 2018-05-03 switch to boost 1.66.0 (with numpy support)
     version('0.2.19', git='https://github.com/electronicvisions/spack-visions.git')
@@ -111,6 +112,7 @@ class VisionaryDefaults(Package):
     depends_on('npm', when='@0.2.18:')
     depends_on('pkg-config', when='@0.2.18:')
     depends_on('py-cartopy', when='@:0.2.18')
+    depends_on('py-lxml', when='@0.2.18:') # collab tests
     depends_on('py-mock', when='@0.2.18:')
     depends_on('texinfo', when='@0.2.18:')
     depends_on('xerces-c', when='@0.2.18:')
