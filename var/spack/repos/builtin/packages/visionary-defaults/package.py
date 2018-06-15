@@ -87,11 +87,13 @@ class VisionaryDefaults(Package):
     version('0.2.17', git='https://github.com/electronicvisions/spack-visions.git')
     # ECM: 2018-04-11 add automake, bazel, gccxml, intel-tbb, liblockfile, pkg-config, texinfo, xerces-c (and doxygen uses graphviz), gsl
     # ECM: 2018-06-12 add py-lxml for collab tests
-    version('0.2.18', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
+    version('0.2.18', git='https://github.com/electronicvisions/spack-visions.git')
     # ECM: 2018-05-03 switch to boost 1.66.0 (with numpy support)
     version('0.2.19', git='https://github.com/electronicvisions/spack-visions.git')
     # TW: 2018-06-14 add libelf for DLS
-    version('0.2.20', git='https://github.com/electronicvisions/spack-visions.git')
+    version('0.2.20', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
+
+
     depends_on('visionary-defaults-common')
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
