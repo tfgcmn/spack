@@ -53,6 +53,7 @@ class VisionaryDefaultsDls(Package):
     depends_on('llvm')
     depends_on('log4cxx')
     depends_on('munge')
+    depends_on('pkg-config')
     depends_on('py-lxml') # collab tests
     depends_on('py-matplotlib')
     depends_on('py-nose')
