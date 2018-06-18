@@ -89,6 +89,7 @@ class VisionaryDefaults(Package):
     # ECM: 2018-06-12 add py-lxml for collab tests
     version('0.2.18', git='https://github.com/electronicvisions/spack-visions.git')
     # ECM: 2018-05-03 switch to boost 1.66.0 (with numpy support)
+    # OJB: 2018-05-08 add emscripten
     version('0.2.19', git='https://github.com/electronicvisions/spack-visions.git')
     # TW: 2018-06-14 add libelf for DLS
     version('0.2.20', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
@@ -162,6 +163,7 @@ class VisionaryDefaults(Package):
     # depends_on('nodejs', when='@0.2.2')
     depends_on('node-js', when='@0.2.3:')
     depends_on('openssh')
+    depends_on('emscripten', when='@0.2.19:')
 
     depends_on('boost@1.55.0+graph+icu+mpi+python', when='@:0.2.18')
     depends_on('boost@1.66.0+graph+icu+mpi+python+numpy', when='@0.2.19:')
