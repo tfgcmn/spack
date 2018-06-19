@@ -59,8 +59,9 @@ class Nest(Package):
 
     # cmake to built new versions
     depends_on('cmake', type='build', when='@2.12.0:')
-    # autotools to built new versions
+    # autotools to built old versions
     depends_on('automake', type='build', when='@:2.10.0')
+    depends_on('autoconf', type='build', when='@:2.10.0')
 
     # there is a dependency on openMP but it is always satisfied in our cases
     depends_on("mpi", when="+mpi")
