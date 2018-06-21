@@ -22,33 +22,34 @@
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ##############################################################################
+
 from spack import *
 
+class VisionaryNest(CMakePackage):
+    """This repository contains many NEST models developed within the
+    electronic vision(s) group, compiled into a single nest module."""
 
-class VisionaryDefaultsSimulation(Package):
-    """Visionary Meta Package"""
+    url = "https://brainscales-r.kip.uni-heidelberg.de/projects/model-visionary-nest"
 
-    homepage = ''
-    # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
-    url = 'https://github.com/electronicvisions/spack/archive/v0.8.tar.gz'
+    version('1.0',
+            git="git@gitviz.kip.uni-heidelberg.de:model-visionary-nest.git",
+            commit="1e4c5a4611875a97379b49a08b8769d3e2b76108", preferred=True)
+    version('master',
+            git="git@gitviz.kip.uni-heidelberg.de:model-visionary-nest.git",
+            branch="master")
 
-    # This is only a dummy tarball (see difference between version numbers)
-    # TODO: as soon as a MetaPackage-concept has been merged, please update this package
-    version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
+    depends_on('nest@2.14.0:')
 
-    depends_on('visionary-defaults-common')
+    def cmake_args(self):
+        # TODO: should be specified by nest-package
+        # TODO: turn this package into extension of nest
+        args = ["-DCMAKE_CXX_FLAGS=-I{}".format(
+                join_path(self.spec["nest"].prefix, "include", "nest"))]
+        return args
 
-    depends_on('nest')
-    depends_on('visionary-nest')
-    depends_on('py-ipython')
-    depends_on('py-pandas')
-    depends_on('py-pyyaml')
-    depends_on('py-sbs')
-    depends_on('py-scikit-learn')
+    def setup_environment(self, spack_env, run_env):
+        run_env.append_path("NEST_MODULES", "visionarymodule")
 
-    def install(self, spec, prefix):
-        mkdirp(prefix.etc)
-        # store a copy of this package.
-        install(__file__, join_path(prefix.etc, 'visionary-defaults.py'))
-
-        # we could create some filesystem view here?
+    @property
+    def root_cmakelists_dir(self):
+        return "nest-module"

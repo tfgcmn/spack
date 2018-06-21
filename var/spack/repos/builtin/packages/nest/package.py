@@ -101,6 +101,9 @@ class Nest(Package):
         make()
         make("install")
 
+        if spec.satisfies("@:2.14.0"):
+            self.install_headers()
+
     @when('@:2.10.0')
     def install(self, spec, prefix):
         """
@@ -125,6 +128,22 @@ class Nest(Package):
 
         make()
         make("install")
+
+        self.install_headers()
+
+    def install_headers(self):
+        # copy source files to installation folder for older versions
+        # (these are needed for modules to build against)
+        # see https://github.com/nest/nest-simulator/pull/844
+        path_headers = join_path(prefix, "include", "nest")
+
+        mkdirp(path_headers)
+
+        for suffix in ["h", "hpp"]:
+            for f in find(
+                    self.stage.source_path, "*.{}".format(suffix),
+                    recurse=True):
+                install(f, path_headers)
 
     def setup_environment(self, spack_env, run_env):
         run_env.set("NEST_INSTALL_DIR", self.spec.prefix)
