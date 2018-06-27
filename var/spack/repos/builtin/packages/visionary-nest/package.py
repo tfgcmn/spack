@@ -27,9 +27,10 @@ from spack import *
 
 class VisionaryNest(CMakePackage):
     """This repository contains many NEST models developed within the
-    electronic vision(s) group, compiled into a single nest module."""
+    Electronic Vision(s) group, compiled into a single nest module."""
 
     url = "https://brainscales-r.kip.uni-heidelberg.de/projects/model-visionary-nest"
+    homepage = "https://brainscales-r.kip.uni-heidelberg.de/projects/model-visionary-nest"
 
     version('1.0',
             git="git@gitviz.kip.uni-heidelberg.de:model-visionary-nest.git",
