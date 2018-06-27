@@ -109,6 +109,8 @@ class VisionaryDefaults(Package):
     depends_on('autoconf', when='@0.2.18:')
     depends_on('automake', when='@0.2.18:')
     depends_on('bazel', when='@0.2.18:')
+    depends_on('bison', when='@0.2.20:') # for nux
+    depends_on('flex', when='@0.2.20:') # for nux
     depends_on('gccxml', when='@0.2.18: +gccxml')
     depends_on('gsl', when='@0.2.18:')
     depends_on('intel-tbb', when='@0.2.18:')
