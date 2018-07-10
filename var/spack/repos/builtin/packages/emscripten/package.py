@@ -26,6 +26,7 @@
 from spack import *
 import os
 
+all_build_types = ('Debug', 'Release', 'RelWithDebInfo', 'MinSizeRel')
 
 class Emscripten(Package):
     """Emscripten is a toolchain for compiling to asm.js and WebAssembly, built
@@ -35,11 +36,18 @@ class Emscripten(Package):
     homepage = "https://kripken.github.io/emscripten-site"
     url      = "https://github.com/kripken/emscripten"
 
+    # same as built_type in cmake packages
+    variant('build_type', default='Release',
+            description='CMake build type',
+            values=all_build_types)
+
     # keep in sync with emscripten-fastcomp
     versions = ["1.37.40"]
-    for v in versions:
-        version(v, git=url, tag=v)
-        depends_on("emscripten-fastcomp@{}".format(v), when="@{}".format(v))
+    for bt in all_build_types:
+        for v in versions:
+            version(v, git=url, tag=v)
+            depends_on("emscripten-fastcomp@{} build_type={}".format(v, bt),
+                       when="@{} build_type={}".format(v, bt))
 
     depends_on("cmake", type='build')
     depends_on("node-js", type='run')
