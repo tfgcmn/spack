@@ -37,7 +37,18 @@ class EmscriptenFastcomp(CMakePackage):
     url_clang = "https://github.com/kripken/emscripten-fastcomp-clang"
 
     # every version has a corresponding clang version
-    versions = ["1.37.40"]
+    versions = [
+            "1.38.8",
+            "1.38.7",
+            "1.38.6",
+            "1.38.5",
+            "1.38.4",
+            "1.38.3",
+            "1.38.2",
+            "1.38.1",
+            "1.38.0",
+            "1.37.40",
+        ]
     for v in versions:
         version(v, git=url, tag=v)
         resource(name='emscripten-fastcomp-clang', git=url_clang, tag=v,

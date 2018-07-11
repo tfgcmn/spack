@@ -42,7 +42,18 @@ class Emscripten(Package):
             values=all_build_types)
 
     # keep in sync with emscripten-fastcomp
-    versions = ["1.37.40"]
+    versions = [
+            "1.38.8",
+            "1.38.7",
+            "1.38.6",
+            "1.38.5",
+            "1.38.4",
+            "1.38.3",
+            "1.38.2",
+            "1.38.1",
+            "1.38.0",
+            "1.37.40",
+        ]
     for bt in all_build_types:
         for v in versions:
             version(v, git=url, tag=v)
