@@ -194,7 +194,7 @@ class YamlFilesystemView(FilesystemView):
         specs = set(specs)
 
         if kwargs.get("with_dependencies", True):
-            specs.update(get_dependencies(specs))
+            specs.update(get_dependencies(specs, **kwargs))
 
         if kwargs.get("exclude", None):
             specs = set(filter_exclude(specs, kwargs["exclude"]))
@@ -567,8 +567,8 @@ def filter_exclude(specs, exclude):
     return filter(keep, specs)
 
 
-def get_dependencies(specs):
+def get_dependencies(specs, deptype='all', **kwargs):
     "Get set of dependencies (includes specs)"
     retval = set()
-    set(map(retval.update, (set(s.traverse()) for s in specs)))
+    set(map(retval.update, (set(s.traverse(deptype=deptype)) for s in specs)))
     return retval

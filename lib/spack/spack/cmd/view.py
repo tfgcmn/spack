@@ -210,6 +210,7 @@ def view(parser, args):
     if args.action in actions_link:
         view.add_specs(*specs,
                        with_dependencies=with_dependencies,
+                       deptype=('link', 'run'),
                        exclude=args.exclude)
 
     elif args.action in actions_remove:
