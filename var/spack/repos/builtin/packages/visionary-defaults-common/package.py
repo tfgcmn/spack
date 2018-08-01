@@ -50,6 +50,7 @@ class VisionaryDefaultsCommon(Package):
 
     depends_on('zsh')
     depends_on('py-git-review')
+    depends_on('munge')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
