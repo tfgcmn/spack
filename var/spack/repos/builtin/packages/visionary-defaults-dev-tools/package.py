@@ -24,9 +24,12 @@
 ##############################################################################
 from spack import *
 
+import os.path as osp
 
-class VisionaryDefaultsDevelopmisc(Package):
-    """Visionary Meta Package"""
+class VisionaryDefaultsDevTools(Package):
+    """Developer convenience packages common to all visionary-defaults
+       development meta packages. Application specific build tools belong
+       to the dedicated meta packages."""
 
     homepage = ''
     # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
@@ -35,8 +38,6 @@ class VisionaryDefaultsDevelopmisc(Package):
     # This is only a dummy tarball (see difference between version numbers)
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
-
-    depends_on('visionary-defaults-common')
 
     depends_on('autoconf')
     depends_on('automake')
@@ -53,6 +54,7 @@ class VisionaryDefaultsDevelopmisc(Package):
     depends_on('llvm+visionary+python~libcxx@5.0.0: build_type=Release')
     depends_on('mercurial')
     depends_on('mosh')
+    depends_on('munge')
     depends_on('ncdu')
     depends_on('node-js')
     depends_on('openssh')
@@ -73,16 +75,19 @@ class VisionaryDefaultsDevelopmisc(Package):
     depends_on('py-virtualenv')
     depends_on('py-xmlrunner')
     depends_on('rtags')
+    depends_on('tar')
     depends_on('texinfo')
     depends_on('tmux')
     depends_on('units')
     depends_on('vim +python +ruby +perl +cscope +huge +x')
     depends_on('verilator')
     depends_on('yaml-cpp+shared')
+    depends_on('zsh')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        install(__file__, join_path(prefix.etc, 'visionary-defaults.py'))
+        filename = osp.basename(osp.dirname(__file__)) # gives name of parent folder
+        install(__file__, join_path(prefix.etc, filename + '.py'))
 
         # we could create some filesystem view here?

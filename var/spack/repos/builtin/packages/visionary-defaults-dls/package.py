@@ -36,6 +36,9 @@ class VisionaryDefaultsDls(Package):
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
+    variant('dev', default=False)
+
+    depends_on('visionary-defaults-dev-tools', when='+dev')
     depends_on('visionary-defaults-common')
 
     # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
@@ -50,7 +53,7 @@ class VisionaryDefaultsDls(Package):
     depends_on('genpybind')
     depends_on('gflags')
     depends_on('googletest+gmock')
-    depends_on('intel-tbb')
+    depends_on('intel-tbb') # ppu gdbserver
     depends_on('libelf')
     depends_on('llvm')
     depends_on('log4cxx')
@@ -63,7 +66,6 @@ class VisionaryDefaultsDls(Package):
     depends_on('py-pybind11')
     depends_on('py-sqlalchemy')
     depends_on('python')
-    depends_on('tar')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)

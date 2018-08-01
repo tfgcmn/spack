@@ -36,26 +36,22 @@ class VisionaryDefaultsNux(Package):
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
+    variant('dev', default=False)
+
+    depends_on('visionary-defaults-dev-tools', when='+dev')
     depends_on('visionary-defaults-common')
 
-    # cf. binutils package
-    depends_on('zlib')
-    depends_on('m4')
-
-    # 2.6.0 was used in the past, but misses a pre-generated scan.c
-    # 2.6.1 seems to work too (and 2.6.3 breaks; 2.6.4 not tested)
-    depends_on('flex@2.6.1')
-
-    # was 3.0.4 in the past
-    depends_on('bison')
     depends_on('gettext')
+    depends_on('zlib')
+
+    # was bison 3.0.4 in the past
+    depends_on('bison')
+    depends_on('flex')
+    depends_on('m4')
     depends_on('texinfo')
     depends_on('wget')
 
-    # cf. gcc package (maybe unused due to re-downloading?)
-    depends_on('gmp@4.3.2:')
-    depends_on('mpfr@2.4.2:')
-    depends_on('mpc@0.8.1:') #, when='@4.5:')
+    conflicts('flex', when='@2.6.3', msg='Binutils 2.25 for Nux doesn\'t build with flex 2.6.3.')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
@@ -63,4 +59,3 @@ class VisionaryDefaultsNux(Package):
         install(__file__, join_path(prefix.etc, 'visionary-defaults.py'))
 
         # we could create some filesystem view here?
-

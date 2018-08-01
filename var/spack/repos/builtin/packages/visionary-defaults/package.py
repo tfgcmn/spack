@@ -94,7 +94,8 @@ class VisionaryDefaults(Package):
     # TW: 2018-06-14 add libelf for DLS, and yaml-cpp@0.6.2
     version('0.2.20', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
 
-
+    # OJB: 2018-08-02 visionary-defaults always wants _all_ the tools
+    depends_on('visionary-defaults-dev-tools')
     depends_on('visionary-defaults-common')
 
     # ECM: 2017-04-28 pin python to >= 3.6.0

@@ -48,10 +48,6 @@ class VisionaryDefaultsCommon(Package):
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
-    depends_on('zsh')
-    depends_on('py-git-review')
-    depends_on('munge')
-
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
