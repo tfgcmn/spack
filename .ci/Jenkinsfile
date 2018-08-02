@@ -65,8 +65,8 @@ withEnv(
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -ex .ci/02_install.sh wafer_wot_py2 \'visionary-defaults-wafer ~tensorflow ^${PY2}\' \'${COMPILER}\' && " +
-            "bash -ex .ci/02_install.sh wafer_wt_py2 \'visionary-defaults-wafer ^${PY2}\' \'${COMPILER}\' 'local'"
+            "bash -ex .ci/02_install.sh wafer_wot_py2 \'visionary-defaults-wafer ^${PY2}\' \'${COMPILER}\' && " +
+            "bash -ex .ci/02_install.sh wafer_wt_py2 \'visionary-defaults-wafer +tensorflow ^${PY2}\' \'${COMPILER}\' 'local'"
     }
 
     stage('analysis_py2') {
