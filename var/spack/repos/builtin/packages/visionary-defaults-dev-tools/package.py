@@ -39,8 +39,10 @@ class VisionaryDefaultsDevTools(Package):
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
+    depends_on('ack')
     depends_on('autoconf')
     depends_on('automake')
+    depends_on('bash-completion')
     depends_on('bazel')
     depends_on('bear')
     depends_on('cairo +X')
@@ -78,10 +80,11 @@ class VisionaryDefaultsDevTools(Package):
     depends_on('rtags')
     depends_on('tar')
     depends_on('texinfo')
+    depends_on('tig')
     depends_on('tmux')
     depends_on('units')
-    depends_on('vim +python +ruby +perl +cscope +huge +x')
     depends_on('verilator')
+    depends_on('vim +python +ruby +perl +cscope +huge +x')
     depends_on('yaml-cpp+shared')
     depends_on('zsh')
 
