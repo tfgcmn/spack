@@ -18,7 +18,9 @@ fi
 # which contains the hash of the package as the last entry after a '-'.
 # If the package was previously installed as a dependency there will be a line added containing
 # "marking the package explicit" and the second last line contains the hash.
-newhash=$(spack install --show-log-on-error -j4 "$modulespec" | tail -n2 | grep -v "marking the package explicit" | tail -n1 | tr "-" "\n" | tail -n1)
+spack install --show-log-on-error -j4 "$modulespec" | tee tmp_newhash
+newhash=$(tail -n2 tmp_newhash | grep -v "marking the package explicit" | tail -n1 | tr "-" "\n" | tail -n1)
+rm tmp_newhash
 
 viewname="views/${modulename}_$BUILD_ID"
 spack view --dependencies yes hardlink -i $viewname /$newhash
