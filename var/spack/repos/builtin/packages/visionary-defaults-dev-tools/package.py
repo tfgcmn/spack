@@ -43,6 +43,7 @@ class VisionaryDefaultsDevTools(Package):
     depends_on('automake')
     depends_on('bazel')
     depends_on('bear')
+    depends_on('cairo +X')
     depends_on('cloc')
     depends_on('cmake')
     depends_on('cppcheck +htmlreport')
