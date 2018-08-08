@@ -92,6 +92,7 @@ class VisionaryDefaults(Package):
     # OJB: 2018-05-08 add emscripten
     version('0.2.19', git='https://github.com/electronicvisions/spack-visions.git')
     # TW: 2018-06-14 add libelf for DLS, and yaml-cpp@0.6.2
+    # ECM: 2018-08-08 add munge to be able to build haldls (again)
     version('0.2.20', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
 
     # OJB: 2018-08-02 visionary-defaults always wants _all_ the tools
@@ -117,6 +118,7 @@ class VisionaryDefaults(Package):
     depends_on('intel-tbb', when='@0.2.18:')
     depends_on('libelf', when='@0.2.20:')
     depends_on('liblockfile', when='@0.2.18:')
+    depends_on('munge', when='@0.2.20:')
     depends_on('npm', when='@0.2.18:')
     depends_on('pkg-config', when='@0.2.18:')
     depends_on('py-cartopy', when='@:0.2.18')
