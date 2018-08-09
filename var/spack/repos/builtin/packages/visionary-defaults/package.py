@@ -95,6 +95,7 @@ class VisionaryDefaults(Package):
     # ECM: 2018-08-08 add munge to be able to build haldls (again)
     # PSP: 2018-08-26 add wget to be able to build gcc-nux
     # BC: 2018-09-05 add py-scikit-learn
+    # ECM: 2018-12-04 remove emscripten as it conflicts with genpybind (and its dependency on upstream clang)
     version('0.2.20', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
 
     # OJB: 2018-08-02 visionary-defaults always wants _all_ the tools
@@ -171,7 +172,7 @@ class VisionaryDefaults(Package):
     # depends_on('nodejs', when='@0.2.2')
     depends_on('node-js', when='@0.2.3:')
     depends_on('openssh')
-    depends_on('emscripten', when='@0.2.19:')
+    # ECM: 2018-08-09 remove emscripten as it conflicts with genpybind (and its dependency on upstream clang
 
     depends_on('boost@1.55.0+graph+icu+mpi+python', when='@:0.2.18')
     depends_on('boost@1.66.0+graph+icu+mpi+python+numpy', when='@0.2.19:')
