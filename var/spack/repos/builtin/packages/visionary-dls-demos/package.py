@@ -35,7 +35,7 @@ class VisionaryDlsDemos(Package):
 
     depends_on('py-python-socketio')
     depends_on('py-flask')
-    depends_on('visionary-defaults-dls')
+    depends_on('visionary-dls')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)

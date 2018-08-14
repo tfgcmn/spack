@@ -25,7 +25,7 @@
 from spack import *
 
 
-class VisionaryDefaultsDls(Package):
+class VisionaryNux(Package):
     """Visionary Meta Package"""
 
     homepage = ''
@@ -38,38 +38,24 @@ class VisionaryDefaultsDls(Package):
 
     variant('dev', default=False)
 
-    depends_on('visionary-defaults-dev-tools', when='+dev')
-    depends_on('visionary-defaults-common')
+    depends_on('visionary-dev-tools', when='+dev')
+    depends_on('visionary-common')
 
-    # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
-    variant('gccxml', default=False)
+    depends_on('gettext')
+    depends_on('zlib')
 
-    # depends_on('libusb-1.0')  external dependency
-    depends_on('boost@1.66.0+graph+icu+mpi+python+numpy')
-    depends_on('cereal')
-    depends_on('cppcheck')
-    depends_on('doxygen+graphviz')
-    depends_on('gccxml', when='+gccxml')
-    depends_on('genpybind')
-    depends_on('gflags')
-    depends_on('googletest+gmock')
-    depends_on('intel-tbb') # ppu gdbserver
-    depends_on('libelf')
-    depends_on('llvm')
-    depends_on('log4cxx')
-    depends_on('munge')
-    depends_on('pkg-config')
-    depends_on('py-lxml') # collab tests
-    depends_on('py-matplotlib')
-    depends_on('py-nose')
-    depends_on('py-numpy')
-    depends_on('py-pybind11')
-    depends_on('py-sqlalchemy')
-    depends_on('python')
+    # was bison 3.0.4 in the past
+    depends_on('bison')
+    depends_on('flex')
+    depends_on('m4')
+    depends_on('texinfo')
+    depends_on('wget')
+
+    conflicts('flex', when='@2.6.3', msg='Binutils 2.25 for Nux doesn\'t build with flex 2.6.3.')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        install(__file__, join_path(prefix.etc, 'visionary-defaults.py'))
+        install(__file__, join_path(prefix.etc, 'visionary-nux.py'))
 
         # we could create some filesystem view here?

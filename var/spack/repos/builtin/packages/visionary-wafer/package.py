@@ -25,7 +25,7 @@
 from spack import *
 
 
-class VisionaryDefaultsWafer(Package):
+class VisionaryWafer(Package):
     """Visionary Meta Package"""
 
     homepage = ''
@@ -38,8 +38,8 @@ class VisionaryDefaultsWafer(Package):
 
     variant('dev', default=False)
 
-    depends_on('visionary-defaults-dev-tools', when='+dev')
-    depends_on('visionary-defaults-common')
+    depends_on('visionary-dev-tools', when='+dev')
+    depends_on('visionary-common')
 
     conflicts('python@3:')
 
@@ -176,6 +176,6 @@ class VisionaryDefaultsWafer(Package):
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        install(__file__, join_path(prefix.etc, 'visionary-defaults-wafer.py'))
+        install(__file__, join_path(prefix.etc, 'visionary-wafer.py'))
 
         # we could create some filesystem view here?

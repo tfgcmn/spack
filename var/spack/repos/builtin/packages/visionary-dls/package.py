@@ -24,21 +24,9 @@
 ##############################################################################
 from spack import *
 
-import os.path as osp
 
-class VisionaryDefaultsCommon(Package):
-    """Packages common to all visionary-defaults meta packages"""
-
-    # This is a meta-package.  Instructions:
-    # $ cd /tmp
-    # $ spack install binutils+plugins+gold
-    # $ spack find binutils+plugins+gold
-    # -- linux-debian8-x86_64 / gcc@4.X.X -----------------------------
-    # qxd4ne6 binutils@2.27
-    # $ spack install gcc@6.2.0+binutils+gold ^/qxd4ne6
-    # $ spack cd -i "gcc@6.2.0+binutils+gold"
-    # $ spack compiler find --scope site .
-    # $ spack install visionary-defaults %gcc@6.2.0
+class VisionaryDls(Package):
+    """Visionary Meta Package"""
 
     homepage = ''
     # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
@@ -48,10 +36,40 @@ class VisionaryDefaultsCommon(Package):
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
+    variant('dev', default=False)
+
+    depends_on('visionary-dev-tools', when='+dev')
+    depends_on('visionary-common')
+
+    # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
+    variant('gccxml', default=False)
+
+    # depends_on('libusb-1.0')  external dependency
+    depends_on('boost@1.66.0+graph+icu+mpi+python+numpy')
+    depends_on('cereal')
+    depends_on('cppcheck')
+    depends_on('doxygen+graphviz')
+    depends_on('gccxml', when='+gccxml')
+    depends_on('genpybind')
+    depends_on('gflags')
+    depends_on('googletest+gmock')
+    depends_on('intel-tbb') # ppu gdbserver
+    depends_on('libelf')
+    depends_on('llvm')
+    depends_on('log4cxx')
+    depends_on('munge')
+    depends_on('pkg-config')
+    depends_on('py-lxml') # collab tests
+    depends_on('py-matplotlib')
+    depends_on('py-nose')
+    depends_on('py-numpy')
+    depends_on('py-pybind11')
+    depends_on('py-sqlalchemy')
+    depends_on('python')
+
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        filename = osp.basename(osp.dirname(__file__)) # gives name of parent folder
-        install(__file__, join_path(prefix.etc, filename + '.py'))
+        install(__file__, join_path(prefix.etc, 'visionary-dls.py'))
 
         # we could create some filesystem view here?

@@ -24,12 +24,10 @@
 ##############################################################################
 from spack import *
 
-import os.path as osp
 
-class VisionaryDefaultsDevTools(Package):
-    """Developer convenience packages common to all visionary-defaults
-       development meta packages. Application specific build tools belong
-       to the dedicated meta packages."""
+class VisionarySpikey(Package):
+    """Visionary Meta Package for the spikey platform."""
+
 
     homepage = ''
     # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
@@ -39,59 +37,31 @@ class VisionaryDefaultsDevTools(Package):
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
-    depends_on('ack')
-    depends_on('autoconf')
-    depends_on('automake')
-    depends_on('bash-completion')
-    depends_on('bazel')
-    depends_on('bear')
-    depends_on('cairo +X')
-    depends_on('cloc')
-    depends_on('cmake')
-    depends_on('cppcheck +htmlreport')
-    depends_on('doxygen+graphviz')
-    depends_on('emacs ~X')
-    depends_on('gdb')
-    depends_on('genpybind')
-    depends_on('git')
-    depends_on('llvm+visionary+python~libcxx@5.0.0: build_type=Release')
-    depends_on('mercurial')
-    depends_on('mosh')
-    depends_on('munge')
-    depends_on('ncdu')
-    depends_on('node-js')
-    depends_on('openssh')
+    variant('dev', default=False)
+
+    depends_on('visionary-dev-tools', when='+dev')
+    depends_on('visionary-common')
+
+    # build dependencies for the Spikey software stack
+    # taken from: https://electronicvisions.github.io/hbp-sp9-guidebook/pm/spikey/appendix.html#setup-software;
+    depends_on('boost+python')
+#    depends_on('libusb')  # needs to be an external requirement
+    depends_on('log4cxx')
+    depends_on('qt@4.8.6')
+    depends_on('googletest')
+    depends_on('gsl')
     depends_on('pkg-config')
-    depends_on('py-autopep8')
-    depends_on('py-doxypypy')
-    depends_on('py-flake8')
-    depends_on('py-gdbgui')
-    depends_on('py-git-review')
-    depends_on('py-jedi')
-    depends_on('py-junit-xml')
+    depends_on('py-lxml') # collab tests
     depends_on('py-nose')
-    depends_on('py-pudb')
-    depends_on('py-pytest')
-    depends_on('py-pytest-xdist')
-    depends_on('py-ranger')
-    depends_on('py-sqlalchemy')
-    depends_on('py-virtualenv')
-    depends_on('py-xmlrunner')
-    depends_on('rtags')
-    depends_on('tar')
-    depends_on('texinfo')
-    depends_on('tig')
-    depends_on('tmux')
-    depends_on('units')
-    depends_on('verilator')
-    depends_on('vim +python +ruby +perl +cscope +huge +x')
-    depends_on('yaml-cpp+shared')
-    depends_on('zsh')
+    # runtime dependencies of experiments
+    depends_on('python@:2.8')
+    depends_on('py-numpy')
+    depends_on('py-scipy')
+    depends_on('py-matplotlib')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        filename = osp.basename(osp.dirname(__file__)) # gives name of parent folder
-        install(__file__, join_path(prefix.etc, filename + '.py'))
+        install(__file__, join_path(prefix.etc, 'visionary-spikey.py'))
 
         # we could create some filesystem view here?

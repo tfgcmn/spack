@@ -25,7 +25,7 @@
 from spack import *
 
 
-class VisionaryDefaultsAnalysis(Package):
+class VisionarySimulation(Package):
     """Visionary Meta Package"""
 
     homepage = ''
@@ -38,49 +38,20 @@ class VisionaryDefaultsAnalysis(Package):
 
     variant('dev', default=False)
 
-    depends_on('visionary-defaults-dev-tools', when='+dev')
-    depends_on('visionary-defaults-common')
+    depends_on('visionary-dev-tools', when='+dev')
+    depends_on('visionary-common')
 
-    depends_on('python')
-
-    depends_on('py-attrs')
-    depends_on('py-autopep8')
-    depends_on('py-cython')
-    depends_on('py-flake8', when='^python@3:')  # otherwise old py-setuptools is needed
-    depends_on('py-html5lib', when='^python@:3.4.99')
+    depends_on('nest')
+    depends_on('visionary-nest')
     depends_on('py-ipython')
-    depends_on('py-jedi')
-    depends_on('py-junit-xml')
-#    depends_on('py-jupyter-notebook')
-    depends_on('py-line-profiler')
-    depends_on('py-lmfit')
-    depends_on('py-matplotlib')
-    depends_on('py-nose')
-    depends_on('py-numpy')
     depends_on('py-pandas')
-    depends_on('py-pillow')
-    depends_on('py-pip')
-    depends_on('py-pylint')
-    depends_on('py-pylint', when='@0.2.11:')
-    depends_on('py-pytest')
-    depends_on('py-pytest-xdist')
     depends_on('py-pyyaml')
-    depends_on('py-scikit-image')
-    depends_on('py-scipy')
-    depends_on('py-seaborn')
-    depends_on('py-setuptools')
-    depends_on('py-sphinx')
-    depends_on('py-sqlalchemy')
-    depends_on('py-statsmodels')
-    depends_on('py-symfit')
-    depends_on('py-sympy')
-    depends_on('py-tabulate')
-    depends_on('py-virtualenv')
-    depends_on('py-xmlrunner')
+    depends_on('py-sbs')
+    depends_on('py-scikit-learn')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        install(__file__, join_path(prefix.etc, 'visionary-defaults.py'))
+        install(__file__, join_path(prefix.etc, 'visionary-simulation.py'))
 
         # we could create some filesystem view here?

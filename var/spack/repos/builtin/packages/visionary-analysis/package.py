@@ -25,9 +25,8 @@
 from spack import *
 
 
-class VisionaryDefaultsSpikey(Package):
-    """Visionary Meta Package for the spikey platform."""
-
+class VisionaryAnalysis(Package):
+    """Visionary Meta Package"""
 
     homepage = ''
     # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
@@ -39,29 +38,49 @@ class VisionaryDefaultsSpikey(Package):
 
     variant('dev', default=False)
 
-    depends_on('visionary-defaults-dev-tools', when='+dev')
-    depends_on('visionary-defaults-common')
+    depends_on('visionary-dev-tools', when='+dev')
+    depends_on('visionary-common')
 
-    # build dependencies for the Spikey software stack
-    # taken from: https://electronicvisions.github.io/hbp-sp9-guidebook/pm/spikey/appendix.html#setup-software;
-    depends_on('boost+python')
-#    depends_on('libusb')  # needs to be an external requirement
-    depends_on('log4cxx')
-    depends_on('qt@4.8.6')
-    depends_on('googletest')
-    depends_on('gsl')
-    depends_on('pkg-config')
-    depends_on('py-lxml') # collab tests
-    depends_on('py-nose')
-    # runtime dependencies of experiments
-    depends_on('python@:2.8')
-    depends_on('py-numpy')
-    depends_on('py-scipy')
+    depends_on('python')
+
+    depends_on('py-attrs')
+    depends_on('py-autopep8')
+    depends_on('py-cython')
+    depends_on('py-flake8', when='^python@3:')  # otherwise old py-setuptools is needed
+    depends_on('py-html5lib', when='^python@:3.4.99')
+    depends_on('py-ipython')
+    depends_on('py-jedi')
+    depends_on('py-junit-xml')
+#    depends_on('py-jupyter-notebook')
+    depends_on('py-line-profiler')
+    depends_on('py-lmfit')
     depends_on('py-matplotlib')
+    depends_on('py-nose')
+    depends_on('py-numpy')
+    depends_on('py-pandas')
+    depends_on('py-pillow')
+    depends_on('py-pip')
+    depends_on('py-pylint')
+    depends_on('py-pylint', when='@0.2.11:')
+    depends_on('py-pytest')
+    depends_on('py-pytest-xdist')
+    depends_on('py-pyyaml')
+    depends_on('py-scikit-image')
+    depends_on('py-scipy')
+    depends_on('py-seaborn')
+    depends_on('py-setuptools')
+    depends_on('py-sphinx')
+    depends_on('py-sqlalchemy')
+    depends_on('py-statsmodels')
+    depends_on('py-symfit')
+    depends_on('py-sympy')
+    depends_on('py-tabulate')
+    depends_on('py-virtualenv')
+    depends_on('py-xmlrunner')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        install(__file__, join_path(prefix.etc, 'visionary-defaults-spikey.py'))
+        install(__file__, join_path(prefix.etc, 'visionary-analysis.py'))
 
         # we could create some filesystem view here?
