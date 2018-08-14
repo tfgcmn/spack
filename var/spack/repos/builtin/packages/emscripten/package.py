@@ -84,7 +84,7 @@ class Emscripten(Package):
             "emranlib",
             "emrun",
             "emscons",
-            "embuilder.py"
+            "embuilder.py",
             "emlink.py"
             ]
         mkdirp(prefix.bin)
