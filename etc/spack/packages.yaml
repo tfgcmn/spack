@@ -43,3 +43,7 @@ packages:
     variants: ['~openssl']
   py-pytables:
     variants: ['~auto', '~avx2', '+sse2']
+  cppcheck:
+    variants: ['+htmlreport']
+  vim:
+    variants: ['+x']

@@ -49,8 +49,8 @@ withEnv(
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -ex .ci/02_install.sh dls_py2 \'visionary-dls ^${PY2}\' \'${COMPILER}\' && " +
-            "bash -ex .ci/02_install.sh dls_py2_dev \'visionary-dls +dev ^${PY2}\' \'${COMPILER}\'"
+            "bash -ex .ci/02_install.sh dls_py2 \'visionary-dls ~dev ^${PY2}\' \'${COMPILER}\' && " +
+            "bash -ex .ci/02_install.sh dls_py2_dev \'visionary-dls ^${PY2}\' \'${COMPILER}\'"
     }
 
     stage('dlspy3') {
@@ -59,8 +59,8 @@ withEnv(
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -ex .ci/02_install.sh dls_py3 \'visionary-dls ^${PY3}\' \'${COMPILER}\' && " +
-            "bash -ex .ci/02_install.sh dls_py3_dev \'visionary-dls +dev ^${PY3}\' \'${COMPILER}\'"
+            "bash -ex .ci/02_install.sh dls_py3 \'visionary-dls ~dev ^${PY3}\' \'${COMPILER}\' && " +
+            "bash -ex .ci/02_install.sh dls_py3_dev \'visionary-dls ^${PY3}\' \'${COMPILER}\'"
     }
 
     stage('wafer') {
@@ -69,10 +69,10 @@ withEnv(
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -ex .ci/02_install.sh wafer_wot_py2 \'visionary-wafer ^${PY2}\' \'${COMPILER}\' && " +
-            "bash -ex .ci/02_install.sh wafer_wot_py2_dev \'visionary-wafer +dev ^${PY2}\' \'${COMPILER}\' && " +
-            "bash -ex .ci/02_install.sh wafer_wt_py2 \'visionary-wafer +tensorflow ^${PY2}\' \'${COMPILER}\' 'local' && " +
-            "bash -ex .ci/02_install.sh wafer_wt_py2_dev \'visionary-wafer +dev +tensorflow ^${PY2}\' \'${COMPILER}\' 'local'"
+            "bash -ex .ci/02_install.sh wafer_wot_py2 \'visionary-wafer ~dev ^${PY2}\' \'${COMPILER}\' && " +
+            "bash -ex .ci/02_install.sh wafer_wot_py2_dev \'visionary-wafer ^${PY2}\' \'${COMPILER}\' && " +
+            "bash -ex .ci/02_install.sh wafer_wt_py2 \'visionary-wafer ~dev  +tensorflow ^${PY2}\' \'${COMPILER}\' 'local' && " +
+            "bash -ex .ci/02_install.sh wafer_wt_py2_dev \'visionary-wafer +tensorflow ^${PY2}\' \'${COMPILER}\' 'local'"
     }
 
     stage('analysis_py2') {
@@ -81,8 +81,8 @@ withEnv(
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -ex .ci/02_install.sh analysis_py2 \'visionary-analysis ^${PY2}\' \'${COMPILER}\' && " +
-            "bash -ex .ci/02_install.sh analysis_py2_dev \'visionary-analysis +dev ^${PY2}\' \'${COMPILER}\'"
+            "bash -ex .ci/02_install.sh analysis_py2 \'visionary-analysis ~dev ^${PY2}\' \'${COMPILER}\' && " +
+            "bash -ex .ci/02_install.sh analysis_py2_dev \'visionary-analysis ^${PY2}\' \'${COMPILER}\'"
     }
 
     stage('analysis_py3') {
@@ -91,8 +91,8 @@ withEnv(
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -ex .ci/02_install.sh analysis_py3 \'visionary-analysis ^${PY3}\' \'${COMPILER}\' && " +
-            "bash -ex .ci/02_install.sh analysis_py3_dev \'visionary-analysis +dev ^${PY3}\' \'${COMPILER}\'"
+            "bash -ex .ci/02_install.sh analysis_py3 \'visionary-analysis ~dev ^${PY3}\' \'${COMPILER}\' && " +
+            "bash -ex .ci/02_install.sh analysis_py3_dev \'visionary-analysis ^${PY3}\' \'${COMPILER}\'"
     }
 
     stage('simulation_py2') {
@@ -101,8 +101,8 @@ withEnv(
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -ex .ci/02_install.sh simulation_py2 \'visionary-simulation ^${PY2}\' \'${COMPILER}\' && " +
-            "bash -ex .ci/02_install.sh simulation_py2_dev \'visionary-simulation +dev ^${PY2}\' \'${COMPILER}\'"
+            "bash -ex .ci/02_install.sh simulation_py2 \'visionary-simulation ~dev ^${PY2}\' \'${COMPILER}\' && " +
+            "bash -ex .ci/02_install.sh simulation_py2_dev \'visionary-simulation ^${PY2}\' \'${COMPILER}\'"
     }
 
     stage('dev_tools_py3') {
