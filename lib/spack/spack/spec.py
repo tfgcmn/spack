@@ -2184,7 +2184,7 @@ class Spec(object):
         # actually deps of this package.  Raise an error.
         extra = set(spec_deps.keys()).difference(visited)
         # if extra:
-        #    raise InvalidDependencyError(
+        #     raise InvalidDependencyError(
         #         self.name + " does not depend on " + comma_or(extra))
 
         # Mark the spec as normal once done.
