@@ -41,6 +41,9 @@ class VisionaryDls(Package):
     depends_on('visionary-dev-tools', when='+dev')
     depends_on('visionary-common')
 
+    # Depend on visionary-nux to enable joint developement of host and PPU code with one meta package
+    depends_on('visionary-nux')
+
     # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
     variant('gccxml', default=False)
 
