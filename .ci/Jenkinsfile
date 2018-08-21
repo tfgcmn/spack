@@ -28,7 +28,9 @@ withEnv(
    stage('stack') {
        if (GERRIT_EVENT_TYPE!="change-merged") {
            sh "cd ${WORKING_DIR} && " +
-               "git clean -dfx && " +
+            // we need two -f to also be able to deal with .git files that can
+            // be added by sources of packages
+               "git clean -dfxf && " +
                ". share/spack/setup-env.sh && " +
                "spack stack ${LIVE_INSTANCE}"
        }
