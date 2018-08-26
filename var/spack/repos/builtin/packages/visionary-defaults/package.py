@@ -93,6 +93,7 @@ class VisionaryDefaults(Package):
     version('0.2.19', git='https://github.com/electronicvisions/spack-visions.git')
     # TW: 2018-06-14 add libelf for DLS, and yaml-cpp@0.6.2
     # ECM: 2018-08-08 add munge to be able to build haldls (again)
+    # PSP: 2018-08-26 add wget to be able to build gcc-nux
     version('0.2.20', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
 
     # OJB: 2018-08-02 visionary-defaults always wants _all_ the tools
@@ -125,6 +126,7 @@ class VisionaryDefaults(Package):
     depends_on('py-lxml', when='@0.2.18:') # collab tests
     depends_on('py-mock', when='@0.2.18:')
     depends_on('texinfo', when='@0.2.18:')
+    depends_on('wget', when='@0.2.20:')
     depends_on('xerces-c', when='@0.2.18:')
 
     # depends_on('gcc@6.2.0+binutils+gold %gcc@4.7', when="+wheezy")
