@@ -36,7 +36,7 @@ __all__ = ['Lock', 'LockTransaction', 'WriteTransaction', 'ReadTransaction',
 
 
 # Default timeout in seconds, after which locks will raise exceptions.
-_default_timeout = 60
+_default_timeout = 600
 
 # Sleep time per iteration in spin loop (in seconds)
 _sleep_time = 1e-5
@@ -135,7 +135,7 @@ class Lock(object):
                     raise
             time.sleep(_sleep_time)
 
-        raise LockError("Timed out waiting for lock.")
+        raise LockError("Timed out waiting for lock {0}.".format(self.path))
 
     def _ensure_parent_directory(self):
         parent = os.path.dirname(self.path)

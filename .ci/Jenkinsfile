@@ -35,8 +35,9 @@ withEnv(
                "spack stack ${LIVE_INSTANCE}"
        }
    }
+
     stage('compiler') {
-        sh "cd ${WORKING_DIR} && " +
+       sh "cd ${WORKING_DIR} && " +
             "set +x && " +
             ". share/spack/setup-env.sh && " +
             "set -x && " +
@@ -69,10 +70,10 @@ withEnv(
             "set +x && " +
             ". share/spack/setup-env.sh &&" +
             "set -x && " +
-            "bash -ex .ci/02_install.sh wafer_wot_py2 \'visionary-wafer ~dev ^${PY2}\' \'${COMPILER}\' && " +
-            "bash -ex .ci/02_install.sh wafer_wot_py2_dev \'visionary-wafer ^${PY2}\' \'${COMPILER}\' && " +
-            "bash -ex .ci/02_install.sh wafer_wt_py2 \'visionary-wafer ~dev  +tensorflow ^${PY2}\' \'${COMPILER}\' 'local' && " +
-            "bash -ex .ci/02_install.sh wafer_wt_py2_dev \'visionary-wafer +tensorflow ^${PY2}\' \'${COMPILER}\' 'local'"
+            "strace -o somefile1 -t -f bash -ex .ci/02_install.sh wafer_wot_py2 \'visionary-wafer ~dev ^${PY2}\' \'${COMPILER}\' && " +
+            "strace -o somefile2 -t -f bash -ex .ci/02_install.sh wafer_wot_py2_dev \'visionary-wafer ^${PY2}\' \'${COMPILER}\' && " +
+            "strace -o somefile3 -t -f bash -ex .ci/02_install.sh wafer_wt_py2 \'visionary-wafer ~dev  +tensorflow ^${PY2}\' \'${COMPILER}\' 'local' && " +
+            "strace -o somefile4 -t -f bash -ex .ci/02_install.sh wafer_wt_py2_dev \'visionary-wafer +tensorflow ^${PY2}\' \'${COMPILER}\' 'local'"
     }
 
     stage('analysis_py2') {

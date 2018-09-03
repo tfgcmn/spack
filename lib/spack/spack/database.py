@@ -50,7 +50,7 @@ from yaml.error import MarkedYAMLError, YAMLError
 
 import llnl.util.tty as tty
 from llnl.util.filesystem import join_path, mkdirp
-from llnl.util.lock import Lock, WriteTransaction, ReadTransaction
+from llnl.util.lock import Lock, WriteTransaction, ReadTransaction, LockError
 
 import spack.store
 import spack.repository
@@ -220,8 +220,13 @@ class Database(object):
         try:
             prefix_lock.acquire_read(60)
             yield self
-        finally:
             prefix_lock.release_read()
+        except Exception as e:
+            if isinstance(e, LockError):
+                raise e
+            else:
+                prefix_lock.release_read()
+                raise e
 
     @contextlib.contextmanager
     def prefix_write_lock(self, spec):
@@ -229,8 +234,13 @@ class Database(object):
         try:
             prefix_lock.acquire_write(60)
             yield self
-        finally:
             prefix_lock.release_write()
+        except Exception as e:
+            if isinstance(e, LockError):
+                raise e
+            else:
+                prefix_lock.release_write()
+                raise e
 
     def _write_to_file(self, stream):
         """Write out the databsae to a JSON file.
