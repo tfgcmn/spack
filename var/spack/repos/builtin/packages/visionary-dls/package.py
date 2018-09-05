@@ -68,6 +68,7 @@ class VisionaryDls(Package):
     depends_on('py-numpy')
     depends_on('py-pybind11')
     depends_on('py-pylint')
+    depends_on('py-scikit-learn')
     depends_on('py-sqlalchemy')
     depends_on('python')
 

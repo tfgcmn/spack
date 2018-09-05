@@ -94,6 +94,7 @@ class VisionaryDefaults(Package):
     # TW: 2018-06-14 add libelf for DLS, and yaml-cpp@0.6.2
     # ECM: 2018-08-08 add munge to be able to build haldls (again)
     # PSP: 2018-08-26 add wget to be able to build gcc-nux
+    # BC: 2018-09-05 add py-scikit-learn
     version('0.2.20', git='https://github.com/electronicvisions/spack-visions.git', preferred=True)
 
     # OJB: 2018-08-02 visionary-defaults always wants _all_ the tools
@@ -221,6 +222,7 @@ class VisionaryDefaults(Package):
     depends_on('py-pytables @3.3.0:')
     depends_on('py-scipy')
     depends_on('py-scikit-image', when='@0.2.12:')
+    depends_on('py-scikit-learn', when='@0.2.20:')
     depends_on('py-seaborn')
     depends_on('py-sympy')
     depends_on('py-statsmodels')
