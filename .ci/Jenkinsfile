@@ -16,9 +16,13 @@ withEnv(
     PY3="python@3.6.3"
 
     if (GERRIT_EVENT_TYPE=="change-merged") {
+       // Clean up stages of this changeset
+       sh "rm -rf ${STAGE_INSTANCE}/c${GERRIT_CHANGE_NUMBER}p*"
+
         WORKING_DIR=LIVE_INSTANCE
     } else {
-        WORKING_DIR=STAGE_INSTANCE
+        // Has to live on the same device as LIVE_INSTANCE for hardlinking spack views
+        WORKING_DIR="${STAGE_INSTANCE}/c${GERRIT_CHANGE_NUMBER}p${GERRIT_PATCHSET_NUMBER}"
     }
 
     dir(WORKING_DIR) {
