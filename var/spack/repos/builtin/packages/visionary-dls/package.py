@@ -36,6 +36,9 @@ class VisionaryDls(Package):
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
+    # Chip specific packages
+    variant('v3', default=True)
+
     variant('dev', default=True)
 
     depends_on('visionary-dev-tools', when='+dev')
@@ -71,6 +74,7 @@ class VisionaryDls(Package):
     depends_on('py-scikit-learn')
     depends_on('py-sqlalchemy')
     depends_on('python')
+    depends_on('xilinx-ise', when='+v3')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
