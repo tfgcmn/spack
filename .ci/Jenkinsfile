@@ -49,7 +49,7 @@ try {
 				WORKING_DIR = "${STAGE_INSTANCE}/c${env.GERRIT_CHANGE_NUMBER}p${env.GERRIT_PATCHSET_NUMBER}"
 			} else {
 				WORKING_DIR = NIGHTLY_INSTANCE
-				dir(WORKING_DIR) { "sh find -delete" }
+				dir(WORKING_DIR) { sh "find -delete" }
 			}
 
 			dir(WORKING_DIR) {
@@ -168,7 +168,7 @@ try {
 		}
 	}
 } catch (Throwable t) {
-	notifyFailure(mattermostChannel: "#spack")
+	// notifyFailure(mattermostChannel: "#spack")
 	throw t
 } finally {
 	node {
@@ -181,5 +181,5 @@ try {
 }
 
 if (currentBuild.currentResult != "SUCCESS") {
-	notifyFailure(mattermostChannel: "#spack")
+	// notifyFailure(mattermostChannel: "#spack")
 }
