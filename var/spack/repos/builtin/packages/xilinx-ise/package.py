@@ -80,65 +80,6 @@ class XilinxIse(Package):
     depends_on('libxcursor', type='run')
     depends_on('libxft', type='run')
 
-    def setup_environment(self, spack_env, run_env):
-        """
-        Xilinx ISE environment variables as defined in `/cad/modules/xilinx/147`
-        """
-        is64bit = self.spec.architecture.target == 'x86_64'
-        lin = 'lin64' if is64bit else 'lin32'
-
-        # --- License server (UHEI-KIP only!) --- #
-        run_env.append_path('LM_LICENSE_FILE', '2100@phobos')
-
-        # --- Common --- #
-        run_env.set('XILINXinst', self.prefix)
-        run_env.append_path('PATH',
-                            join_path(self.prefix, 'common', 'bin', lin))
-        run_env.append_path('LD_LIBRARY_PATH',
-                            join_path(self.prefix, 'common', 'lib', lin))
-
-        # --- LabTools --- #
-        if self.spec.satisfies('~designsuite'):
-            run_env.set('XILINX', join_path(self.prefix, 'LabTools'))
-            run_env.append_path('PATH',
-                                join_path(self.prefix, 'LabTools', 'bin', lin))
-            run_env.append_path('LD_LIBRARY_PATH',
-                                join_path(self.prefix, 'LabTools', 'lib', lin))
-
-        # --- Full Design Suite --- #
-        if self.spec.satisfies('+designsuite'):
-            # -- EDK -- #
-            edk = join_path(self.prefix, 'EDK')
-            run_env.set('XILINX_EDK', edk)
-            run_env.append_path('LD_LIBRARY_PATH', join_path(edk, 'lib', lin))
-            run_env.append_path('PATH', join_path(edk, 'bin', lin))
-
-            for arch in ['arm', 'microblaze', 'powerpc-eabi']:
-                run_env.append_path('PATH',
-                                    join_path(edk, 'gnu', arch, 'lin', 'bin'))
-
-            # -- PlanAhead -- #
-            pabase = join_path(self.prefix, 'PlanAhead')
-            run_env.set('XILINX_PLANAHEAD', pabase)
-            run_env.append_path('PATH', join_path(pabase, 'bin'))
-
-            # -- ISE Design tools -- #
-            xhome = join_path(self.prefix, 'ISE')
-            run_env.set('XILINX', xhome)
-            run_env.set('XILINX_DSP', xhome)
-
-            lmc_home = join_path(xhome, 'smartmodel', lin, 'installed_' + lin)
-            run_env.set('LMC_HOME', lmc_home)
-            run_env.append_path('LD_LIBRARY_PATH', join_path(xhome, 'lib', lin))
-            run_env.append_path('LD_LIBRARY_PATH', join_path(xhome, 'bin', lin))
-            run_env.append_path('LD_LIBRARY_PATH', join_path(lmc_home, 'lib'))
-            run_env.append_path('LD_LIBRARY_PATH', join_path(xhome,
-                                                             'sysgen', 'lib'))
-
-            run_env.append_path('PATH', join_path(xhome, 'bin', lin))
-            run_env.append_path('PATH', join_path(xhome, 'sysgen', 'util'))
-            run_env.append_path('PATH', join_path(xhome, 'sysgen', 'bin'))
-
     def install(self, *_):
         os.remove('xilinx-ise-147')  # Unused top-level file
 
@@ -167,3 +108,44 @@ class XilinxIse(Package):
             else:
                 assert os.path.isfile(f)
                 install(f, join_path(self.spec.prefix, os.path.basename(f)))
+
+        # Add wrappers for a selection of whitelisted binaries that will run
+        # in their own environment.
+        # We need to whitelist since we do not want to have Xilinx-supplied
+        # compilers in our path when loading this package.
+        #
+        # Add any ISE tools you like to use here!
+        executables = ["impact", "planAhead"]
+
+        arch_bit = 64 if self.spec.architecture.target == 'x86_64' else 32
+        env_definition = join_path(self.spec.prefix, "settings%d.sh" % arch_bit)
+
+        mkdirp(self.prefix.bin)
+
+        for binary in executables:
+            wrapper_file = join_path(self.prefix.bin, binary)
+            with open(wrapper_file, "wt") as wrapper:
+                wrap_commands = [
+                    '#!/usr/bin/env bash',
+
+                    '# Xilinx must not evaluate "$@", outsource it in a function',
+                    'function prepare_xilinx_env {',
+                    '  source %s' % env_definition,
+                    '}',
+
+                    '# Remove this script from PATH to avoid recursive calls',
+                    'SCRIPTPATH=$(cd "$(dirname "$0")"; pwd -P)',
+                    'export PATH=${PATH//${SCRIPTPATH}/}',
+
+                    '# Prepare the Xilinx runtime environment',
+                    'prepare_xilinx_env',
+
+                    '# UHEI/KIP license server',
+                    'export LM_LICENSE_FILE=${LM_LICENCE_FILE}:2100@phobos',
+
+                    '# Actual command, will be found in the env prepared above',
+                    '%s "$@"' % binary]
+
+                wrapper.writelines([cmd + os.linesep for cmd in wrap_commands])
+
+            which("chmod")("+x", wrapper_file)
