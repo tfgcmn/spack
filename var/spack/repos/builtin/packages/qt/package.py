@@ -58,8 +58,6 @@ class Qt(AutotoolsPackage):
             description="Build with gtkplus.")
     variant('webkit',     default=False,
             description="Build the Webkit extension")
-    variant('examples',   default=False,
-            description="Build examples.")
     variant('dbus',       default=False,
             description="Build with D-Bus support.")
     variant('phonon',     default=False,
@@ -251,8 +249,8 @@ class Qt(AutotoolsPackage):
             '-multimedia',
             '-audio-backend',
             '-svg',
-            '-javascript-jit'
-            '-script'
+            '-javascript-jit',
+            '-script',
             '-scripttools',
             '-declarative',
             '-declarative-debug',
@@ -261,7 +259,6 @@ class Qt(AutotoolsPackage):
             '-system-libmng',
             '-system-libjpeg',
             '-openssl-linked',
-            '-make examples' if '+examples' in self.spec else '-no-make examples',
             '-rpath',
             '-optimized-qmake',
             '-no-nis',  # NIS is deprecated in more recent glibc,
@@ -316,9 +313,9 @@ class Qt(AutotoolsPackage):
                 ])
 
         if '+opengl' in self.spec:
-            config_args.append('-graphicssystem', 'opengl')
+            config_args.extend(['-graphicssystem', 'opengl'])
         else:
-            config_args.append('-graphicssystem', 'raster')
+            config_args.extend(['-graphicssystem', 'raster'])
 
         if '+dbus' in self.spec:
             dbus = self.spec['dbus'].prefix
