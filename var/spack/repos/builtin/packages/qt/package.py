@@ -28,7 +28,7 @@ import os
 import sys
 
 
-class Qt(Package):
+class Qt(AutotoolsPackage):
     """Qt is a comprehensive cross-platform C++ application framework."""
     homepage = 'http://qt.io'
     # Alternative location 'http://download.qt.io/official_releases/qt/'
@@ -66,6 +66,8 @@ class Qt(Package):
             description="Build with phonon support.")
     variant('opengl',     default=False,
             description="Build with OpenGL support.")
+
+    conflicts('+phonon', when='@5:')
 
     # fix installation of pkgconfig files
     # see https://github.com/Homebrew/homebrew-core/pull/5951
@@ -196,6 +198,8 @@ class Qt(Package):
 
     def setup_environment(self, spack_env, run_env):
         spack_env.set('MAKEFLAGS', '-j{0}'.format(make_jobs))
+        if '@3' in self.spec:
+            spack_env.append_path('LD_LIBRARY_PATH', os.getcwd() + '/lib')
         run_env.set('QTDIR', self.prefix)
 
     def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
@@ -205,7 +209,7 @@ class Qt(Package):
         module.qmake = Executable(join_path(self.spec.prefix.bin, 'qmake'))
 
     def patch(self):
-        if self.spec.satisfies('@4'):
+        if self.spec.satisfies('@4.0.0:4.99.99'):
             # Fix qmake compilers in the default mkspec
             filter_file('^QMAKE_CC .*', 'QMAKE_CC = cc',
                         'mkspecs/common/g++-base.conf')
@@ -219,7 +223,7 @@ class Qt(Package):
 
             filter_file('^QMAKE_LFLAGS_NOUNDEF .*', 'QMAKE_LFLAGS_NOUNDEF = ',
                         'mkspecs/common/g++-unix.conf')
-        elif self.spec.satisfies('@5:'):
+        elif self.spec.satisfies('@5.0.0:'):
             # Fix qmake compilers in the default mkspec
             filter_file('^QMAKE_COMPILER .*', 'QMAKE_COMPILER = cc',
                         'qtbase/mkspecs/common/g++-base.conf')
@@ -231,49 +235,90 @@ class Qt(Package):
             filter_file('^QMAKE_LFLAGS_NOUNDEF .*', 'QMAKE_LFLAGS_NOUNDEF = ',
                         'qtbase/mkspecs/common/g++-unix.conf')
 
-    @property
-    def common_config_args(self):
+    def configure_args(self):
         # incomplete list is here http://doc.qt.io/qt-5/configure-options.html
         config_args = [
-            '-prefix', self.prefix,
-            '-v',
-            '-opensource',
-            '-{0}opengl'.format('' if '+opengl' in self.spec else 'no-'),
             '-release',
+            '-opensource',
             '-shared',
-            '-confirm-license',
+            '-fast',        # builds with qmake rather than Makefiles
+            '-largefile',
+            '-exceptions',
+            '-accessibility',
+            '-stl',
+            '-qt3support',
+            '-xmlpatterns',
+            '-multimedia',
+            '-audio-backend',
+            '-svg',
+            '-javascript-jit'
+            '-script'
+            '-scripttools',
+            '-declarative',
+            '-declarative-debug',
+            '-system-zlib',
+            '-system-libpng',
+            '-system-libmng',
+            '-system-libjpeg',
             '-openssl-linked',
+            '-make examples' if '+examples' in self.spec else '-no-make examples',
+            '-rpath',
             '-optimized-qmake',
-            '-system-freetype',
-            '-I{0}/freetype2'.format(self.spec['freetype'].prefix.include),
-            '-no-pch'
-        ]
+            '-no-nis',  # NIS is deprecated in more recent glibc,
+            '-cups',
+            '-iconv',
+            '-pch',
+            '-v',
+            ]
+
+        if '@3' in self.spec:
+            config_args.append('-thread')
+
+        if '@4' in self.spec:
+            config_args.extend([
+                '-{0}gtkstyle'.format('' if '+gtk' in self.spec else 'no-'),
+                '-{0}webkit'.format('' if '+webkit' in self.spec else 'no-'),
+                '-arch', str(self.spec.architecture.target)
+                ])
+            if '+phonon' in self.spec:
+                config_args.extend(['-phonon', '-phonon-backend'])
+            else:
+                config_args.extend(['-no-phonon', '-no-phonon-backend'])
+
+        if '@5:' in self.spec:
+            if sys.platform == 'darwin':
+                config_args.extend([
+                    '-no-xinput2',
+                    '-no-xcb-xlib',
+                    '-no-pulseaudio',
+                    '-no-alsa',
+                ])
+            if '~webkit' in self.spec:
+                config_args.extend(['skip', 'webengine'])
+            if '~opengl' in self.spec and self.spec.satisfies('@5.10:'):
+                config_args.extend([
+                    '-skip', 'webglplugin',
+                ])
+            if '+gtk' in self.spec:
+                config_args.append('-gtk')
+            else:
+                config_args.append('-no-gtk')
+            if self.version > Version('5.8'):
+                # relies on a system installed wayland, i.e. no spack package
+                # https://wayland.freedesktop.org/ubuntu16.04.html
+                # https://wiki.qt.io/QtWayland
+                config_args.extend(['-skip', 'wayland'])
 
         if sys.platform != 'darwin':
-            config_args.append('-fontconfig')
+            config_args.extend([
+                '-fontconfig',
+                '-qt-xcb',
+                ])
 
-        if '@:5.7.1' in self.spec:
-            config_args.append('-no-openvg')
+        if '+opengl' in self.spec:
+            config_args.append('-graphicssystem', 'opengl')
         else:
-            # FIXME: those could work for other versions
-            config_args.extend([
-                '-system-libpng',
-                '-system-libjpeg',
-                '-system-zlib'
-            ])
-
-        if '@:5.7.0' in self.spec:
-            config_args.extend([
-                # NIS is deprecated in more recent glibc,
-                # but qt-5.7.1 does not recognize this option
-                '-no-nis',
-            ])
-
-        if '~examples' in self.spec:
-            config_args.extend(['-nomake', 'examples'])
-
-        if '@4' in self.spec and '~phonon' in self.spec:
-            config_args.append('-no-phonon')
+            config_args.append('-graphicssystem', 'raster')
 
         if '+dbus' in self.spec:
             dbus = self.spec['dbus'].prefix
@@ -285,111 +330,4 @@ class Qt(Package):
         else:
             config_args.append('-no-dbus')
 
-        if '@5:' in self.spec and sys.platform == 'darwin':
-            config_args.extend([
-                '-no-xinput2',
-                '-no-xcb-xlib',
-                '-no-pulseaudio',
-                '-no-alsa',
-            ])
-
-        # FIXME: else: -system-xcb ?
-
-        if '@4' in self.spec and sys.platform == 'darwin':
-            config_args.append('-cocoa')
-
-            mac_ver = tuple(platform.mac_ver()[0].split('.')[:2])
-            sdkname = 'macosx%s' % '.'.join(mac_ver)
-            sdkpath = which('xcrun')('--show-sdk-path',
-                                     '--sdk', sdkname,
-                                     output=str)
-            config_args.extend([
-                '-sdk', sdkpath.strip(),
-            ])
-            use_clang_platform = False
-            if self.spec.compiler.name == 'clang' and \
-               str(self.spec.compiler.version).endswith('-apple'):
-                use_clang_platform = True
-            # No one uses gcc-4.2.1 anymore; this is clang.
-            if self.spec.compiler.name == 'gcc' and \
-               str(self.spec.compiler.version) == '4.2.1':
-                use_clang_platform = True
-            if use_clang_platform:
-                config_args.append('-platform')
-                if mac_ver >= (10, 9):
-                    config_args.append('unsupported/macx-clang-libc++')
-                else:
-                    config_args.append('unsupported/macx-clang')
-
         return config_args
-
-    # Don't disable all the database drivers, but should
-    # really get them into spack at some point.
-
-    @when('@3')
-    def configure(self):
-        # A user reported that this was necessary to link Qt3 on ubuntu.
-        # However, if LD_LIBRARY_PATH is not set the qt build fails, check
-        # and set LD_LIBRARY_PATH if not set, update if it is set.
-        if os.environ.get('LD_LIBRARY_PATH'):
-            os.environ['LD_LIBRARY_PATH'] += os.pathsep + os.getcwd() + '/lib'
-        else:
-            os.environ['LD_LIBRARY_PATH'] = os.pathsep + os.getcwd() + '/lib'
-
-        configure('-prefix', self.prefix,
-                  '-v',
-                  '-thread',
-                  '-shared',
-                  '-release',
-                  '-fast')
-
-    @when('@4')
-    def configure(self):
-        configure('-fast',
-                  '-{0}gtkstyle'.format('' if '+gtk' in self.spec else 'no-'),
-                  '-{0}webkit'.format('' if '+webkit' in self.spec else 'no-'),
-                  '-arch', str(self.spec.architecture.target),
-                  *self.common_config_args)
-
-    @when('@5.0:5.6')
-    def configure(self):
-        webkit_args = [] if '+webkit' in self.spec else ['-skip', 'qtwebkit']
-        configure('-no-eglfs',
-                  '-no-directfb',
-                  '-{0}gtkstyle'.format('' if '+gtk' in self.spec else 'no-'),
-                  *(webkit_args + self.common_config_args))
-
-    @when('@5.7:')
-    def configure(self):
-        config_args = self.common_config_args
-
-        if not sys.platform == 'darwin':
-            config_args.extend([
-                '-qt-xcb',
-            ])
-
-        if '~webkit' in self.spec:
-            config_args.extend([
-                '-skip', 'webengine',
-            ])
-
-        if '~opengl' in self.spec and self.spec.satisfies('@5.10:'):
-            config_args.extend([
-                '-skip', 'webglplugin',
-            ])
-
-        if self.version > Version('5.8'):
-            # relies on a system installed wayland, i.e. no spack package yet
-            # https://wayland.freedesktop.org/ubuntu16.04.html
-            # https://wiki.qt.io/QtWayland
-            config_args.extend(['-skip', 'wayland'])
-
-        configure('-no-eglfs',
-                  '-no-directfb',
-                  '-{0}gtk'.format('' if '+gtk' in self.spec else 'no-'),
-                  *config_args)
-
-    def install(self, spec, prefix):
-        self.configure()
-        make()
-        make("install")
