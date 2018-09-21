@@ -127,7 +127,8 @@ class Nest(Package):
         configure(*configure_args)
 
         make()
-        make("install")
+        serial_make = which("make")
+        serial_make("-j1", "install")
 
         self.install_headers()
 
