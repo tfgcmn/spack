@@ -73,7 +73,7 @@ class Tensorflow(Package):
         # clean bazel build cache
         which('bazel')('clean')
 
-        tmp_path = join_path(self.stage.path, 'tmp_tensorflow_pkg')
+        tmp_path = join_path(self.stage.source_path, 'tmp_tensorflow_pkg')
         mkdirp(tmp_path)
         # set to a non-NFS filesystem (because bazel uses ~/.cache/bazel)
         env['TESTTMP_DIR'] = tmp_path
