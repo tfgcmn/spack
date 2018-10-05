@@ -11,8 +11,10 @@ class Tensorflow(Package):
     version('0.10.0',    'b75cbd494d61a809af5ef25d7fba561b')
 
     depends_on('swig',                 type='build')
-    depends_on('bazel@0.4.4:',         type='build', when='@1:')
-    depends_on('bazel@0.3.1:',         type='build', when='@:1')
+
+    # old tensorflow needs old bazel
+    depends_on('bazel@0.4.4:0.4.999',  type='build', when='@1:')
+    depends_on('bazel@0.3.1:0.4.999',  type='build', when='@:1')
 
     extends('python')
     depends_on('py-setuptools',        type=('build', 'run'))

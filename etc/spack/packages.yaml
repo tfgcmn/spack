@@ -47,3 +47,5 @@ packages:
     variants: ['+htmlreport']
   vim:
     variants: ['+x']
+  bazel:
+    version: [0.4.5]
