@@ -77,7 +77,6 @@ class VisionaryWafer(Package):
     depends_on('py-pybind11')
     depends_on('py-doxypy')
     depends_on('py-mock')
-    depends_on('py-funcsigs') # needed by py-mock but dependency missing
     depends_on('cereal')
 
     def install(self, spec, prefix):
