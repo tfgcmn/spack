@@ -39,8 +39,9 @@ class TclOdfi(Package):
             commit='a5dd21226f71e8550632357d5fbaf6dfec188d6b')
 
     extends('tcl')
+    depends_on('tcl@8.5.0:8.5.999')
     depends_on('tcl-tclxml', type=('build', 'run'))
-    depends_on('tcl-itcl3')
+    depends_on('tcl-itcl3@3.4.3')
     depends_on('tcl-tcllib')
 
     def install(self, spec, prefix):

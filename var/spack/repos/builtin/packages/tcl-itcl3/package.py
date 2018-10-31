@@ -34,13 +34,16 @@ class TclItcl3(AutotoolsPackage):
     url      = "https://sourceforge.net/projects/incrtcl/files/%5Bincr%20Tcl_Tk%5D-4-source/itcl%204.0.4/itcl4.0.4.tar.gz"
 
     version('4.0.4', 'c9c52afdd9435490e2db17c3c6c95ab4')
+    version('3.4.3', 'bea70fc6e6a3fb049fdada405161b934',
+        url='https://sourceforge.net/projects/incrtcl/files/%5BIncr%20Tcl_Tk%5D-source/Itcl%203.4.3/itcl3.4.3.tar.gz')
 
     extends('tcl')
 
     def configure_args(self):
+        tcl_lib_dir = join_path(self.spec['tcl'].prefix, self.spec['tcl'].package.tcl_lib_dir)
         args = [
             '--enable-shared',
             '--enable-threads',
-            '--with-tcl={0}/lib'.format(self.spec['tcl'].tcl_lib_dir),
+            '--with-tcl={0}'.format(tcl_lib_dir),
         ]
         return args
