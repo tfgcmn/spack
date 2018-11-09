@@ -29,6 +29,7 @@ import shutil
 import filecmp
 
 from llnl.util.filesystem import traverse_tree, mkdirp, touch
+from llnl.util import tty
 
 __all__ = ['LinkTree']
 
@@ -95,7 +96,11 @@ class LinkTree(object):
                     else:
                         raise AssertionError("File already exists: %s" % dest)
                 else:
-                    link(src, dest)
+                    try:
+                        link(src, dest)
+                    except OSError:
+                        tty.debug("Could not link {0} to {1}".format(dest, src))
+                        raise
         if ignore_conflicts:
             return existing
 

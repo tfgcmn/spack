@@ -23,8 +23,8 @@ newhash=$(tail -n2 tmp_newhash | grep -v "marking the package explicit" | tail -
 rm tmp_newhash
 
 viewname="views/${modulename}_$BUILD_ID"
-spack -d view --dependencies yes hardlink -i $viewname /$newhash
-spack -d view --dependencies no hardlink -i $viewname $compiler
+spack -d view --dependencies yes soft -i $viewname /$newhash
+spack -d view --dependencies no soft -i $viewname $compiler
 
 DIR="$( cd "$( dirname "$0}" )" && pwd )"
 bash $DIR/00_module.sh "${PWD}/$viewname" "${PWD}/modules/${modulename}_$BUILD_ID"
