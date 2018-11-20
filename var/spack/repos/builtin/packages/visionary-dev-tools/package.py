@@ -54,7 +54,7 @@ class VisionaryDevTools(Package):
     depends_on('gdb')
     depends_on('genpybind')
     depends_on('git')
-    depends_on('llvm+visionary+python~libcxx@5.0.0: build_type=Release')
+    depends_on('llvm+visionary+python~libcxx@7.0.0: build_type=Release')
     depends_on('mercurial')
     depends_on('mosh')
     depends_on('munge')
