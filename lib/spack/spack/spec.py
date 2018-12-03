@@ -2183,9 +2183,9 @@ class Spec(object):
         # If there are deps specified but not visited, they're not
         # actually deps of this package.  Raise an error.
         extra = set(spec_deps.keys()).difference(visited)
-        if extra:
-            raise InvalidDependencyError(
-                self.name + " does not depend on " + comma_or(extra))
+        # if extra:
+        #    raise InvalidDependencyError(
+        #         self.name + " does not depend on " + comma_or(extra))
 
         # Mark the spec as normal once done.
         self._normal = True
