@@ -33,6 +33,8 @@ class Genpybind(WafPackage):
 
     version('0.1.0', '345ca9c6ca96f79c8a217e44a9c99fe6')
     version('develop', git='https://github.com/kljohann/genpybind.git')
+    version('holder_type', git='https://github.com/kljohann/genpybind.git',
+            commit="c99d007eb8aba73b2ccbe69c13acb91e46858928")
 
     depends_on(
             'llvm+clang+python+visionary@5.0.0:5.999.999,7.0.0:7.999.999',

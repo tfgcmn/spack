@@ -55,7 +55,7 @@ class VisionaryDls(Package):
     depends_on('cppcheck')
     depends_on('doxygen+graphviz')
     depends_on('gccxml', when='+gccxml')
-    depends_on('genpybind')
+    depends_on('genpybind@holder_type')
     depends_on('gflags')
     depends_on('googletest+gmock')
     depends_on('intel-tbb') # ppu gdbserver
