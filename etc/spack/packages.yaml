@@ -23,29 +23,32 @@ packages:
       pil: [py-pillow]
       java: [jdk]
       pkgconfig: [pkg-config]
-  tk:
-    variants: ['+X']
-  pango:
-    variants: ['+X']
-  cairo:
-    variants: ['+X']
+  bazel:
+    version: [0.4.5]
   binutils:
     variants: ['+gold+plugins']
+  cairo:
+    variants: ['+X']
+  cppcheck:
+    variants: ['+htmlreport']
+  doxygen:
+    # always build with graphviz to help concretizer
+    variants: +graphviz
+  gcc:
+    compiler: [gcc@4.9.2]
   llvm:
     variants: ['~shared_libs+visionary+python~libcxx build_type=Release']
   openblas:
     variants: ['cpu_target=NEHALEM']
+  pango:
+    variants: ['+X']
   pcre:
     variants: ['+jit']
-  gcc:
-    compiler: [gcc@4.9.2]
-  ruby:
-    variants: ['~openssl']
   py-pytables:
     variants: ['~auto', '~avx2', '+sse2']
-  cppcheck:
-    variants: ['+htmlreport']
+  ruby:
+    variants: ['~openssl']
+  tk:
+    variants: ['+X']
   vim:
     variants: ['+x']
-  bazel:
-    version: [0.4.5]
