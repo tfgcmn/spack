@@ -46,6 +46,10 @@ class Boost(Package):
             branch='develop',
             submodules=True)
 
+    version('1.68.0', '18863a7cae4d58ae85eb63d400f774f60a383411',
+            url='https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.bz2')
+    version('1.67.0', '694ae3f4f899d1a80eb7a3b31b33be73c423c1ae',
+            url='https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.bz2')
     version('1.66.0', 'b6b284acde2ad7ed49b44e856955d7b1ea4e9459',
             url='https://dl.bintray.com/boostorg/release/1.66.0/source/boost_1_66_0.tar.bz2')
     version('1.65.1', '41d7542ce40e171f3f7982aff008ff0d',
@@ -178,8 +182,10 @@ class Boost(Package):
     # Patch fix from https://github.com/boostorg/config/issues/225
     patch('boost_1.66.0_gcc49_has_include.patch', when='@1.59.0:')
 
-    # Patch fix from https://github.com/boostorg/type_traits/issues/69
-    patch('boost_1.66.0_gcc42_common_arithmetic_type.patch', when='@1.60.0:')
+    # Patch fix from https://github.com/boostorg/type_traits/issues/69 fixed in 1.68.0
+    patch('boost_1.66.0_gcc42_common_arithmetic_type.patch', when='@1.60.0:1.67.999')
+
+    patch('boost_1.67.0_gcc42_result_of.patch', when='@1.67.0:')
 
     def url_for_version(self, version):
         url = "http://downloads.sourceforge.net/project/boost/boost/{0}/boost_{1}.tar.bz2"
