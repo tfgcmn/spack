@@ -50,7 +50,7 @@ class VisionaryDls(Package):
     variant('gccxml', default=False)
 
     # depends_on('libusb-1.0')  external dependency
-    depends_on('boost@1.66.0+graph+icu+mpi+python+numpy')
+    depends_on('boost@1.68.0+graph+icu+mpi+python+numpy')
     depends_on('cereal')
     depends_on('cppcheck')
     depends_on('doxygen+graphviz')
