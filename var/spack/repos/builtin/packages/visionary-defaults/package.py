@@ -100,7 +100,6 @@ class VisionaryDefaults(Package):
 
     # OJB: 2018-08-02 visionary-defaults always wants _all_ the tools
     depends_on('visionary-dev-tools')
-    depends_on('visionary-common')
 
     # ECM: 2017-04-28 pin python to >= 3.6.0
     # version('0.3.0', git='https://github.com/electronicvisions/spack-visions.git')

@@ -81,6 +81,7 @@ class VisionaryDevTools(Package):
     depends_on('rtags')
     depends_on('tar')
     depends_on('texinfo')
+    depends_on('the-silver-searcher')
     depends_on('tig')
     depends_on('tmux')
     depends_on('units')

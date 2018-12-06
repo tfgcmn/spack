@@ -42,7 +42,6 @@ class VisionaryDls(Package):
     variant('dev', default=True)
 
     depends_on('visionary-dev-tools', when='+dev')
-    depends_on('visionary-common')
 
     # Depend on visionary-nux to enable joint developement of host and PPU code with one meta package
     depends_on('visionary-nux')

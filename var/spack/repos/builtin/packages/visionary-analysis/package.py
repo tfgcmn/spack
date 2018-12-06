@@ -39,7 +39,6 @@ class VisionaryAnalysis(Package):
     variant('dev', default=True)
 
     depends_on('visionary-dev-tools', when='+dev')
-    depends_on('visionary-common')
 
     depends_on('python')
 

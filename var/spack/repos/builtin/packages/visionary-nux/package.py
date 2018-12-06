@@ -39,7 +39,6 @@ class VisionaryNux(Package):
     variant('dev', default=True)
 
     depends_on('visionary-dev-tools', when='+dev')
-    depends_on('visionary-common')
 
     depends_on('gettext')
     depends_on('zlib')
