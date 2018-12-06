@@ -48,6 +48,7 @@ class VisionaryDevTools(Package):
     depends_on('cairo +X')
     depends_on('cloc')
     depends_on('cmake')
+    depends_on('connect-proxy')
     depends_on('cppcheck +htmlreport')
     depends_on('doxygen+graphviz')
     depends_on('emacs ~X')
