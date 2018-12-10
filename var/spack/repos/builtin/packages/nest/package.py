@@ -39,12 +39,19 @@ class Nest(Package):
     version('2.8.0', '3df9d39dfce8a85ee104c7c1d8e5b337')
     version('2.6.0', 'ca7023c3a0ecb914ed2467d5d29265b0')
     version('2.4.2', 'c19db0280c9dd4219023ad96a62a4eda')
-    version('2.4.2_custom_tso', 'c19db0280c9dd4219023ad96a62a4eda', url='https://github.com/nest/nest-simulator/releases/download/v2.4.2/nest-2.4.2.tar.gz')
     version('2.2.2', 'ced2d42091061973f6a18f0e5b97129f')
 
     # apply patches to specific versions
-    patch('nest_2.4.2_tso.patch', when='@2.4.2_custom_tso')
+    patch('nest_2.4.2_tso.patch', when='@2.4.2+backports')
 
+    # fixes tau_m - tau_syn fail in iaf_psc_exp_ps
+    # https://github.com/nest/nest-simulator/issues/1087
+    patch('nest_iaf_psc_exp_ps_2160.patch', when='@2.3.0:2.18.0+backports')
+
+    variant("backports", default=False,
+            description="Patches wrong behavior in old versions. This is"
+                        " deactivated by default to get reproducible but"
+                        " wrong behavior")
     # only relevant variants
     variant("debug", default=False,
             description="Enable debugging symbols")
