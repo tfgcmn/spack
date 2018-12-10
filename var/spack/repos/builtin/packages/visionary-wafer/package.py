@@ -78,6 +78,13 @@ class VisionaryWafer(Package):
     depends_on('py-mock')
     depends_on('cereal')
 
+    # hmf-fpga register file requires:
+    depends_on('tcl-osys')
+    # annotations for the concretiser, otherwise it is unable to detect the tk
+    # restrictions correctly -> should be removable in the future
+    depends_on('tk@8.5.19')
+    depends_on('tcl@8.5.19')
+
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.

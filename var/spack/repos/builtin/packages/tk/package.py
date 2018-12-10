@@ -38,8 +38,11 @@ class Tk(AutotoolsPackage):
     version('8.6.6', 'dd7dbb3a6523c42d05f6ab6e86096e99')
     version('8.6.5', '11dbbd425c3e0201f20d6a51482ce6c4')
     version('8.6.3', '85ca4dbf4dcc19777fd456f6ee5d0221')
+    version('8.5.19', 'e89df710447cce0fc0bde65667c12f85')
 
     depends_on('tcl')
+    depends_on('tcl@8.6.0:8.6.99', when='@8.6.0:8.6.99')
+    depends_on('tcl@8.5.0:8.5.99', when='@8.5.0:8.5.99')
     depends_on('libx11')
 
     configure_directory = 'unix'
