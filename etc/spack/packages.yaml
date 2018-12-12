@@ -44,6 +44,8 @@ packages:
     variants: ['+X']
   pcre:
     variants: ['+jit']
+  py-h5py:
+    variants: ['~mpi']
   py-pytables:
     variants: ['~auto', '~avx2', '+sse2']
   ruby:
