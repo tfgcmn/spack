@@ -88,7 +88,6 @@ class VisionaryDevTools(Package):
     depends_on('units')
     depends_on('verilator')
     depends_on('vim +python +ruby +perl +cscope +huge +x')
-    depends_on('xilinx-ise+designsuite')
     depends_on('yaml-cpp+shared')
     depends_on('zsh')
 

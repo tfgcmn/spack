@@ -73,7 +73,6 @@ class VisionaryDls(Package):
     depends_on('py-scikit-learn')
     depends_on('py-sqlalchemy')
     depends_on('python')
-    depends_on('xilinx-ise', when='+v3')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
