@@ -25,11 +25,17 @@
 from spack import *
 
 
-class Rsync(AutotoolsPackage):
-    """An open source utility that provides fast incremental file transfer."""
-    homepage = "https://rsync.samba.org"
-    url      = "https://download.samba.org/pub/rsync/rsync-3.1.1.tar.gz"
+class GitFatGit(Package):
+    """Simple way to handle fat files without committing them to git, supports synchronization using rsync"""
 
-    version('3.1.3', '1581a588fde9d89f6bc6201e8129afaf')
-    version('3.1.2', '0f758d7e000c0f7f7d3792610fad70cb')
-    version('3.1.1', '43bd6676f0b404326eee2d63be3cdcfe')
+    homepage = "https://github.com/jedbrown/git-fat"
+    url      = "https://github.com/jedbrown/git-fat.git"
+
+    version('e1733b1c7c4169d0a1d31cb76f168fb0880176c0', hash='e1733b1c7c4169d0a1d31cb76f168fb0880176c0', git='https://github.com/jedbrown/git-fat.git')
+
+    depends_on('python', type='run')
+    depends_on('git', type='run')
+    depends_on('rsync', type='run')
+
+    def install(self, spec, prefix):
+        install_tree('.', prefix.bin)
