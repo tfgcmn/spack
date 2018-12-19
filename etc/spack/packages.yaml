@@ -36,6 +36,8 @@ packages:
     variants: +graphviz
   gcc:
     compiler: [gcc@4.9.2]
+  hdf5:
+    variants: ['~mpi']
   llvm:
     variants: ['~shared_libs+visionary+python~libcxx build_type=Release']
   openblas:
