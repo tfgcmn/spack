@@ -75,7 +75,6 @@ class VisionaryWafer(Package):
     depends_on('py-lmfit')
     depends_on('py-tabulate')
     depends_on('py-pybind11')
-    depends_on('py-doxypy')
     depends_on('py-mock')
     depends_on('cereal')
     depends_on('py-yccp')

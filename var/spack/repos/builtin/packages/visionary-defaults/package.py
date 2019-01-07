@@ -194,7 +194,7 @@ class VisionaryDefaults(Package):
     depends_on('py-pygtk', when='@0.2.4:')
     depends_on('gtkplus', when='@0.2.4:')
     depends_on('cairo+X', when='@0.2.4:')
-    depends_on('py-pyside')
+    # depends_on('py-pyside')
     depends_on('py-slurm-pipeline')
 
     depends_on('nest@2.2.2+python', when='@0.2:0.2.12')
@@ -215,7 +215,7 @@ class VisionaryDefaults(Package):
     # depends_on('py-notebook')
     depends_on('py-virtualenv')
 
-    depends_on('py-matplotlib~tk+qt+ipython')
+    depends_on('py-matplotlib~tk~qt+ipython')
     # depends_on('py-matplotlib+tk+ipython')
     depends_on('py-numpy')
     depends_on('py-pandas @0.19.0:')
@@ -238,7 +238,6 @@ class VisionaryDefaults(Package):
     depends_on('py-jedi', when='@0.2.6:')
 
     depends_on('py-sphinx')
-    depends_on('py-doxypy')
     depends_on('py-nose')
     depends_on('py-junit-xml')
     depends_on('py-xmlrunner')
