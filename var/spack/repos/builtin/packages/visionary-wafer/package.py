@@ -79,7 +79,7 @@ class VisionaryWafer(Package):
     depends_on('cereal')
 
     # hmf-fpga register file requires:
-    depends_on('tcl-osys')
+    depends_on('tcl-osys@890eafffbda95b58a472a2005c3cb9e90fd22ff6')
     # annotations for the concretiser, otherwise it is unable to detect the tk
     # restrictions correctly -> should be removable in the future
     depends_on('tk@8.5.19')
