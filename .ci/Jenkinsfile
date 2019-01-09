@@ -5,7 +5,7 @@
  * We replace '/tmp' because it might not feature enough space for large builds
  * by some network-mounted large storage.
  */
-env.TMPDIR = "/wang/environment/software/jessie/spack/tmp/" + UUID.randomUUID().toString()
+env.TMPDIR = "/spack/tmp/" + UUID.randomUUID().toString()
 
 /**
  * Build was triggered by some gerrit event
@@ -27,13 +27,13 @@ try {
 		]
 		) {
 			if (GERRIT_BUILD) {
-				LIVE_INSTANCE = "/wang/environment/software/jessie/spack/${env.GERRIT_BRANCH}_live"
-				STAGE_INSTANCE = "/wang/environment/software/jessie/spack/${env.GERRIT_BRANCH}_staging"
+				LIVE_INSTANCE = "/spack/jessie/${env.GERRIT_BRANCH}_live"
+				STAGE_INSTANCE = "/spack/jessie/${env.GERRIT_BRANCH}_staging"
 			}
 
 			// Branch is not available when not triggered via gerrit
 			// TODO: Fix this when moving to a different branch!
-			NIGHTLY_INSTANCE = "/wang/environment/software/jessie/spack/20180129_nightly"
+			NIGHTLY_INSTANCE = "/spack/jessie/20180129_nightly"
 
 			COMPILER = "gcc@8.2.0 %gcc"
 			PY2 = "python@2.7.14"

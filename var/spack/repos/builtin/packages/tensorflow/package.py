@@ -76,9 +76,14 @@ class Tensorflow(Package):
         # clean bazel build cache
         which('bazel')('clean')
 
+        # set tmpdir to a non-NFS filesystem (because bazel uses ~/.cache/bazel)
+        # TODO: This should be checked for non-nfsy filesystem, but the current
+        #       best idea for it is to check
+        #           subprocess.call(['stat', '--file-system', '--format=%T', tmp_path])
+        #       to not be nfs. This is only valid for Linux and we'd like to
+        #       stay at least also OSX compatible
         tmp_path = '/tmp/spack/tf'
         mkdirp(tmp_path)
-        # set to a non-NFS filesystem (because bazel uses ~/.cache/bazel)
         env['TESTTMP_DIR'] = tmp_path
         env['HOME'] = tmp_path
 
