@@ -25,8 +25,8 @@
 from spack import *
 
 
-class VisionaryDls(Package):
-    """Visionary Meta Package"""
+class VisionaryXilinx(Package):
+    """Visionary Meta Package tracking runtime dependencies of xilinx module"""
 
     homepage = ''
     # some random tarball, to make `spack fetch --dependencies visionary-defaults` work
@@ -36,50 +36,20 @@ class VisionaryDls(Package):
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
-    # Chip specific packages
-    variant('v3', default=True)
-
-    variant('dev', default=True)
-
-    depends_on('visionary-dev-tools', when='+dev')
-
-    # Depend on visionary-nux to enable joint developement of host and PPU code with one meta package
-    depends_on('visionary-nux')
-
-    # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
-    variant('gccxml', default=False)
-
-    # depends_on('libusb-1.0')  external dependency
-    depends_on('boost@1.66.0+graph+icu+mpi+python+numpy')
-    depends_on('cereal')
-    depends_on('cppcheck')
-    depends_on('doxygen+graphviz')
-    depends_on('gccxml', when='+gccxml')
-    depends_on('genpybind@holder_type')
-    depends_on('gflags')
-    depends_on('googletest+gmock')
-    depends_on('intel-tbb') # ppu gdbserver
-    depends_on('libelf')
-    depends_on('llvm')
-    depends_on('log4cxx')
-    depends_on('munge')
-    depends_on('pkg-config')
-    depends_on('py-lxml') # collab tests
-    depends_on('py-matplotlib')
-    depends_on('py-nose')
-    depends_on('py-numpy')
-    depends_on('py-pybind11')
-    depends_on('py-pylint')
-    depends_on('py-scikit-learn')
-    depends_on('py-sqlalchemy')
-    depends_on('python')
-
-    # xilinx runtime dependencies
-    depends_on('visionary-xilinx')
+    depends_on('fontconfig', type='run')
+    depends_on('glib', type='run')
+    depends_on('libice', type='run')
+    depends_on('libsm', type='run')
+    depends_on('libxi', type='run')
+    depends_on('libxrandr', type='run')
+    depends_on('libxrender', type='run')
+    depends_on('libxtst', type='run')
+    depends_on('libxcursor', type='run')
+    depends_on('libxft', type='run')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        install(__file__, join_path(prefix.etc, 'visionary-dls.py'))
+        install(__file__, join_path(prefix.etc, 'visionary-xilinx.py'))
 
         # we could create some filesystem view here?
