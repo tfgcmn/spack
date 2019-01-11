@@ -48,6 +48,7 @@ class VisionarySimulation(Package):
     depends_on('py-pyyaml')
     depends_on('py-sbs')
     depends_on('py-scikit-learn')
+    depends_on('py-yccp')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)

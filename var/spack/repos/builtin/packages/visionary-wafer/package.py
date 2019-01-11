@@ -77,6 +77,7 @@ class VisionaryWafer(Package):
     depends_on('py-doxypy')
     depends_on('py-mock')
     depends_on('cereal')
+    depends_on('py-yccp')
 
     # hmf-fpga register file requires:
     depends_on('tcl-osys@890eafffbda95b58a472a2005c3cb9e90fd22ff6')
