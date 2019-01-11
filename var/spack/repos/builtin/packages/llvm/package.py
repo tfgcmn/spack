@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack import *
+import os
 
 
 class Llvm(CMakePackage):
@@ -603,6 +604,10 @@ class Llvm(CMakePackage):
         else:
             cmake_args.append('-DLLVM_EXTERNAL_LIBCXX_BUILD:Bool=OFF')
             cmake_args.append('-DLLVM_EXTERNAL_LIBCXXABI_BUILD:Bool=OFF')
+            # FIXME: check if non-system compiler (i.e. a spack-installed one) is used
+            cmake_args.append('-DGCC_INSTALL_PREFIX={0}'.format(
+                os.path.dirname(os.path.dirname(os.path.realpath(self.compiler.cc)))))
+
         if '+compiler-rt' not in spec:
             cmake_args.append('-DLLVM_EXTERNAL_COMPILER_RT_BUILD:Bool=OFF')
 
