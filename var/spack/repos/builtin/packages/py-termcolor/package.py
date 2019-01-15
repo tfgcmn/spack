@@ -24,25 +24,10 @@
 ##############################################################################
 from spack import *
 
+class PyTermcolor(PythonPackage):
+    """Cross-platform abstraction for writing colored text to a terminal"""
 
-class PyProtobuf(PythonPackage):
-    """Protocol buffers are Google's language-neutral, platform-neutral,
-    extensible mechanism for serializing structured data - think XML, but
-    smaller, faster, and simpler. You define how you want your data to be
-    structured once, then you can use special generated source code to easily
-    write and read your structured data to and from a variety of data streams
-    and using a variety of languages."""
+    homepage = "https://pypi.org/project/termcolor/"
+    url      = "https://files.pythonhosted.org/packages/8a/48/a76be51647d0eb9f10e2a4511bf3ffb8cc1e6b14e9e4fab46173aa79f981/termcolor-1.1.0.tar.gz"
 
-    homepage = 'https://developers.google.com/protocol-buffers/'
-    url      = 'https://pypi.io/packages/source/p/protobuf/protobuf-3.0.0b2.tar.gz'
-
-    version('3.6.0', '074abcceee0d795ba34ad6430f71d0e8')
-    version('3.4.0', 'bfc0c61c156a995e909521697e755780')
-    version('3.3.0', '27941e8e42e83d5183605054576882dd')
-    version('3.0.0b2', 'f0d3bd2394345a9af4a277cd0302ae83')
-    version('2.6.1', '6bf843912193f70073db7f22e2ea55e2')
-    version('2.5.0', '338813f3629d59e9579fed9035ecd457')
-    version('2.4.1', '72f5141d20ab1bcae6b1e00acfb1068a')
-    version('2.3.0', 'bb020c962f252fe81bfda8fb433bafdd')
-
-    depends_on('py-setuptools', type='build')
+    version('1.1.0', '043e89644f8909d462fbbfa511c768df')

@@ -24,25 +24,12 @@
 ##############################################################################
 from spack import *
 
+class PyGast(PythonPackage):
+    """A generic AST to represent Python2 and Python3s Abstract Syntax Tree(AST)."""
 
-class PyProtobuf(PythonPackage):
-    """Protocol buffers are Google's language-neutral, platform-neutral,
-    extensible mechanism for serializing structured data - think XML, but
-    smaller, faster, and simpler. You define how you want your data to be
-    structured once, then you can use special generated source code to easily
-    write and read your structured data to and from a variety of data streams
-    and using a variety of languages."""
+    homepage = "https://pypi.org/project/gast/"
+    url      = "https://files.pythonhosted.org/packages/5c/78/ff794fcae2ce8aa6323e789d1f8b3b7765f601e7702726f430e814822b96/gast-0.2.0.tar.gz"
 
-    homepage = 'https://developers.google.com/protocol-buffers/'
-    url      = 'https://pypi.io/packages/source/p/protobuf/protobuf-3.0.0b2.tar.gz'
-
-    version('3.6.0', '074abcceee0d795ba34ad6430f71d0e8')
-    version('3.4.0', 'bfc0c61c156a995e909521697e755780')
-    version('3.3.0', '27941e8e42e83d5183605054576882dd')
-    version('3.0.0b2', 'f0d3bd2394345a9af4a277cd0302ae83')
-    version('2.6.1', '6bf843912193f70073db7f22e2ea55e2')
-    version('2.5.0', '338813f3629d59e9579fed9035ecd457')
-    version('2.4.1', '72f5141d20ab1bcae6b1e00acfb1068a')
-    version('2.3.0', 'bb020c962f252fe81bfda8fb433bafdd')
+    version('0.2.0', 'b58325eeafd44ddc761fe8904b6ca877')
 
     depends_on('py-setuptools', type='build')

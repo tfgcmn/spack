@@ -17,12 +17,17 @@ GERRIT_BUILD = (boolean) env.GERRIT_CHANGE_NUMBER
  */
 MERGE_BUILD = (env.GERRIT_EVENT_TYPE == "change-merged")
 
-
+/**
+ * Bazel unsets http_proxy during build. Add HTTP(S)_PROXY. 
+ * (https://github.com/tensorflow/tensorflow/issues/7497#issuecomment-299191128)
+ */
 try {
 	node {
-		withEnv(['ftp_proxy=ftp://proxy.kip.uni-heidelberg.de:2121',
-		         'http_proxy=http://proxy.kip.uni-heidelberg.de:8080',
-		         'https_proxy=http://proxy.kip.uni-heidelberg.de:8080',
+		withEnv(['ftp_proxy=ftp://proxy1.kip.uni-heidelberg.de:2121',
+		         'http_proxy=http://proxy1.kip.uni-heidelberg.de:8080',
+		         'https_proxy=http://proxy1.kip.uni-heidelberg.de:8080',
+		         'HTTP_PROXY=http://proxy1.kip.uni-heidelberg.de:8080',
+		         'HTTPS_PROXY=http://proxy1.kip.uni-heidelberg.de:8080',
 		         'no_proxy=localhost,kip,kip.uni-heidelberg.de,129.206.179.*,129.20'
 		]
 		) {
