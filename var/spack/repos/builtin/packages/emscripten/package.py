@@ -57,8 +57,8 @@ class Emscripten(Package):
     for bt in all_build_types:
         for v in versions:
             version(v, git=url, tag=v)
-            depends_on("emscripten-fastcomp@{} build_type={}".format(v, bt),
-                       when="@{} build_type={}".format(v, bt))
+            depends_on("emscripten-fastcomp@{0} build_type={1}".format(v, bt),
+                       when="@{0} build_type={1}".format(v, bt))
 
     depends_on("cmake", type='build')
     depends_on("node-js", type='run')

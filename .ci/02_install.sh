@@ -24,7 +24,10 @@ rm tmp_newhash
 
 viewname="views/${modulename}_$BUILD_ID"
 spack -d view --dependencies yes soft -i $viewname /$newhash
+# don't add the (externally) managed compiler on asic machines
+if [ $HOSTNAME -ne "vrhea.kip.uni-heidelberg.de" ]; then
 spack -d view --dependencies no soft -i $viewname $compiler
+fi
 
 DIR="$( cd "$( dirname "$0}" )" && pwd )"
 bash $DIR/00_module.sh "${PWD}/$viewname" "${PWD}/modules/${modulename}_$BUILD_ID"
