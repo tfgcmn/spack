@@ -23,32 +23,36 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ##############################################################################
 from spack import *
+import os
+import shutil
 
 
-class UtilLinux(AutotoolsPackage):
-    """Util-linux is a suite of essential utilities for any Linux system."""
+class Singularity3(Package):
+    """Singularity is a container platform focused on supporting 'Mobility of
+       Compute'"""
 
-    homepage = "http://freecode.com/projects/util-linux"
-    url      = "https://www.kernel.org/pub/linux/utils/util-linux/v2.29/util-linux-2.29.2.tar.gz"
-    list_url = "https://www.kernel.org/pub/linux/utils/util-linux"
-    list_depth = 1
+    homepage = "https://www.sylabs.io/singularity/"
+    url      = "https://github.com/sylabs/singularity/archive/v3.0.2.tar.gz"
 
-    version('2.29.2', '24e0c67aac6f5c2535208866a42aeea2')
-    version('2.29.1', 'c7d5c111ef6bc5df65659e0b523ac9d9')
-    version('2.25',   'f6d7fc6952ec69c4dc62c8d7c59c1d57')
+    version('3.0.3-rc1', 'cc66e761b5344efbeb48e1123245d930')
 
-    depends_on('python@2.7:')
-    depends_on('pkg-config')
+    extends('go', deptypes='build')
 
-    def url_for_version(self, version):
-        url = "https://www.kernel.org/pub/linux/utils/util-linux/v{0}/util-linux-{1}.tar.gz"
-        return url.format(version.up_to(2), version)
+    depends_on('openssl')
+    depends_on('util-linux')
+    # TODO: seccomp missing
 
-    def configure_args(self):
-        spec = self.spec
+    def install(self, spec, prefix):
+        env = os.environ
+        env['GOPATH'] = self.stage.path + ':' + env['GOPATH']
 
-        return [
-            'PKG_CONFIG_PATH={0}'.format(
-                join_path(spec['python'].prefix.lib, 'pkgconfig')),
-            '--disable-use-tty-group',
-        ]
+        with working_dir(os.path.join(self.stage.path, 'src/github.com/sylabs'), create=True):
+            ln = which('ln')
+            ln('-s', self.stage.source_path, 'singularity')
+
+        with working_dir(self.stage.source_path):
+            mconfig = Executable('./mconfig')
+            mconfig('-V', str(self.version), '--prefix={}'.format(prefix), '--localstatedir=/var/lib', env=env)
+            with working_dir('builddir'):
+                make(env=env)
+                make('install', '-j', '1', env=env)
