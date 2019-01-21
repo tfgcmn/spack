@@ -65,6 +65,7 @@ class VisionaryDevTools(Package):
     depends_on('openssh')
     depends_on('pkg-config')
     depends_on('py-autopep8')
+    depends_on('py-configargparse')
     depends_on('py-doxypypy')
     depends_on('py-flake8')
     depends_on('py-gdbgui')
