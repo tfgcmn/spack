@@ -25,22 +25,13 @@
 from spack import *
 
 
-class PyJedi(PythonPackage):
-    """An autocompletion tool for Python that can be used for text editors."""
+class PyPluggy(PythonPackage):
+    """A minimalist production ready plugin system"""
 
-    homepage = "https://github.com/davidhalter/jedi"
-    url      = "https://pypi.io/packages/source/j/jedi/jedi-0.9.0.tar.gz"
+    homepage = "https://pluggy.readthedocs.io/en/latest"
+    url      = "https://pypi.io/packages/source/p/pluggy/pluggy-0.8.1.tar.gz"
 
-    # unfortunately pypi.io only offers a .whl
-    version('0.13.2', '451d3244896588b298dbc622fd461201',
-                url='https://github.com/davidhalter/jedi/archive/v0.13.2.tar.gz')
-    version('0.12.1', '49a94ffb781c1383e8542ca5f71cebf0',
-                url='https://github.com/davidhalter/jedi/archive/v0.12.1.tar.gz')
-    version('0.12.0', '8947d4d0201f857743da93c8bbf3889a',
-                url='https://github.com/davidhalter/jedi/archive/v0.12.0.tar.gz')
-    version('0.10.0', '89ed853d4a283bfa0fdbcf688b4d35fe',
-                url='https://github.com/davidhalter/jedi/archive/v0.10.0.tar.gz')
-    version('0.9.0', '2fee93d273622527ef8c97ac736e92bd')
+
+    version('0.8.1', '214ecd30495094ec2f1859adf03a510b')
 
     depends_on('py-setuptools', type='build')
-    depends_on('py-parso', type=('build', 'run'), when='@0.12.1:')

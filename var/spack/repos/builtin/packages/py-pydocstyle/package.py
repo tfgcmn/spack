@@ -25,22 +25,21 @@
 from spack import *
 
 
-class PyJedi(PythonPackage):
-    """An autocompletion tool for Python that can be used for text editors."""
+class PyPydocstyle(PythonPackage):
+    """docstring style checker"""
 
-    homepage = "https://github.com/davidhalter/jedi"
-    url      = "https://pypi.io/packages/source/j/jedi/jedi-0.9.0.tar.gz"
+    homepage = "http://pydocstyle.org"
+    url      = "https://pypi.io/packages/source/p/pydocstyle/pydocstyle-3.0.0.tar.gz"
 
-    # unfortunately pypi.io only offers a .whl
-    version('0.13.2', '451d3244896588b298dbc622fd461201',
-                url='https://github.com/davidhalter/jedi/archive/v0.13.2.tar.gz')
-    version('0.12.1', '49a94ffb781c1383e8542ca5f71cebf0',
-                url='https://github.com/davidhalter/jedi/archive/v0.12.1.tar.gz')
-    version('0.12.0', '8947d4d0201f857743da93c8bbf3889a',
-                url='https://github.com/davidhalter/jedi/archive/v0.12.0.tar.gz')
-    version('0.10.0', '89ed853d4a283bfa0fdbcf688b4d35fe',
-                url='https://github.com/davidhalter/jedi/archive/v0.10.0.tar.gz')
-    version('0.9.0', '2fee93d273622527ef8c97ac736e92bd')
+    version('3.0.0', '5d37d5c28a24627b325751bdede21111')
 
     depends_on('py-setuptools', type='build')
-    depends_on('py-parso', type=('build', 'run'), when='@0.12.1:')
+
+    # docs from requirements/docs.txt
+    # py-sphinxcontrib-issuetracker missing?
+    depends_on('py-sphinx-rtd-theme', type=('build', 'run'))
+    depends_on('py-sphinx', type=('build', 'run')) # TODO: upstream it is pinned to 1.6.2
+
+    # runtime from requirements/runtime.txt
+    depends_on('py-snowballstemmer@1.2.1', type=('build', 'run'))
+    depends_on('py-configparser@3.5.0', type=('build', 'run'))

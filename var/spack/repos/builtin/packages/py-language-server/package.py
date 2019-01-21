@@ -25,22 +25,26 @@
 from spack import *
 
 
-class PyJedi(PythonPackage):
-    """An autocompletion tool for Python that can be used for text editors."""
+class PyLanguageServer(PythonPackage):
+    """An implementation of the Language Server Protocol for Python"""
 
-    homepage = "https://github.com/davidhalter/jedi"
-    url      = "https://pypi.io/packages/source/j/jedi/jedi-0.9.0.tar.gz"
+    homepage = "https://github.com/palantir/python-language-server"
+    url      = "https://pypi.io/packages/source/p/python-language-server/python-language-server-0.22.0.tar.gz"
 
-    # unfortunately pypi.io only offers a .whl
-    version('0.13.2', '451d3244896588b298dbc622fd461201',
-                url='https://github.com/davidhalter/jedi/archive/v0.13.2.tar.gz')
-    version('0.12.1', '49a94ffb781c1383e8542ca5f71cebf0',
-                url='https://github.com/davidhalter/jedi/archive/v0.12.1.tar.gz')
-    version('0.12.0', '8947d4d0201f857743da93c8bbf3889a',
-                url='https://github.com/davidhalter/jedi/archive/v0.12.0.tar.gz')
-    version('0.10.0', '89ed853d4a283bfa0fdbcf688b4d35fe',
-                url='https://github.com/davidhalter/jedi/archive/v0.10.0.tar.gz')
-    version('0.9.0', '2fee93d273622527ef8c97ac736e92bd')
+    version('0.22.0', 'a45f2ea5538dc7e9743f7f319f98bb71')
 
     depends_on('py-setuptools', type='build')
-    depends_on('py-parso', type=('build', 'run'), when='@0.12.1:')
+    depends_on('py-configparser', type=('build', 'run'), when='^python@:2.999.999')
+    depends_on('py-future@0.14.0:', type=('build', 'run'))
+    depends_on('py-futures', type=('build', 'run'), when='^python@:2.999.999')
+    depends_on('py-jedi@0.12:', type=('build', 'run'))
+    depends_on('py-jsonrpc-server@0.1.0:', type=('build', 'run'))
+    depends_on('py-pluggy', type=('build', 'run'))
+
+    depends_on('py-autopep8', type=('build', 'run'))
+    depends_on('py-mccabe', type=('build', 'run'))
+    depends_on('py-pycodestyle', type=('build', 'run'))
+    depends_on('py-pydocstyle@2.0.0:', type=('build', 'run'))
+    depends_on('py-pyflakes@1.6.0:', type=('build', 'run'))
+    depends_on('py-rope@0.10.5:', type=('build', 'run'))
+    depends_on('py-yapf', type=('build', 'run'))

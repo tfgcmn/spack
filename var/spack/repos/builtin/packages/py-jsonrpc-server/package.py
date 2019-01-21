@@ -25,22 +25,14 @@
 from spack import *
 
 
-class PyJedi(PythonPackage):
-    """An autocompletion tool for Python that can be used for text editors."""
+class PyJsonrpcServer(PythonPackage):
+    """A Python 2 and 3 asynchronous JSON RPC server"""
 
-    homepage = "https://github.com/davidhalter/jedi"
-    url      = "https://pypi.io/packages/source/j/jedi/jedi-0.9.0.tar.gz"
+    homepage = "https://github.com/palantir/python-jsonrpc-server"
+    url      = "https://pypi.io/packages/source/p/python-jsonrpc-server/python-jsonrpc-server-0.1.2.tar.gz"
 
-    # unfortunately pypi.io only offers a .whl
-    version('0.13.2', '451d3244896588b298dbc622fd461201',
-                url='https://github.com/davidhalter/jedi/archive/v0.13.2.tar.gz')
-    version('0.12.1', '49a94ffb781c1383e8542ca5f71cebf0',
-                url='https://github.com/davidhalter/jedi/archive/v0.12.1.tar.gz')
-    version('0.12.0', '8947d4d0201f857743da93c8bbf3889a',
-                url='https://github.com/davidhalter/jedi/archive/v0.12.0.tar.gz')
-    version('0.10.0', '89ed853d4a283bfa0fdbcf688b4d35fe',
-                url='https://github.com/davidhalter/jedi/archive/v0.10.0.tar.gz')
-    version('0.9.0', '2fee93d273622527ef8c97ac736e92bd')
+    version('0.1.2', 'b1bc6c2854764f874040a0dd921f6f35')
 
     depends_on('py-setuptools', type='build')
-    depends_on('py-parso', type=('build', 'run'), when='@0.12.1:')
+    depends_on('py-future@0.14.0:', type=('build', 'run'))
+    depends_on('py-futures', type=('build', 'run'), when='^python@:2.999.999')

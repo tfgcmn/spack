@@ -74,6 +74,7 @@ class VisionaryDevTools(Package):
     depends_on('py-ipython')
     depends_on('py-jedi')
     depends_on('py-junit-xml')
+    depends_on('py-language-server')
     depends_on('py-nose')
     depends_on('py-nose2')
     depends_on('py-pudb')
