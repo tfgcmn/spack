@@ -174,7 +174,7 @@ class VisionaryDefaults(Package):
     # ECM: 2018-08-09 remove emscripten as it conflicts with genpybind (and its dependency on upstream clang
 
     depends_on('boost@1.55.0+graph+icu+mpi+python', when='@:0.2.18')
-    depends_on('boost@1.68.0+graph+icu+mpi+python+numpy', when='@0.2.19:')
+    depends_on('boost@1.69.0+graph+icu+mpi+python+numpy', when='@0.2.19:')
     depends_on('yaml-cpp@0.5.3+shared', when='@:0.2.19')
     depends_on('yaml-cpp@0.6.2+shared', when='@0.2.20:')
     depends_on('tensorflow', when='+tensorflow')

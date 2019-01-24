@@ -46,6 +46,8 @@ class Boost(Package):
             branch='develop',
             submodules=True)
 
+    version('1.69.0', 'ea6eee4b5999f9c02105386850f63a53f0250eaa',
+            url='https://dl.bintray.com/boostorg/release/1.69.0/source/boost_1_69_0.tar.bz2')
     version('1.68.0', '18863a7cae4d58ae85eb63d400f774f60a383411',
             url='https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.bz2')
     version('1.67.0', '694ae3f4f899d1a80eb7a3b31b33be73c423c1ae',
@@ -356,6 +358,9 @@ class Boost(Package):
             return
 
         # Remove libraries that the release version does not support
+        if spec.satisfies('@1.69.0:'):
+            # signals (v1) has been discontinued
+            withLibs.remove('signals')
         if not spec.satisfies('@1.54.0:'):
             withLibs.remove('log')
         if not spec.satisfies('@1.53.0:'):
