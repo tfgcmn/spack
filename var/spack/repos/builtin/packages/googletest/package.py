@@ -30,6 +30,7 @@ class Googletest(CMakePackage):
     homepage = "https://github.com/google/googletest"
     url      = "https://github.com/google/googletest/tarball/release-1.7.0"
 
+    version('1.8.1', 'e23777054b03315d9376fe44e6d4275a')
     version('1.8.0', 'd2edffbe844902d942c31db70c7cfec2')
     version('1.7.0', '5eaf03ed925a47b37c8e1d559eb19bc4')
     version('1.6.0', '90407321648ab25b067fcd798caf8c78')
