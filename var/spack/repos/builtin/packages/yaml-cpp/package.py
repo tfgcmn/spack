@@ -64,6 +64,8 @@ class YamlCpp(CMakePackage):
                 inspect.getmodule(self).cmake(*options)
                 inspect.getmodule(self).make(*self.build_targets)
                 inspect.getmodule(self).make(*self.install_targets)
+        # disable tests (avoids building the internal googletest libraries)
+        options += ['-DYAML_CPP_BUILD_TESTS:BOOL=OFF']
 
     def build(self, spec, prefix):
         pass
