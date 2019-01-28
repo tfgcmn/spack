@@ -38,6 +38,7 @@ class EmscriptenFastcomp(CMakePackage):
 
     # every version has a corresponding clang version
     versions = [
+            "1.38.25",
             "1.38.8",
             "1.38.7",
             "1.38.6",

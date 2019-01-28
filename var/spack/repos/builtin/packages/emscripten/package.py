@@ -43,6 +43,7 @@ class Emscripten(Package):
 
     # keep in sync with emscripten-fastcomp
     versions = [
+            "1.38.25",
             "1.38.8",
             "1.38.7",
             "1.38.6",
