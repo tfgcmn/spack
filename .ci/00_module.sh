@@ -42,9 +42,13 @@ if { \${existing_basedir} != 0 } {
         break
 }
 
+if { [module-info mode load] && [info exists ::env(PYTHONPATH)] } {
+    puts stderr "PYTHONPATH already defined, cannot load module"
+    break
+}
+
 prepend-path  PATH                \${module_basedir}/bin
-prepend-path  PYTHONPATH          \${module_basedir}/lib/python2.7/site-packages
-prepend-path  PYTHONUSERBASE      \${module_basedir}
+setenv        PYTHONHOME          \${module_basedir}
 prepend-path  MANPATH             \${module_basedir}/man
 prepend-path  MANPATH             \${module_basedir}/share/man
 prepend-path  LIBRARY_PATH        \${module_basedir}/lib
