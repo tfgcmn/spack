@@ -11,7 +11,7 @@ class PyYccp(PythonPackage):
     homepage = "https://github.com/obreitwi/yccp"
     url      = "https://github.com/obreitwi/yccp"
 
-    # Currently there is no stable 1.0 release yet so just build master all the time.
+    version('0.5.0', git="https://github.com/obreitwi/yccp.git", tag="v0.5.0")
     version('0.4.0', git="https://github.com/obreitwi/yccp.git",
             commit="055dfd62945f1b1e0990ba9318afeea325ed2de2")
     version('master', git="https://github.com/obreitwi/yccp.git")
