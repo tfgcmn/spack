@@ -56,6 +56,7 @@ class VisionaryDevTools(Package):
     depends_on('genpybind')
     depends_on('git')
     depends_on('git-fat-git')
+    depends_on('libpcap')
     depends_on('llvm+visionary+python~libcxx@7.0.0: build_type=Release')
     depends_on('mercurial')
     depends_on('mosh')
