@@ -85,7 +85,6 @@ class VisionaryDevTools(Package):
     depends_on('py-virtualenv')
     depends_on('py-xmlrunner')
     depends_on('rtags')
-    depends_on('singularity3')
     depends_on('tar')
     depends_on('texinfo')
     depends_on('the-silver-searcher')

@@ -34,7 +34,16 @@ class Singularity3(Package):
     homepage = "https://www.sylabs.io/singularity/"
     url      = "https://github.com/sylabs/singularity/archive/v3.0.2.tar.gz"
 
+    version('3.0.3',     '1dadc7a45d79c3503aab3a40bf9e9548')
     version('3.0.3-rc1', 'cc66e761b5344efbeb48e1123245d930')
+
+    # experimental features
+    version('trustedContainers-v2', git='https://github.com/obreitwi/singularity.git',
+            tag='feature/trustedContainers-v2')
+
+    variant('global_config', default=False,
+            help="If enabled, the config folder will be installed to "
+                 "/etc/singularity (needs sufficient permissions).")
 
     extends('go', deptypes='build')
 
@@ -52,7 +61,14 @@ class Singularity3(Package):
 
         with working_dir(self.stage.source_path):
             mconfig = Executable('./mconfig')
-            mconfig('-V', str(self.version), '--prefix={}'.format(prefix), '--localstatedir=/var/lib', env=env)
+            mconfig_args = [
+                    '-V', str(self.version),
+                    '--prefix={}'.format(prefix),
+                    '--localstatedir=/var/lib']
+            if spec.satisfies("+global_config"):
+                mconfig_args.append('--sysconfdir=/etc/singularity')
+            mconfig(*mconfig_args,
+                    env=env)
             with working_dir('builddir'):
                 make(env=env)
                 make('install', '-j', '1', env=env)
