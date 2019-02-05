@@ -31,6 +31,7 @@ class PySlurmPipeline(PythonPackage):
     homepage = "https://github.com/acorg/slurm-pipeline"
     url      = "https://pypi.io/packages/source/s/slurm-pipeline/slurm-pipeline-1.1.13.tar.gz"
 
+    version('3.0.2',  '453cd75406c6b180939f34a07e94a40a')
     version('2.0.9',  '7f97d2410db441081b79ac5c3395b8d0')
     version('1.1.13', 'd1f8c78a64718ec5e2e40ba1b6816017')
 
