@@ -24,7 +24,7 @@ packages:
       java: [jdk]
       pkgconfig: [pkg-config]
   bazel:
-    version: [0.10.0]
+    version: [0.15.0]
   binutils:
     variants: ['+gold+plugins']
   cairo:
@@ -37,7 +37,7 @@ packages:
   gcc:
     compiler: [gcc@4.9.2]
   hdf5:
-    variants: ['~mpi']
+    variants: ['~mpi+hl']
   llvm:
     variants: ['~shared_libs+visionary+python~libcxx build_type=Release']
   openblas:
