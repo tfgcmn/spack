@@ -34,6 +34,8 @@ class NodeJs(Package):
     homepage = "https://nodejs.org/"
     url      = "https://nodejs.org/download/release/v6.3.0/node-v6.3.0.tar.gz"
 
+    version('8.15.0', '7706b41dd2de0f66aa563caaaf528df7')
+    version('8.9.3', '88c12ccd5806a101b00139140d958c2b')
     version('8.9.1', '7482b2523f72000d1b6060c38945026b')
     version('7.1.0', '1db5df2cb025f9c70e83d9cf21c4266a')
     version('6.3.0', '8c14e5c89d66d4d060c91b3ba15dfd31')
