@@ -31,6 +31,9 @@ class PyPythonSocketio(PythonPackage):
     homepage = "https://github.com/miguelgrinberg/python-socketio"
     url      = "https://files.pythonhosted.org/packages/source/p/python-socketio/python-socketio-1.8.4.tar.gz"
 
+    version('3.1.2',
+            sha256='aa702157694d55a743fb6f1cc0bd1af58fbfda8a7d71d747d4b12d6dac29cab3',
+            url='https://files.pythonhosted.org/packages/91/6a/8afe83b29bb639a6073a8367319b321d50d335840adccc5a20a79c033c9d/python-socketio-3.1.2.tar.gz')
     version('1.8.4', '9de73990f6c32c701278c01b0fa1a0c3')
 
     variant('eventlet', default=True)
