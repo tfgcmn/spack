@@ -50,6 +50,7 @@ class VisionaryDevTools(Package):
     depends_on('cmake')
     depends_on('connect-proxy')
     depends_on('cppcheck +htmlreport')
+    depends_on('cquery')
     depends_on('doxygen+graphviz')
     depends_on('emacs ~X')
     depends_on('gdb')
