@@ -42,8 +42,8 @@ class Singularity3(Package):
             tag='feature/trustedContainers-v2')
 
     variant('global_config', default=False,
-            help="If enabled, the config folder will be installed to "
-                 "/etc/singularity (needs sufficient permissions).")
+            description="If enabled, the config folder will be installed to "
+                        "/etc/singularity (needs sufficient permissions).")
 
     extends('go', deptypes='build')
 
