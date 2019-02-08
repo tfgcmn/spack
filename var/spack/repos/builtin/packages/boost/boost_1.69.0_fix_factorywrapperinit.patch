@@ -1,0 +1,10 @@
+--- a/boost/python/make_constructor.hpp	2019-02-11 13:41:09.067185154 +0100
++++ b/boost/python/make_constructor.hpp	2019-02-11 13:41:06.527159238 +0100
+@@ -63,6 +63,7 @@ namespace detail
+ 
+           void* memory = holder::allocate(this->m_self, offsetof(instance_t, storage), sizeof(holder));
+           try {
++              python::detail::initialize_wrapper(this->m_self, get_pointer(x));
+ #if defined(BOOST_NO_CXX11_SMART_PTR)
+               (new (memory) holder(x))->install(this->m_self);
+ #else

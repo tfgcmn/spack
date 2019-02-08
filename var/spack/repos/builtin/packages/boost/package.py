@@ -189,6 +189,9 @@ class Boost(Package):
 
     patch('boost_1.67.0_gcc42_result_of.patch', when='@1.67.0:')
 
+    # TODO(ECM): bring patch upstream
+    patch('boost_1.69.0_fix_factorywrapperinit.patch')
+
     def url_for_version(self, version):
         url = "http://downloads.sourceforge.net/project/boost/boost/{0}/boost_{1}.tar.bz2"
         return url.format(version.dotted, version.underscored)
