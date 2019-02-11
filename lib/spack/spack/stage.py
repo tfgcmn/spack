@@ -35,7 +35,7 @@ from six.moves.urllib.parse import urljoin
 
 import llnl.util.tty as tty
 import llnl.util.lock
-from llnl.util.filesystem import mkdirp, join_path, can_access
+from llnl.util.filesystem import mkdirp, join_path, can_access, install, install_tree
 from llnl.util.filesystem import remove_if_dead_link, remove_linked_tree
 
 import spack
@@ -566,7 +566,13 @@ class ResourceStage(Stage):
                          '{stage}\n\tdestination : {destination}'.format(
                              stage=source_path, destination=destination_path
                          ))
-                shutil.move(source_path, destination_path)
+
+                src = os.path.realpath(source_path)
+
+                if os.path.isdir(src):
+                    install_tree(src, destination_path)
+                else:
+                    install(src, destination_path)
 
 
 @pattern.composite(method_list=[

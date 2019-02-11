@@ -23,6 +23,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ##############################################################################
 from spack import *
+import sys
 
 
 class PyElephant(PythonPackage):
@@ -38,13 +39,66 @@ class PyElephant(PythonPackage):
 
     variant('doc', default=False, description='Build the documentation')
     variant('pandas', default=True, description='Build with pandas')
+    variant('scikit', default=True, description='Build with scikit-learn')
+    variant('spade', default=False, description='Build with prebuild spade')
+
+    patch('deletefetches.patch')
+
+    resource(name='fim364.so',
+             url='http://www.borgelt.net/bin64/py3/fim.so',
+             destination='.',
+             placement='elephant/spade_src/fim364.so',
+             sha256='67d556ed8e5a56c7e295845a239fbf36f8499a4c7216de9cd677d75c03cf5d29',
+             when='^python@3:',
+             expand=False)
+
+    resource(name='fim264.so',
+             url='http://www.borgelt.net/bin64/py2/fim.so',
+             placement='elephant/spade_src/fim264.so',
+             destination='.',
+             sha256='2a33e222a214401c092b29a6144f3fb6455ac2d9d5635462300ab36eaac4e290',
+             when='^python@:2.8',
+             expand=False)
+
+    resource(name='fim332.so',
+             url='http://www.borgelt.net/bin32/py3/fim.so',
+             placement='elephant/spade_src/fim332.so',
+             destination='.',
+             sha256='93e70b5e681d4661dda89fbc350b35b8c98d98a60c7ad0da3db15d66f50e324e',
+             when='^python@3:',
+             expand=False)
+
+    resource(name='fim232.so',
+             url='http://www.borgelt.net/bin32/py2/fim.so',
+             placement='elephant/spade_src/fim232.so',
+             destination='.',
+             sha256='14f312d6b09a723d1c8dd162015cd5343721d66171a03cbc311926ec3b7d878f',
+             when='^python@:2.8',
+             expand=False)
+
+    @run_before('build')
+    def ensure_library(self):
+        if not self.spec.satisifies('+spade'):
+            return
+        if self.spec.satisfies('^python@:2.8'):
+            if sys.maxsize > 2**32:
+                install('elephant/spade_src/fim264.so/fim.so', 'elephant/spade_src/fim.so')
+            else:
+                install('elephant/spade_src/fim232.so/fim.so', 'elephant/spade_src/fim.so')
+        else:
+            if sys.maxsize > 2**32:
+                install('elephant/spade_src/fim364.so/fim.so', 'elephant/spade_src/fim.so')
+            else:
+                install('elephant/spade_src/fim332.so/fim.so', 'elephant/spade_src/fim.so')
 
     depends_on('py-setuptools',         type='build')
     depends_on('py-neo@0.3.4:',         type=('build', 'run'))  # > 0.3.3 ?
     depends_on('py-numpy@1.8.2:',       type=('build', 'run'))
     depends_on('py-quantities@0.10.1:', type=('build', 'run'))
     depends_on('py-scipy@0.14.0:',      type=('build', 'run'))
+    depends_on('py-six@1.10.0:',      type=('build', 'run'))
     depends_on('py-pandas@0.14.1:',     type=('build', 'run'), when='+pandas')
+    depends_on('py-scikit-learn',       type=('build', 'run'), when='+scikit')
     depends_on('py-numpydoc@0.5:',      type=('build', 'run'), when='+docs')
     depends_on('py-sphinx@1.2.2:',      type=('build', 'run'), when='+docs')
-    # depends_on('py-nose@1.3.3:',        type=('build', 'run')) # tests
+    depends_on('py-nose@1.3.3:',        type=('build', 'run')) # tests

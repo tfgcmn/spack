@@ -35,3 +35,4 @@ class PyPluggy(PythonPackage):
     version('0.8.1', '214ecd30495094ec2f1859adf03a510b')
 
     depends_on('py-setuptools', type='build')
+    depends_on('py-setuptools-scm', type='build')
