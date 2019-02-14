@@ -31,6 +31,7 @@ class PyTqdm(PythonPackage):
     homepage = "https://github.com/tqdm/tqdm"
     url      = "https://pypi.io/packages/source/t/tqdm/tqdm-4.8.4.tar.gz"
 
+    version('4.31.1', '807e8c13e16e3660ac88e05d711daeb0')
     version('4.8.4', 'b30a0aa20641d239296eab1c48a06b4e')
 
     depends_on('py-setuptools', type='build')
