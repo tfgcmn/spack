@@ -74,6 +74,7 @@ class VisionaryWafer(Package):
     depends_on('py-scipy')
     depends_on('py-scikit-image')
     depends_on('py-lmfit')
+    depends_on('py-mmdnn')
     depends_on('py-tabulate')
     depends_on('py-pybind11')
     depends_on('py-mock')
