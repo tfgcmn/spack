@@ -34,7 +34,6 @@ class Pytorch(CMakePackage):
     version('1.0.1', commit='18eef1d8d96bf893c86b2259d4012267e4141e4b',
             submodules=True, git="https://github.com/pytorch/pytorch")
 
-    depends_on('intel-mkl')
     depends_on('py-setuptools')
     depends_on('py-numpy')
     depends_on('py-pyyaml')
