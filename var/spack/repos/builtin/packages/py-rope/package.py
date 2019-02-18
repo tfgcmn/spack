@@ -31,6 +31,7 @@ class PyRope(PythonPackage):
     homepage = "https://github.com/python-rope/rope"
     url      = "https://pypi.io/packages/source/r/rope/rope-0.10.5.tar.gz"
 
+    version('0.12.0', 'c9a762417a46e1ffe7e8af3eff8d1b17')
     version('0.10.5', '21882fd7c04c29d09f75995d8a088be7')
 
     depends_on('py-setuptools', type='build')
