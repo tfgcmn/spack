@@ -78,7 +78,7 @@ class PyElephant(PythonPackage):
 
     @run_before('build')
     def ensure_library(self):
-        if not self.spec.satisifies('+spade'):
+        if not self.spec.satisfies('+spade'):
             return
         if self.spec.satisfies('^python@:2.8'):
             if sys.maxsize > 2**32:
