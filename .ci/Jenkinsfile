@@ -31,6 +31,7 @@ try {
 		         'no_proxy=localhost,kip,kip.uni-heidelberg.de,129.206.179.*,129.20'
 		]
 		) {
+		timestamps {
 			if (GERRIT_BUILD) {
 				LIVE_INSTANCE = "/spack/jessie/${env.GERRIT_BRANCH}_live"
 				STAGE_INSTANCE = "/spack/jessie/${env.GERRIT_BRANCH}_staging"
@@ -174,6 +175,7 @@ try {
 			}
 		}
 	}
+}
 } catch (Throwable t) {
 	notifyFailure(mattermostChannel: "#spack")
 	throw t
