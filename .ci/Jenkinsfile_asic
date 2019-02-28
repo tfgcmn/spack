@@ -81,7 +81,7 @@ try {
 					   "set -x && " +
 					   "bash -ex .ci/02_install.sh asic_" + compiler + " \'visionary-asic\' \'" + compiler + "\' \'local\'"
 					if (MERGE_BUILD) {
-						sh "ln -sf ${PWD}/modules/asic_" + compiler + "_${BUILD_ID} ${PWD}/modules/asic_" + compiler + "_current"
+						sh "ln -sf ${PWD}/modules/asic_" + compiler + "_${BUILD_ID} ${PWD}/modules/asic_" + compiler
 					}
 				}
 			}
