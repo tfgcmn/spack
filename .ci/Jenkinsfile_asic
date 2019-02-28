@@ -79,10 +79,8 @@ try {
 					   "set +x && " +
 					   ". share/spack/setup-env.sh &&" +
 					   "set -x && " +
-					   "bash -ex .ci/02_install.sh asic_" + compiler + " \'visionary-asic\' \'" + compiler + "\' \'local\'"
-					if (MERGE_BUILD) {
-						sh "ln -sf ${PWD}/modules/asic_" + compiler + "_${BUILD_ID} ${PWD}/modules/asic_" + compiler
-					}
+					   "bash -ex .ci/02_install.sh asic_" + compiler + " \'visionary-asic\' \'" + compiler + "\' \'local\' && " +
+					   "ln -sf ${WORKING_DIR}/modules/asic_" + compiler + "_${BUILD_ID} ${WORKING_DIR}/modules/asic_" + compiler
 				}
 			}
 		}
