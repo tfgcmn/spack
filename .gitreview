@@ -2,5 +2,5 @@
 host=brainscales-r.kip.uni-heidelberg.de
 port=29418
 project=spack
-defaultremote=gerrit
-defaultbranch=20180129
+defaultremote=review
+defaultbranch=visionary
