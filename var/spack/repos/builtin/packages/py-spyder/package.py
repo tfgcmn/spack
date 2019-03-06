@@ -18,7 +18,7 @@ class PySpyder(PythonPackage):
     depends_on('python@2.7.0:2.8.0,3.3.0:', type=('build', 'run'))
     depends_on('py-rope@0.9.4:',      type=('build', 'run'), when='^python@:3')
     # depends_on('py-rope_py3k',    type=('build', 'run'), when='^python@3:')
-    depends_on('py-jedi@0.9.0',       type=('build', 'run'))
+    depends_on('py-jedi@0.9.0:',       type=('build', 'run'))
     # otherwise collision with py-flake8
     depends_on('py-pyflakes@1.2.3',   type=('build', 'run'))
     depends_on('py-pygments@2.0:',    type=('build', 'run'))
