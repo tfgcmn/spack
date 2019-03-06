@@ -35,5 +35,5 @@ class PyAbslPy(PythonPackage):
 
     version('0.1.6', 'b76269cbf04502b7d12efabcfa51a299')
 
-    depends_on('py-six@1.10.0', type='build')
+    depends_on('py-six@1.10.0:', type='build')
     depends_on('py-enum34', type='build')
