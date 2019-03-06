@@ -23,6 +23,10 @@ packages:
       pil: [py-pillow]
       java: [jdk]
       pkgconfig: [pkg-config]
+  atk:
+    # later versions require meson which requires py3
+    # TODO: Delete once the stack has switched to py3
+    version: [2.20.0]
   bazel:
     version: [0.15.0]
   binutils:
@@ -36,6 +40,13 @@ packages:
     variants: +graphviz
   gcc:
     compiler: [gcc@4.9.2]
+  gdk-pixbuf:
+    # later versions depend on meson which requires py3
+    version: [2.31.2]
+  gtkplus:
+    # version 3.0+ has dependencies which require meson which requires py3
+    # TODO: Delete once the stack has switched to py3
+    version: [2.24.32]
   hdf5:
     variants: ['~mpi+hl']
   llvm:
@@ -48,6 +59,11 @@ packages:
     variants: ['+jit']
   py-h5py:
     variants: ['~mpi']
+  py-matplotlib:
+    # versions starting with 3 need python3
+    # TODO: Delete once the stack has switched to py3
+    version: [2.2.3]
+    variants: ['-qt']
   py-pytables:
     variants: ['~auto', '~avx2', '+sse2']
   ruby:

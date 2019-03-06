@@ -176,7 +176,10 @@ def info(message, *args, **kwargs):
             for line in lines:
                 stream.write(line + '\n')
         else:
-            stream.write(indent + str(arg) + '\n')
+            try:
+                stream.write(indent + str(arg) + '\n')
+            except Exception:
+                stream.write("<THERE SHOULD HAVE BEEN AN ERROR MESSAGE HERE>\n")
 
 
 def verbose(message, *args, **kwargs):
