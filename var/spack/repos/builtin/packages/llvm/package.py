@@ -1,9 +1,10 @@
-# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Copyright 2013-2018 Lawrence Livermore National Security, LLC and other
 # Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack import *
+import os
 
 
 class Llvm(CMakePackage):
@@ -58,6 +59,28 @@ class Llvm(CMakePackage):
     variant('python', default=False, description="Install python bindings")
     extends('python', when='+python')
 
+    variant('visionary', default=False,
+            description="Include patches necessary for visionary python "
+            "bindings generator")
+    patch('llvm5-0001-libclang-Add-support-for-checking-abstractness-of-re.patch', when='@5.0:6.999 +visionary')
+    patch('llvm5-0002-libclang-Keep-track-of-TranslationUnit-instance-when.patch', when='@5.0:6.999 +visionary')
+    patch('llvm5-0003-Fix-warnings-in-Tooling-QualTypeNamesTest.patch',            when='@5.0:6.999 +visionary')
+    patch('llvm5-0004-Defer-addition-of-keywords-to-identifier-table-when-.patch', when='@5.0:6.999 +visionary')
+    patch('llvm5-0005-Tooling-Fully-qualify-template-parameters-of-nested-.patch', when='@5.0:6.999 +visionary')
+    patch('llvm5-0006-libclang-Add-support-for-obtaining-fully-qualified-n.patch', when='@5.0:6.999 +visionary')
+    patch('llvm5-0007-libclang-Add-option-to-keep-whitespace-when-tokenizi.patch', when='@5.0:6.999 +visionary')
+    patch('llvm5-0008-Fix-printing-policy-for-AST-context-loaded-from-file.patch', when='@5.0:6.999 +visionary')
+    patch('llvm5-0009-libclang-Visit-attributes-for-function-and-class-tem.patch', when='@5.0:6.999 +visionary')
+    patch('llvm5-0010-libclang-Add-support-for-querying-cursor-availabilit.patch', when='@5.0:6.999 +visionary')
+    patch('llvm5-0011-libclang-Allow-visiting-of-implicit-declarations-and.patch', when='@5.0:6.999 +visionary')
+    patch('llvm5-0012-libclang-WIP-Fix-get_tokens-in-macro-expansion.patch',       when='@5.0:6.999 +visionary')
+
+    patch('llvm7-0001-Tooling-Fully-qualify-template-parameters-of-nested-.patch', when='@7.0: +visionary')
+    patch('llvm7-0002-libclang-Add-support-for-obtaining-fully-qualified-n.patch', when='@7.0: +visionary')
+    patch('llvm7-0003-libclang-Add-option-to-keep-whitespace-when-tokenizi.patch', when='@7.0: +visionary')
+    patch('llvm7-0004-libclang-WIP-Allow-visiting-of-implicit-declarations.patch', when='@7.0: +visionary')
+    patch('llvm7-0005-libclang-WIP-Fix-get_tokens-in-macro-expansion.patch',       when='@7.0: +visionary')
+
     # Build dependency
     depends_on('cmake@3.4.3:', type='build')
 
@@ -65,9 +88,7 @@ class Llvm(CMakePackage):
     depends_on('python@2.7:2.8', when='@:4.999')
     depends_on('python')
     depends_on('py-lit', type=('build', 'run'))
-
-    # openmp dependencies
-    depends_on('perl-data-dumper', type=('build'))
+    depends_on('perl', type='build')
 
     # lldb dependencies
     depends_on('ncurses', when='+lldb')
@@ -164,22 +185,6 @@ class Llvm(CMakePackage):
                 'lldb': 'http://llvm.org/svn/llvm-project/lldb/trunk',
                 'lld': 'http://llvm.org/svn/llvm-project/lld/trunk',
                 'libunwind': 'http://llvm.org/svn/llvm-project/libunwind/trunk',
-            }
-        },
-        {
-            'version': '7.0.1',
-            'md5': '79f1256f97d52a054da8660706deb5f6',
-            'resources': {
-                'compiler-rt': '697b70141ae7cc854e4fbde1a07b7287',
-                'openmp': 'd7d05ac0109df51a47099cba08cb43ec',
-                'polly': '287d7391438b5285265fede3b08e1e29',
-                'libcxx': 'aa9202ebb2aef2078fccfa24b3b1eed1',
-                'libcxxabi': 'c82a187e95744d15c040108bc2b8868f',
-                'cfe': '8583c9fb2af0ce61a7154fd9125363c1',
-                'clang-tools-extra': 'f0a94f63cc3d717f8f6662e0bf9c7330',
-                'lldb': '9ea3dc5cb9a1d9e390652d42ef1ccf41',
-                'lld': '9162cde32887cd33facead766645ef1f',
-                'libunwind': 'fe8c801dd79e087a6fa8d039390a47d0'
             }
         },
         {
@@ -460,22 +465,6 @@ class Llvm(CMakePackage):
             }
         },
         {
-            'version': '20180921',
-            'commit': 'd8b30082648dc869eba68f9e539605f437d7760c',
-            'resources': {
-                'flang-driver': 'dd7587310ae498c22514a33e1a2546b86af9cf25',
-                'openmp': 'd5aa29cb3bcf51289d326b4e565613db8aff65ef'
-            }
-        },
-        {
-            'version': 'ppc64le-20180921',
-            'commit': 'd8b30082648dc869eba68f9e539605f437d7760c',
-            'resources': {
-                'flang-driver': 'dd7587310ae498c22514a33e1a2546b86af9cf25',
-                'openmp': '29b515e1e6d26b5b0d32d47d28dcdb4b8a11470d'
-            }
-        },
-        {
             'version': '20180612',
             'commit': 'f26a3ece4ccd68a52f5aa970ec42837ee0743296',
             'resources': {
@@ -549,6 +538,8 @@ class Llvm(CMakePackage):
 
     # Github issue #4986
     patch('llvm_gcc7.patch', when='@4.0.0:4.0.1+lldb %gcc@7.0:')
+    # see https://bugzilla.redhat.com/show_bug.cgi?id=1540620
+    patch('llvm_gcc8.patch', when='@5.0:5.999 %gcc@8.0:')
 
     @run_before('cmake')
     def check_darwin_lldb_codesign_requirement(self):
@@ -582,8 +573,6 @@ class Llvm(CMakePackage):
 
         cmake_args = [
             '-DLLVM_REQUIRES_RTTI:BOOL=ON',
-            '-DLLVM_ENABLE_RTTI:BOOL=ON',
-            '-DLLVM_ENABLE_EH:BOOL=ON',
             '-DCLANG_DEFAULT_OPENMP_RUNTIME:STRING=libomp',
             '-DPYTHON_EXECUTABLE:PATH={0}'.format(spec['python'].command.path),
         ]
@@ -616,6 +605,10 @@ class Llvm(CMakePackage):
         else:
             cmake_args.append('-DLLVM_EXTERNAL_LIBCXX_BUILD:Bool=OFF')
             cmake_args.append('-DLLVM_EXTERNAL_LIBCXXABI_BUILD:Bool=OFF')
+            # FIXME: check if non-system compiler (i.e. a spack-installed one) is used
+            cmake_args.append('-DGCC_INSTALL_PREFIX={0}'.format(
+                os.path.dirname(os.path.dirname(os.path.realpath(self.compiler.cc)))))
+
         if '+compiler-rt' not in spec:
             cmake_args.append('-DLLVM_EXTERNAL_COMPILER_RT_BUILD:Bool=OFF')
 
