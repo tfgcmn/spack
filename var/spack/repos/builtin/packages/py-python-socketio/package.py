@@ -1,27 +1,8 @@
-##############################################################################
-# Copyright (c) 2013-2017, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory.
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
-# This file is part of Spack.
-# Created by Todd Gamblin, tgamblin@llnl.gov, All rights reserved.
-# LLNL-CODE-647188
-#
-# For details, see https://github.com/spack/spack
-# Please also see the NOTICE and LICENSE files for our notice and the LGPL.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License (as
-# published by the Free Software Foundation) version 2.1, February 1999.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the IMPLIED WARRANTY OF
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the terms and
-# conditions of the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-##############################################################################
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
 from spack import *
 
 
@@ -29,16 +10,15 @@ class PyPythonSocketio(PythonPackage):
     """Python implementation of the Socket.IO realtime server."""
 
     homepage = "https://github.com/miguelgrinberg/python-socketio"
-    url      = "https://files.pythonhosted.org/packages/source/p/python-socketio/python-socketio-1.8.4.tar.gz"
+    url      = "https://pypi.io/packages/source/p/python-socketio/python-socketio-1.8.4.tar.gz"
 
-    version('3.1.2',
-            sha256='aa702157694d55a743fb6f1cc0bd1af58fbfda8a7d71d747d4b12d6dac29cab3',
-            url='https://files.pythonhosted.org/packages/91/6a/8afe83b29bb639a6073a8367319b321d50d335840adccc5a20a79c033c9d/python-socketio-3.1.2.tar.gz')
     version('1.8.4', '9de73990f6c32c701278c01b0fa1a0c3')
 
-    variant('eventlet', default=True)
+    variant('eventlet', default=True,
+            description="Pulls in optional eventlet dependency, required"
+                        " for using the zmq implementation.")
 
     depends_on('py-setuptools',                 type='build')
     depends_on('py-six@1.9.0:',                 type=("build", "run"))
-    depends_on('py-python-engineio',            type=("build", "run"))
+    depends_on('py-python-engineio@1.2.1:',     type=("build", "run"))
     depends_on('py-eventlet', when='+eventlet', type=("build", "run"))
