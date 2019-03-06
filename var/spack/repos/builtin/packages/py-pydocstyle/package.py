@@ -38,8 +38,9 @@ class PyPydocstyle(PythonPackage):
     # docs from requirements/docs.txt
     # py-sphinxcontrib-issuetracker missing?
     depends_on('py-sphinx-rtd-theme', type=('build', 'run'))
-    depends_on('py-sphinx', type=('build', 'run')) # TODO: upstream it is pinned to 1.6.2
+    depends_on('py-sphinx', type=('build', 'run'))  # TODO: upstream it is pinned to 1.6.2
 
     # runtime from requirements/runtime.txt
     depends_on('py-snowballstemmer@1.2.1', type=('build', 'run'))
-    depends_on('py-configparser@3.5.0', type=('build', 'run'))
+    # requirements pins it to 3.5.0, but 3.5.1 helps with concretizing
+    depends_on('py-configparser@3.5.0:3.5.99', type=('build', 'run'))
