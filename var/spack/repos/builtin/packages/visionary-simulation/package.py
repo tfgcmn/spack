@@ -40,7 +40,7 @@ class VisionarySimulation(Package):
 
     depends_on('visionary-dev-tools', when='+dev')
 
-    depends_on('nest+backports')
+    depends_on('nest+backports+modules')
     depends_on('visionary-nest')
     depends_on('py-h5py')
     depends_on('py-ipython')
