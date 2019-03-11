@@ -31,9 +31,11 @@ class PyAbslPy(PythonPackage):
     """
 
     homepage = "https://pypi.org/project/absl-py/"
-    url      = "https://cosmo-pypi.phys.ethz.ch/simple/absl-py/0.1.6/absl-py-0.1.6.tar.gz"
+    url      = "https://pypi.io/packages/source/a/absl-py/absl-py-0.7.0.tar.gz"
 
-    version('0.1.6', 'b76269cbf04502b7d12efabcfa51a299')
+    version('0.7.0', 'e323216d24426bf7b2458d07ba0619fa')
+    version('0.1.6', 'b76269cbf04502b7d12efabcfa51a299', url="https://cosmo-pypi.phys.ethz.ch/simple/absl-py/0.1.6/absl-py-0.1.6.tar.gz")
 
-    depends_on('py-six@1.10.0', type='build')
-    depends_on('py-enum34', type='build')
+    depends_on('python@2.7:2.8,3.4:', type=('build', 'run'))
+    depends_on('py-six', type=('build', 'run'))
+    depends_on('py-enum34', type=('build', 'run'), when='^python@:3.3.99')

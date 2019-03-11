@@ -34,6 +34,12 @@ packages:
   doxygen:
     # always build with graphviz to help concretizer
     variants: +graphviz
+  gdk-pixbuf:
+    version: [2.31.2]
+  gtkplus:
+    version: [2.24.32]
+  atk:
+    version: [2.20.0]
   gcc:
     compiler: [gcc@4.9.2]
   hdf5:
@@ -42,12 +48,18 @@ packages:
     variants: ['~shared_libs+visionary+python~libcxx build_type=Release']
   openblas:
     variants: ['cpu_target=NEHALEM']
+  node-js:
+    version: [8.15.0]
+  openssl:
+    version: [1.0.2r]
   pango:
     variants: ['+X']
   pcre:
     variants: ['+jit']
   py-h5py:
     variants: ['~mpi']
+  py-matplotlib:
+    version: [2.2.3]
   py-pytables:
     variants: ['~auto', '~avx2', '+sse2']
   ruby:
