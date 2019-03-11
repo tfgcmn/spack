@@ -32,6 +32,7 @@ class Zeromq(AutotoolsPackage):
 
     version('develop', branch='master',
             git='https://github.com/zeromq/libzmq.git')
+    version('4.3.1', '64cbf3577afdbfda30358bc757a6ac83')
     version('4.2.2', '52499909b29604c1e47a86f1cb6a9115',
             url='https://github.com/zeromq/libzmq/releases/download/v4.2.2/zeromq-4.2.2.tar.gz')
     version('4.1.4', 'a611ecc93fffeb6d058c0e6edf4ad4fb')
@@ -47,7 +48,7 @@ class Zeromq(AutotoolsPackage):
     depends_on('autoconf', type='build', when='@develop')
     depends_on('automake', type='build', when='@develop')
     depends_on('libtool', type='build', when='@develop')
-    depends_on('pkgconfig', type='build', when='@develop')
+    depends_on('pkgconfig', type='build')
 
     @when('@develop')
     def autoreconf(self, spec, prefix):
@@ -55,7 +56,8 @@ class Zeromq(AutotoolsPackage):
         bash('./autogen.sh')
 
     def configure_args(self):
-        config_args = ['--with-libsodium']
+        config_args = []
+        config_args.append('--with-libsodium')
         if 'clang' in self.compiler.cc:
             config_args.append("CFLAGS=-Wno-gnu")
             config_args.append("CXXFLAGS=-Wno-gnu")
