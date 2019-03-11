@@ -41,5 +41,5 @@ class PyPydocstyle(PythonPackage):
     depends_on('py-sphinx', type=('build', 'run')) # TODO: upstream it is pinned to 1.6.2
 
     # runtime from requirements/runtime.txt
-    depends_on('py-snowballstemmer@1.2.1', type=('build', 'run'))
-    depends_on('py-configparser@3.5.0', type=('build', 'run'))
+    depends_on('py-snowballstemmer@1.2.1:', type=('build', 'run'))
+    depends_on('py-configparser@3.5.0:', type=('build', 'run'))
