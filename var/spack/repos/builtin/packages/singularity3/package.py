@@ -63,7 +63,7 @@ class Singularity3(Package):
             mconfig = Executable('./mconfig')
             mconfig_args = [
                     '-V', str(self.version),
-                    '--prefix={}'.format(prefix),
+                    '--prefix={0}'.format(prefix),
                     '--localstatedir=/var/lib']
             if spec.satisfies("+global_config"):
                 mconfig_args.append('--sysconfdir=/etc/singularity')

@@ -33,10 +33,6 @@ class Nestmc(Package):
 
     version('proto', 'a12afb87dd1684132dcee122a9618b2a')
 
-    # FIXME: Add dependencies if required.
-    # depends_on('foo')
-
     def install(self, spec, prefix):
-        # FIXME: Unknown build system
         make()
         make('install')

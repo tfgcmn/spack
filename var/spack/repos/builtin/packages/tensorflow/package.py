@@ -182,7 +182,7 @@ class Tensorflow(Package):
             filter_file('build --action_env TF_NEED_OPENCL_SYCL="0"',
                         'build --action_env TF_NEED_OPENCL_SYCL="0"\n'
                         'build --distinct_host_configuration=false\n'
-                        'build --action_env PYTHONPATH="{}"'.format(env['PYTHONPATH']),
+                        'build --action_env PYTHONPATH="{0}"'.format(env['PYTHONPATH']),
                         '.tf_configure.bazelrc')        
         if self.spec.satisfies('@1.12.0:'):
             # add link to spack-installed openssl libs (needed if no system openssl available)

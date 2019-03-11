@@ -47,4 +47,4 @@ class Pytorch(CMakePackage):
         env['CMAKE_PREFIX_PATH'] = prefix
         env['NO_FBGEMM']='1' # disable SSE/AVX stuff
         python = which('python')
-        python('setup.py', 'install', '--prefix={}'.format(prefix))
+        python('setup.py', 'install', '--prefix={0}'.format(prefix))

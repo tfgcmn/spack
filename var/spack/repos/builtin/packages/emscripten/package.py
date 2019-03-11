@@ -99,18 +99,18 @@ class Emscripten(Package):
             "",
             "import os",
             "SPIDERMONKEY_ENGINE = ''",
-            "NODE_JS = '{}'".format(
+            "NODE_JS = '{0}'".format(
                 join_path(spec["node-js"].prefix.bin, "node")),
-            "LLVM_ROOT='{}'".format(
+            "LLVM_ROOT='{0}'".format(
                 spec["emscripten-fastcomp"].prefix.bin),
             "EMSCRIPTEN_ROOT='{}'".format(install_path),
             "V8_ENGINE = ''",
-            "TEMP_DIR = '{}'".format(os.environ.get("TMPDIR", "/tmp")), #TODO is there a spack /tmp setting?
+            "TEMP_DIR = '{0}'".format(os.environ.get("TMPDIR", "/tmp")), #TODO is there a spack /tmp setting?
             "COMPILER_ENGINE = NODE_JS",
             "JS_ENGINES = [NODE_JS]",
         ]
         with open(self.path_em_config(), "w") as f:
-            f.writelines(map(lambda l: "{}\n".format(l), em_config_lines))
+            f.writelines(map(lambda l: "{0}\n".format(l), em_config_lines))
 
     def setup_environment(self, spack_env, run_env):
         run_env.set("EM_CONFIG", self.path_em_config())

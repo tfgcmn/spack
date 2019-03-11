@@ -47,7 +47,7 @@ class VisionaryNest(CMakePackage):
     def cmake_args(self):
         # TODO: should be specified by nest-package
         # TODO: turn this package into extension of nest
-        args = ["-DCMAKE_CXX_FLAGS=-I{}".format(
+        args = ["-DCMAKE_CXX_FLAGS=-I{0}".format(
                 join_path(self.spec["nest"].prefix, "include", "nest"))]
         return args
 
