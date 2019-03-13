@@ -1,27 +1,8 @@
-##############################################################################
-# Copyright (c) 2013-2017, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory.
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
-# This file is part of Spack.
-# Created by Todd Gamblin, tgamblin@llnl.gov, All rights reserved.
-# LLNL-CODE-647188
-#
-# For details, see https://github.com/spack/spack
-# Please also see the NOTICE and LICENSE files for our notice and the LGPL.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License (as
-# published by the Free Software Foundation) version 2.1, February 1999.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the IMPLIED WARRANTY OF
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the terms and
-# conditions of the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-##############################################################################
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
 from spack import *
 
 
@@ -31,6 +12,7 @@ class PyJupyterNotebook(PythonPackage):
     homepage = "https://github.com/jupyter/notebook"
     url      = "https://github.com/jupyter/notebook/archive/4.2.3.tar.gz"
 
+    version('5.7.0', '4556ad6564b69483b3fb474f157312a7')
     version('4.2.3', '5c6b0b1303adacd8972c4db21eda3e98')
     version('4.2.2', '7f9717ae4fed930d187a44c0707b6379')
     version('4.2.1', '4286f1eaf608257bd69cad4042c7c2fe')
@@ -48,14 +30,23 @@ class PyJupyterNotebook(PythonPackage):
     depends_on('npm', type='build')
     depends_on('node-js', type=('build', 'run'))
     depends_on('py-jinja2', type=('build', 'run'))
-    depends_on('py-tornado@4:', type=('build', 'run'))
+    depends_on('py-tornado@4:5.999.999', type=('build', 'run'))
     depends_on('py-ipython-genutils', type=('build', 'run'))
     depends_on('py-traitlets', type=('build', 'run'))
     depends_on('py-jupyter-core', type=('build', 'run'))
     depends_on('py-jupyter-client', type=('build', 'run'))
-    depends_on('py-jupyter-console', type=('build', 'run'))
+
+    # py-jupyter-console 6.x and above only supports python 3.5 and later
+    depends_on('py-jupyter-console@:5.999.999', type=('build', 'run'), when='^python@2.7:2.8,3.3:3.4.999')
+    depends_on('py-jupyter-console@6:', type=('build', 'run'), when='^python@3.5:')
+
     depends_on('py-nbformat', type=('build', 'run'))
     depends_on('py-nbconvert', type=('build', 'run'))
-    depends_on('py-ipykernel', type=('build', 'run'))
+
+    # ipykernel 5.x and above (and ipython 6.x) only supports python 3.4 and later
+    depends_on('py-ipykernel@:4.999.999', type=('build', 'run'), when='^python@2.7:2.8,3.3:3.3.999')
+    depends_on('py-ipykernel@5:', type=('build', 'run'), when='^python@3.4:')
+
     depends_on('py-terminado@0.3.3:', when="+terminal", type=('build', 'run'))
     depends_on('py-ipywidgets', when="+terminal", type=('build', 'run'))
+    depends_on('py-setuptools', when="@5:", type='build')

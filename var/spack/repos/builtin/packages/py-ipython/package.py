@@ -33,11 +33,13 @@ class PyIpython(PythonPackage):
     homepage = "https://pypi.python.org/pypi/ipython"
     url      = "https://pypi.io/packages/source/i/ipython/ipython-2.3.1.tar.gz"
 
+    version('5.8.0', '7014b8824981eef2cb893ea5398d6b8d')
     version('5.1.0', '47c8122420f65b58784cb4b9b4af35e3')
     version('3.1.0', 'a749d90c16068687b0ec45a27e72ef8f')
     version('2.3.1', '2b7085525dac11190bfb45bb8ec8dcbf')
 
-    depends_on('python@2.7:2.8,3.3:')
+    depends_on('python@2.7:2.8,3.4:', when='@:5.999.999')
+    depends_on('python@3.4:', when='@6.0.0:')
 
     depends_on('py-backports-shutil-get-terminal-size', type=('build', 'run'), when="^python@:3.2")
     depends_on('py-pathlib2', type=('build', 'run'), when="^python@:3.3")

@@ -191,7 +191,7 @@ class Python(AutotoolsPackage):
         # dependencies (which we need to get their 'libs') is to get them
         # using spec.__getitem__.
         ldflags = '-L' + ' -L'.join(dep.prefix.lib for dep in link_deps)
-        print ldflags
+        print(ldflags)
 
         config_args = ['CPPFLAGS=' + cppflags, 'LDFLAGS=' + ldflags]
 

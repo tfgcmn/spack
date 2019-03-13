@@ -25,17 +25,10 @@
 from spack import *
 
 
-class PyBleach(PythonPackage):
-    """An easy whitelist-based HTML-sanitizing tool."""
+class PyTestpath(PythonPackage):
+    """Testpath is a collection of utilities for Python code working with files and commands."""
 
-    homepage = "http://github.com/mozilla/bleach"
-    url      = "https://pypi.io/packages/source/b/bleach/bleach-1.5.0.tar.gz"
+    homepage = "https://testpath.readthedocs.io/en/latest/"
+    url      = "https://pypi.io/packages/source/t/testpath/testpath-0.4.2.tar.gz"
 
-    version('3.1.0', 'fc8df989e0200a45f7a3a95ef9ee9854')
-    version('1.5.0', 'b663300efdf421b3b727b19d7be9c7e7')
-
-    depends_on('python@2.6:2.8,3.2:3.5', when='@:3.0.999')
-    depends_on('python@2.6:2.8,3.4:', when='@3.1.0:')
-    depends_on('py-setuptools', type='build')
-    depends_on('py-six', type=('build', 'run'))
-    depends_on('py-html5lib@0.999,0.999999:0.9999999', type=('build', 'run'), when='@:2.999.999')
+    version('0.4.2', '562d0e1b02fc5cbcb8406955bcd7249f')

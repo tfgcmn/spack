@@ -31,6 +31,8 @@ class PyIpykernel(PythonPackage):
     homepage = "https://pypi.python.org/pypi/ipykernel"
     url      = "https://github.com/ipython/ipykernel/archive/4.5.0.tar.gz"
 
+    version('5.1.0', '476cf347209ff1ff0bc79a34789ce572')
+    version('4.10.0', '08e99a7b03b4dffd02af190d4c021524')
     version('4.5.0', 'ea6aaf431b100452905aaca208edac72')
     version('4.4.1', 'c0033e524aa9e05ed18879641ffe6e0f')
     version('4.4.0', '8e626a1708ceff83412180d2ff2f3e57')
@@ -42,9 +44,19 @@ class PyIpykernel(PythonPackage):
     version('4.1.1', '51376850c46fb006e1f8d1cd353507c5')
     version('4.1.0', '638a43e4f8a15872f749090c3f0827b6')
 
-    depends_on('python@2.7:2.8,3.3:')
+    # ipykernel 5.x and above only supports python 3.4 and later
+    depends_on('python@2.7:2.8,3.4:', when='@:4.999.999')
+    depends_on('python@3.4:', when='@5:')
+
     depends_on('py-traitlets@4.1.0:', type=('build', 'run'))
-    depends_on('py-tornado@4.0:', type=('build', 'run'))
-    depends_on('py-ipython@4.0:', type=('build', 'run'))
+    depends_on('py-tornado@4.0:5.999.999', type=('build', 'run'))
+
+    # ipython 6.x and above only supports python 3.4 and later
+    # we might have to help the concretizer out to find this
+    depends_on('py-ipython', type=('build', 'run'))
+    depends_on('py-ipython@4:', type=('build', 'run'), when='@4:4.999.999')
+    depends_on('py-ipython@5:', type=('build', 'run'), when='@5:')
+
     depends_on('py-jupyter-client', type=('build', 'run'))
     depends_on('py-pexpect', type=('build', 'run'))
+    depends_on('py-setuptools', type='build', when='@5:')

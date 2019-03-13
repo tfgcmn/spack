@@ -30,7 +30,8 @@ class PyJupyterConsole(PythonPackage):
 
     homepage = "https://github.com/jupyter/jupyter_console"
     url      = "https://github.com/jupyter/jupyter_console/archive/5.0.0.tar.gz"
-
+    version('6.0.0', '10283e0e99f5e524166da9bd3e07257e',
+            url='https://github.com/jupyter/jupyter_console/archive/v6.0.0.tar.gz')
     version('5.0.0', '08a9fde32a45c9e2e0b4cec6eca249c2')
     version('4.1.1', 'a8b077ae0a5c57e9518ac039ad5febb8')
     version('4.1.0', '9c655076262760bdbeeada9d7f586237')
