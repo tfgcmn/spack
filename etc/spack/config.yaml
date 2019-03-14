@@ -1,0 +1,5 @@
+
+config:
+  # when obreitwi parallizes ALL the things, some delays might occur
+  # (why the heck is READ locking seemingly exclusive anyway?!?!)
+  db_lock_timeout: 3600
