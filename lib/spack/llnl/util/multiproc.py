@@ -79,6 +79,9 @@ class BarrierTimeoutError(Exception):
 
 
 class NoDaemonProcess(Process):
+    """Daemon processes are not allowed to create child processes.
+    Yet most meaningful funciontality in spack requires system-interaction via
+    child processes."""
     # make 'daemon' attribute always return False
     def _get_daemon(self):
         return False
@@ -92,4 +95,7 @@ class NoDaemonProcess(Process):
 # We sub-class multiprocessing.pool.Pool instead of multiprocessing.Pool
 # because the latter is only a wrapper function, not a proper class.
 class NoDaemonPool(Pool):
+    """Daemon processes are not allowed to create child processes.
+    Yet most meaningful funciontality in spack requires system-interaction via
+    child processes."""
     Process = NoDaemonProcess

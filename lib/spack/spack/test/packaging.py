@@ -121,7 +121,7 @@ echo $PATH"""
         pkg.do_uninstall(force=True)
 
         # test overwrite install
-        args = parser.parse_args(['install', '-f', str(pkghash)])
+        args = parser.parse_args(['install', '-j', '2', '-f', str(pkghash)])
         buildcache.buildcache(parser, args)
 
         files = os.listdir(spec.prefix)
@@ -141,10 +141,11 @@ echo $PATH"""
 
         # install build cache with verification
         args = parser.parse_args(['install', str(spec)])
-        buildcache.install_tarball(spec, args)
+        buildcache.install_single_tarball(spec, args)
 
         # test overwrite install
-        args = parser.parse_args(['install', '-f', str(pkghash)])
+        args = parser.parse_args(['install', '-j', '2',
+                                  '-f', str(pkghash)])
         buildcache.buildcache(parser, args)
 
         files = os.listdir(spec.prefix)
@@ -157,7 +158,7 @@ echo $PATH"""
     else:
         # create build cache without signing
         args = parser.parse_args(
-            ['create', '-d', mirror_path, '-f', '-u', str(spec)])
+            ['create', '-d', mirror_path, '-j', '2', '-f', '-u', str(spec)])
         buildcache.buildcache(parser, args)
 
         # Uninstall the package
@@ -165,7 +166,7 @@ echo $PATH"""
 
         # install build cache without verification
         args = parser.parse_args(['install', '-u', str(spec)])
-        buildcache.install_tarball(spec, args)
+        buildcache.install_single_tarball(spec, args)
 
         files = os.listdir(spec.prefix)
         assert 'link_to_dummy.txt' in files
@@ -188,10 +189,11 @@ echo $PATH"""
 
         # install build cache
         args = parser.parse_args(['install', '-u', str(spec)])
-        buildcache.install_tarball(spec, args)
+        buildcache.install_single_tarball(spec, args)
 
         # test overwrite install
-        args = parser.parse_args(['install', '-f', '-u', str(pkghash)])
+        args = parser.parse_args(['install', '-j', '2', '-f',
+                                  '-u', str(pkghash)])
         buildcache.buildcache(parser, args)
 
         files = os.listdir(spec.prefix)
