@@ -98,6 +98,7 @@ class Boost(Package):
 
     default_install_libs = set(['atomic',
                                 'chrono',
+                                'coroutine',
                                 'date_time',
                                 'exception',
                                 'filesystem',
