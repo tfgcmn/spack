@@ -1,5 +1,6 @@
 from spack import *
 
+
 class PySbs(PythonPackage):
     """Spike based Sampling framework"""
 
@@ -7,6 +8,7 @@ class PySbs(PythonPackage):
     url      = "https://gitviz.kip.uni-heidelberg.de"
 
     version('master', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git')
+    version('1.7.1', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git', commit='d5a97cfd8c0cd6ec9f98b0bfbd1f0a284eaf569e')
     version('1.6.5', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git', commit='3ce21de823b7df37fb83b87ec7f9607e781aaa1a')
     version('1.6.2', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git', commit='318ed67dbf6330323c4eb398219701c14eb7a945')
     version('1.5.2', git='git@gitviz.kip.uni-heidelberg.de:model-nmsampling-sbs.git', commit='c0adeed57a467b4edaa399a623fb2865ac2a06c6')
@@ -27,6 +29,7 @@ class PySbs(PythonPackage):
         # remove unnecessary h5py dependency from source code
         filter_file("^import h5py$", "# import h5py", "sbs/meta.py")
 
+    @when("@:1.7.0")
     def patch(self):
         filter_file(r"import os$", r"import os, numpy", "setup.py")
         filter_file("zip_safe=True,", "zip_safe=True, include_dirs=[numpy.get_include()],",
