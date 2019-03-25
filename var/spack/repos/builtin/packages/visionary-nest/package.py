@@ -32,6 +32,9 @@ class VisionaryNest(CMakePackage):
     url = "https://brainscales-r.kip.uni-heidelberg.de/projects/model-visionary-nest"
     homepage = "https://brainscales-r.kip.uni-heidelberg.de/projects/model-visionary-nest"
 
+    version('1.2',
+            git="git@gitviz.kip.uni-heidelberg.de:model-visionary-nest.git",
+            commit="693455678a0ed645c8f1c006200a1f16a2a3de9c", preferred=True)
     version('1.0',
             git="git@gitviz.kip.uni-heidelberg.de:model-visionary-nest.git",
             commit="1e4c5a4611875a97379b49a08b8769d3e2b76108", preferred=True)
