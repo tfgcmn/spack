@@ -520,6 +520,7 @@ def extract_tarball(spec, filename, allow_root=False, unsigned=False,
         else:
             shutil.rmtree(tmpdir)
             raise NoVerifyException(
+                "[Spec: {0}] ".format(str(spec)) +
                 "Package spec file failed signature verification.\n"
                 "Use spack buildcache keys to download "
                 "and install a key for verification from the mirror.")
