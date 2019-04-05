@@ -34,7 +34,8 @@ class Bazel(Package):
     version('0.2.2b', '75081804f073cbd194da1a07b16cba5f')
     version('0.2.2', '644bc4ea7f429d835e74f255dc1054e6')
 
-    depends_on('java@8:', type=('build', 'link', 'run'))
+    # only supports up to java 8, otherwise the build will fail
+    depends_on('java@8', type=('build', 'link', 'run'))
     depends_on('zip')
 
     patch('fix_env_handling.patch', when='@:0.4.5')
