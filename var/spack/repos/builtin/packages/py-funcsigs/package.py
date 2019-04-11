@@ -30,6 +30,7 @@ class PyFuncsigs(PythonPackage):
     homepage = "https://pypi.python.org/pypi/funcsigs"
     url      = "https://pypi.io/packages/source/f/funcsigs/funcsigs-0.4.tar.gz"
 
-    version('0.4', 'fb1d031f284233e09701f6db1281c2a5')
+    version('1.0.2', '7e583285b1fb8a76305d6d68f4ccc14e')
+    version('0.4',   'fb1d031f284233e09701f6db1281c2a5')
 
     depends_on('py-setuptools', type='build')

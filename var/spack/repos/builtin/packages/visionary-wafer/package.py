@@ -81,6 +81,8 @@ class VisionaryWafer(Package):
     depends_on('cereal')
     depends_on('py-yccp')
     depends_on('pytorch')
+    depends_on('tensorflow+openssl', when='+tensorflow')
+    depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
 
     # hmf-fpga register file requires:
     depends_on('tcl-osys@890eafffbda95b58a472a2005c3cb9e90fd22ff6')

@@ -43,7 +43,8 @@ class VisionDeepLoop(Package):
     depends_on("py-cython")
     # depends_on("py-notebook")
     depends_on("python")
-    depends_on("tensorflow")
+    depends_on("tensorflow+openssl")
+    depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
 
     def install(self, spec, prefix):
         pass
