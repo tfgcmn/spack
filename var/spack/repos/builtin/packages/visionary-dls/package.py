@@ -64,6 +64,7 @@ class VisionaryDls(Package):
     depends_on('log4cxx')
     depends_on('munge')
     depends_on('pkg-config')
+    depends_on('py-pyelftools')
     depends_on('py-jupyter-notebook')
     depends_on('py-lxml') # collab tests
     depends_on('py-matplotlib')
