@@ -1,50 +1,42 @@
-##############################################################################
-# Copyright (c) 2013-2017, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory.
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
-# This file is part of Spack.
-# Created by Todd Gamblin, tgamblin@llnl.gov, All rights reserved.
-# LLNL-CODE-647188
-#
-# For details, see https://github.com/spack/spack
-# Please also see the NOTICE and LICENSE files for our notice and the LGPL.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License (as
-# published by the Free Software Foundation) version 2.1, February 1999.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the IMPLIED WARRANTY OF
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the terms and
-# conditions of the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-##############################################################################
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
 from spack import *
 
 
-class Libusb(AutotoolsPackage):
-    """A cross-platform library to access USB devices"""
+class Libusb(Package):
+    """Library for USB device access."""
 
-    homepage = "https://github.com/libusb/libusb"
+    homepage = "https://libusb.info/"
     url      = "https://github.com/libusb/libusb/releases/download/v1.0.22/libusb-1.0.22.tar.bz2"
+    git      = "https://github.com/libusb/libusb"
 
-    version('1.0.22', '466267889daead47674df933cea9cacb')
+    version('master', branch='master')
+    version('1.0.22', sha256='75aeb9d59a4fdb800d329a545c2e6799f732362193b465ea198f2aa275518157')
+    version('1.0.21', sha256='7dce9cce9a81194b7065ee912bcd55eeffebab694ea403ffb91b67db66b1824b')
+    version('1.0.20', sha256='cb057190ba0a961768224e4dc6883104c6f945b2bf2ef90d7da39e7c1834f7ff')
 
-    depends_on('autoconf', type='build')
-    depends_on('automake', type='build')
-    depends_on('libtool', type='build')
-    depends_on('m4', type='build')
-
-    # libudev is a host-dependency
     variant('udev', default=True, description='Enable libudev support')
 
-    def configure_args(self):
-        args = []
+    depends_on('autoconf', type='build', when='@master')
+    depends_on('automake', type='build', when='@master')
+    depends_on('libtool',  type='build', when='@master')
+
+    phases = ['autogen', 'install']
+
+    def autogen(self, spec, prefix):
+        if self.spec.satisfies('@master'):
+            autogen = Executable('./autogen.sh')
+            autogen()
+
+    def install(self, spec, prefix):
+        args = ['--disable-dependency-tracking',
+                '--prefix=%s' % self.spec.prefix]
         if '+udev' in self.spec:
             args.append('--enable-udev')
         else:
             args.append('--disable-udev')
-        return args
+        configure(*args)
+        make('install')

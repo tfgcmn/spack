@@ -1,27 +1,8 @@
-##############################################################################
-# Copyright (c) 2013-2018, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory.
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
-# This file is part of Spack.
-# Created by Todd Gamblin, tgamblin@llnl.gov, All rights reserved.
-# LLNL-CODE-647188
-#
-# For details, see https://github.com/spack/spack
-# Please also see the NOTICE and LICENSE files for our notice and the LGPL.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License (as
-# published by the Free Software Foundation) version 2.1, February 1999.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the IMPLIED WARRANTY OF
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the terms and
-# conditions of the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-##############################################################################
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
 import os
 
 from spack.util.environment import is_system_path
@@ -48,21 +29,39 @@ class Tcl(AutotoolsPackage):
 
     extendable = True
 
+    extendable = True
+
     depends_on('zlib')
 
     configure_directory = 'unix'
-
-    def setup_environment(self, spack_env, run_env):
-        # When using Tkinter from within spack provided python+tk, python
-        # will not be able to find Tcl/Tk unless TCL_LIBRARY is set.
-        run_env.set('TCL_LIBRARY', join_path(self.prefix, self.tcl_lib_dir))
 
     def install(self, spec, prefix):
         with working_dir(self.build_directory):
             make('install')
 
+            # http://wiki.tcl.tk/17463
+            if self.spec.satisfies('@8.6:'):
+                make('install-headers')
+
             # Some applications like Expect require private Tcl headers.
             make('install-private-headers')
+
+            # Copy source to install tree
+            # A user-provided install option might re-do this
+            # https://github.com/spack/spack/pull/4102/files
+            installed_src = join_path(
+                self.spec.prefix, 'share', self.name, 'src')
+            stage_src = os.path.realpath(self.stage.source_path)
+            install_tree(stage_src, installed_src)
+
+            # Replace stage dir -> installed src dir in tclConfig
+            filter_file(
+                stage_src, installed_src,
+                join_path(self.spec.prefix, 'lib', 'tclConfig.sh'))
+
+        # Don't install binaries in src/ tree
+        with working_dir(join_path(installed_src, self.configure_directory)):
+            make('clean')
 
     @run_after('install')
     def symlink_tclsh(self):
@@ -72,6 +71,12 @@ class Tcl(AutotoolsPackage):
     # ========================================================================
     # Set up environment to make install easy for tcl extensions.
     # ========================================================================
+
+    @property
+    def libs(self):
+        return find_libraries(['libtcl{0}'.format(self.version.up_to(2))],
+                              root=self.prefix, recursive=True)
+
     @property
     def command(self):
         """Returns the tclsh command.
@@ -94,10 +99,17 @@ class Tcl(AutotoolsPackage):
         return join_path(self.tcl_lib_dir,
                          'tcl{0}'.format(self.version.up_to(2)))
 
+    def setup_environment(self, spack_env, run_env):
+        # When using Tkinter from within spack provided python+tkinter, python
+        # will not be able to find Tcl/Tk unless TCL_LIBRARY is set.
+        run_env.set('TCL_LIBRARY', join_path(self.prefix, self.tcl_lib_dir))
+
     def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
         """Set TCLLIBPATH to include the tcl-shipped directory for
         extensions and any other tcl extension it depends on.
         For further info see: https://wiki.tcl.tk/1787"""
+
+        spack_env.set('TCL_LIBRARY', join_path(self.prefix, self.tcl_lib_dir))
 
         # If we set TCLLIBPATH, we must also ensure that the corresponding
         # tcl is found in the build environment. This to prevent cases

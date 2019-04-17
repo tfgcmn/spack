@@ -1,27 +1,8 @@
-##############################################################################
-# Copyright (c) 2013-2017, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory.
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
-# This file is part of Spack.
-# Created by Todd Gamblin, tgamblin@llnl.gov, All rights reserved.
-# LLNL-CODE-647188
-#
-# For details, see https://github.com/spack/spack
-# Please also see the NOTICE and LICENSE files for our notice and the LGPL.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License (as
-# published by the Free Software Foundation) version 2.1, February 1999.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the IMPLIED WARRANTY OF
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the terms and
-# conditions of the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-##############################################################################
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
 from spack import *
 
 
@@ -31,7 +12,11 @@ class Ruby(AutotoolsPackage):
 
     homepage = "https://www.ruby-lang.org/"
     url      = "http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.0.tar.gz"
+    list_url = "http://cache.ruby-lang.org/pub/ruby/"
+    list_depth = 1
 
+    version('2.6.2', 'a0405d2bf2c2d2f332033b70dff354d224a864ab0edd462b7a413420453b49ab')
+    version('2.5.3', '9828d03852c37c20fa333a0264f2490f07338576734d910ee3fd538c9520846c')
     version('2.2.0', 'cd03b28fd0b555970f5c4fd481700852')
 
     variant('openssl', default=True, description="Enable OpenSSL support")
@@ -39,18 +24,20 @@ class Ruby(AutotoolsPackage):
 
     extendable = True
 
-    depends_on('pkgconfig', type='build')
+    depends_on('pkgconfig', type=('build'))
     depends_on('libffi')
     depends_on('zlib')
     depends_on('libx11')
     depends_on('tcl')
     depends_on('tk')
+    depends_on('openssl@:1.0', when='@:2.3+openssl')
     depends_on('openssl', when='+openssl')
     depends_on('readline', when='+readline')
 
-    # gcc 7 requires some patches (cf. https://bugs.ruby-lang.org/issues/13150)
-    patch('ruby_23_gcc7.patch', level=0, when='@2.2.0:2.2.999')
-    patch('ruby_23_gcc7.patch', level=0, when='@2.3.0:2.3.4')
+    # gcc-7-based build requires patches (cf. https://bugs.ruby-lang.org/issues/13150)
+    patch('ruby_23_gcc7.patch', level=0, when='@2.2.0:2.2.999 %gcc@7:')
+    patch('ruby_23_gcc7.patch', level=0, when='@2.3.0:2.3.4 %gcc@7:')
+    patch('ruby_24_gcc7.patch', level=1, when='@2.4.0 %gcc@7:')
 
     resource(
         name='rubygems-updated-ssl-cert',
@@ -61,6 +48,10 @@ class Ruby(AutotoolsPackage):
         placement='rubygems-updated-ssl-cert',
         expand=False
     )
+
+    def url_for_version(self, version):
+        url = "http://cache.ruby-lang.org/pub/ruby/{0}/ruby-{1}.tar.gz"
+        return url.format(version.up_to(2), version)
 
     def configure_args(self):
         args = []
@@ -101,3 +92,21 @@ class Ruby(AutotoolsPackage):
         module.ruby = Executable(join_path(self.spec.prefix.bin, 'ruby'))
         module.gem = Executable(join_path(self.spec.prefix.bin, 'gem'))
 
+    @run_after('install')
+    def post_install(self):
+        """ RubyGems updated their SSL certificates at some point, so
+        new certificates must be installed after Ruby is installed
+        in order to download gems; see
+        http://guides.rubygems.org/ssl-certificate-update/
+        for details.
+        """
+        rubygems_updated_cert_path = join_path(self.stage.source_path,
+                                               'rubygems-updated-ssl-cert',
+                                               'GlobalSignRootCA.pem')
+        rubygems_certs_path = join_path(self.spec.prefix.lib,
+                                        'ruby',
+                                        '{0}.0'.format(self.spec.version.
+                                                       up_to(2)),
+                                        'rubygems',
+                                        'ssl_certs')
+        install(rubygems_updated_cert_path, rubygems_certs_path)

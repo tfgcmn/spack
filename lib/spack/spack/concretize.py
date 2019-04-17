@@ -1,27 +1,8 @@
-##############################################################################
-# Copyright (c) 2013-2017, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory.
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
-# This file is part of Spack.
-# Created by Todd Gamblin, tgamblin@llnl.gov, All rights reserved.
-# LLNL-CODE-647188
-#
-# For details, see https://github.com/spack/spack
-# Please also see the NOTICE and LICENSE files for our notice and the LGPL.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License (as
-# published by the Free Software Foundation) version 2.1, February 1999.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the IMPLIED WARRANTY OF
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the terms and
-# conditions of the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-##############################################################################
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
 """
 Functions here are used to take abstract specs and make them concrete.
 For example, if a spec asks for a version between 1.8 and 1.9, these
@@ -36,22 +17,54 @@ TODO: make this customizable and allow users to configure
 from __future__ import print_function
 from itertools import chain
 from functools_backport import reverse_order
+from contextlib import contextmanager
 from six import iteritems
 
-import spack
+import llnl.util.lang
+
+import spack.repo
+import spack.abi
 import spack.spec
 import spack.compilers
 import spack.architecture
 import spack.error
+from spack.config import config
 from spack.version import ver, Version, VersionList, VersionRange
 from spack.package_prefs import PackagePrefs, spec_externals, is_spec_buildable
 
 
-class DefaultConcretizer(object):
-    """This class doesn't have any state, it just provides some methods for
-       concretization.  You can subclass it to override just some of the
-       default concretization strategies, or you can override all of them.
+#: Concretizer singleton
+concretizer = llnl.util.lang.Singleton(lambda: Concretizer())
+
+
+#: impements rudimentary logic for ABI compatibility
+_abi = llnl.util.lang.Singleton(lambda: spack.abi.ABI())
+
+
+class Concretizer(object):
+    """You can subclass this class to override some of the default
+       concretization strategies, or you can override all of them.
     """
+    def __init__(self):
+        # controls whether we check that compiler versions actually exist
+        # during concretization. Used for testing and for mirror creation
+        self.check_for_compiler_existence = not config.get(
+            'config:install_missing_compilers', False)
+
+    @contextmanager
+    def disable_compiler_existence_check(self):
+        saved = self.check_for_compiler_existence
+        self.check_for_compiler_existence = False
+        yield
+        self.check_for_compiler_existence = saved
+
+    @contextmanager
+    def enable_compiler_existence_check(self):
+        saved = self.check_for_compiler_existence
+        self.check_for_compiler_existence = True
+        yield
+        self.check_for_compiler_existence = saved
+
     def _valid_virtuals_and_externals(self, spec):
         """Returns a list of candidate virtual dep providers and external
            packages that coiuld be used to concretize a spec.
@@ -63,7 +76,7 @@ class DefaultConcretizer(object):
         pref_key = lambda spec: 0  # no-op pref key
 
         if spec.virtual:
-            candidates = spack.repo.providers_for(spec)
+            candidates = spack.repo.path.providers_for(spec)
             if not candidates:
                 raise spack.spec.UnsatisfiableProviderSpecError(
                     candidates[0], spec)
@@ -124,8 +137,8 @@ class DefaultConcretizer(object):
         return sorted(candidates,
                       reverse=True,
                       key=lambda spec: (
-                          spack.abi.compatible(spec, abi_exemplar, loose=True),
-                          spack.abi.compatible(spec, abi_exemplar)))
+                          _abi.compatible(spec, abi_exemplar, loose=True),
+                          _abi.compatible(spec, abi_exemplar)))
 
     def concretize_version(self, spec):
         """If the spec is already concrete, return.  Otherwise take
@@ -214,27 +227,29 @@ class DefaultConcretizer(object):
         DAG has an architecture, then use the root otherwise use the defaults
         on the platform.
         """
-        root_arch = spec.root.architecture
-        sys_arch = spack.spec.ArchSpec(spack.architecture.sys_type())
+        try:
+            # Get the nearest architecture with any fields set
+            nearest = next(p for p in spec.traverse(direction='parents')
+                           if (p.architecture and p is not spec))
+            nearest_arch = nearest.architecture
+        except StopIteration:
+            # Default to the system architecture if nothing set
+            nearest_arch = spack.spec.ArchSpec(spack.architecture.sys_type())
+
         spec_changed = False
 
+        # ensure type safety for the architecture
         if spec.architecture is None:
-            spec.architecture = spack.spec.ArchSpec(sys_arch)
+            spec.architecture = spack.spec.ArchSpec()
             spec_changed = True
 
-        default_archs = list(x for x in [root_arch, sys_arch] if x)
-        for arch in default_archs:
-            if spec.architecture.concrete:
-                break
-
-            replacement_fields = [k for k, v in iteritems(arch.to_cmp_dict())
-                                  if v and not getattr(spec.architecture, k)]
-            for field in replacement_fields:
-                setattr(spec.architecture, field, getattr(arch, field))
-                spec_changed = True
-
-        if not spec.architecture.concrete:
-            raise InsufficientArchitectureInfoError(spec, default_archs)
+        # replace each of the fields (platform, os, target) separately
+        nearest_dict = nearest_arch.to_cmp_dict()
+        replacement_fields = [k for k, v in iteritems(nearest_dict)
+                              if v and not getattr(spec.architecture, k)]
+        for field in replacement_fields:
+            setattr(spec.architecture, field, getattr(nearest_arch, field))
+            spec_changed = True
 
         return spec_changed
 
@@ -283,14 +298,9 @@ class DefaultConcretizer(object):
         def _proper_compiler_style(cspec, aspec):
             return spack.compilers.compilers_for_spec(cspec, arch_spec=aspec)
 
-        all_compiler_specs = spack.compilers.all_compiler_specs()
-        if not all_compiler_specs:
-            raise spack.compilers.NoCompilersError()
-
-        if (spec.compiler and
-            spec.compiler.concrete and
-                spec.compiler in all_compiler_specs):
-            if not _proper_compiler_style(spec.compiler, spec.architecture):
+        if spec.compiler and spec.compiler.concrete:
+            if (self.check_for_compiler_existence and not
+                    _proper_compiler_style(spec.compiler, spec.architecture)):
                 _compiler_concretization_failure(
                     spec.compiler, spec.architecture)
             return False
@@ -302,20 +312,37 @@ class DefaultConcretizer(object):
         assert(other_spec)
 
         # Check if the compiler is already fully specified
-        if other_compiler in all_compiler_specs:
-            spec.compiler = other_compiler.copy()
-            if not _proper_compiler_style(spec.compiler, spec.architecture):
+        if other_compiler and other_compiler.concrete:
+            if (self.check_for_compiler_existence and not
+                    _proper_compiler_style(other_compiler, spec.architecture)):
                 _compiler_concretization_failure(
-                    spec.compiler, spec.architecture)
+                    other_compiler, spec.architecture)
+            spec.compiler = other_compiler
             return True
 
-        # Filter the compilers into a sorted list based on the compiler_order
-        # from spackconfig
-        compiler_list = all_compiler_specs if not other_compiler else \
-            spack.compilers.find(other_compiler)
-        if not compiler_list:
-            # No compiler with a satisfactory spec was found
-            raise UnavailableCompilerVersionError(other_compiler)
+        if other_compiler:  # Another node has abstract compiler information
+            compiler_list = spack.compilers.find_specs_by_arch(
+                other_compiler, spec.architecture
+            )
+            if not compiler_list:
+                # We don't have a matching compiler installed
+                if not self.check_for_compiler_existence:
+                    # Concretize compiler spec versions as a package to build
+                    cpkg_spec = spack.compilers.pkg_spec_for_compiler(
+                        other_compiler
+                    )
+                    self.concretize_version(cpkg_spec)
+                    spec.compiler.versions = cpkg_spec.versions
+                    return True
+                else:
+                    # No compiler with a satisfactory spec was found
+                    raise UnavailableCompilerVersionError(other_compiler)
+        else:
+            # We have no hints to go by, grab any compiler
+            compiler_list = spack.compilers.all_compiler_specs()
+            if not compiler_list:
+                # Spack has no compilers.
+                raise spack.compilers.NoCompilersError()
 
         # By default, prefer later versions of compilers
         compiler_list = sorted(
@@ -363,13 +390,12 @@ class DefaultConcretizer(object):
                                if (compiler_match(p) and
                                    (p is not spec) and
                                    flag in p.compiler_flags))
-                nearest_flags = set(nearest.compiler_flags.get(flag, []))
-                flags = set(spec.compiler_flags.get(flag, []))
-                if (nearest_flags - flags):
-                    # TODO: these set operations may reorder the flags, which
-                    # for some orders of flags can be invalid. See:
-                    # https://github.com/spack/spack/issues/6154#issuecomment-342365573
-                    spec.compiler_flags[flag] = list(nearest_flags | flags)
+                nearest_flags = nearest.compiler_flags.get(flag, [])
+                flags = spec.compiler_flags.get(flag, [])
+                if set(nearest_flags) - set(flags):
+                    spec.compiler_flags[flag] = list(
+                        llnl.util.lang.dedupe(nearest_flags + flags)
+                    )
                     ret = True
             except StopIteration:
                 pass
@@ -377,13 +403,20 @@ class DefaultConcretizer(object):
         # Include the compiler flag defaults from the config files
         # This ensures that spack will detect conflicts that stem from a change
         # in default compiler flags.
-        compiler = spack.compilers.compiler_for_spec(
-            spec.compiler, spec.architecture)
+        try:
+            compiler = spack.compilers.compiler_for_spec(
+                spec.compiler, spec.architecture)
+        except spack.compilers.NoCompilerForSpecError:
+            if self.check_for_compiler_existence:
+                raise
+            return ret
         for flag in compiler.flags:
-            config_flags = set(compiler.flags.get(flag, []))
-            flags = set(spec.compiler_flags.get(flag, []))
-            spec.compiler_flags[flag] = list(config_flags | flags)
-            if (config_flags - flags):
+            config_flags = compiler.flags.get(flag, [])
+            flags = spec.compiler_flags.get(flag, [])
+            spec.compiler_flags[flag] = list(
+                llnl.util.lang.dedupe(config_flags + flags)
+            )
+            if set(config_flags) - set(flags):
                 ret = True
 
         return ret
