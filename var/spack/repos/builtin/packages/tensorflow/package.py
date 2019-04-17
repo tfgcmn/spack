@@ -22,8 +22,7 @@ class Tensorflow(Package):
     depends_on('swig',                          type='build')
 
     # old tensorflow needs old bazel
-    depends_on('bazel@0.15.0',                  type='build',          when='@1.12.0:')
-    depends_on('bazel@0.10.0',                  type='build',          when='@1.8.0:1.9.0')
+    depends_on('bazel@0.15.0',                  type='build',          when='@1.8.0:')
     depends_on('bazel@0.9.0',                   type='build',          when='@1.5.0:1.6.0')
     depends_on('bazel@0.4.5',                   type='build',          when='@1.2.0:1.3.0')
     depends_on('bazel@0.4.4:0.4.999',           type='build',          when='@1.0.0:1.1.0')
@@ -34,7 +33,7 @@ class Tensorflow(Package):
     depends_on('py-numpy@1.11.0:',              type=('build', 'run'))
     depends_on('py-six@1.10.0:',                type=('build', 'run'))
 
-    depends_on('py-protobuf@3.6.0',             type=('build', 'run'), when='@1.8.0:')
+    depends_on('py-protobuf@3.6.0:',             type=('build', 'run'), when='@1.8.0:')
     depends_on('py-protobuf@3.3.0:',            type=('build', 'run'), when='@1.3.0:1.6.0')
     depends_on('py-protobuf@3.0.0b2',           type=('build', 'run'), when='@:1.2.0')
 
@@ -129,7 +128,6 @@ class Tensorflow(Package):
         # does not work for tf < 1.12.0
         # (https://github.com/tensorflow/tensorflow/issues/25283#issuecomment-460124556)
         if self.spec.satisfies('@1.12.0:'):
-            env['TF_SYSTEM_LIBS'] = "boringssl"
             env['TF_NEED_IGNITE'] = '0'
             env['TF_NEED_ROCM'] = '0'
 
@@ -183,11 +181,7 @@ class Tensorflow(Package):
                         'build --action_env TF_NEED_OPENCL_SYCL="0"\n'
                         'build --distinct_host_configuration=false\n'
                         'build --action_env PYTHONPATH="{0}"'.format(env['PYTHONPATH']),
-                        '.tf_configure.bazelrc')        
-        if self.spec.satisfies('@1.12.0:'):
-            # add link to spack-installed openssl libs (needed if no system openssl available)
-            filter_file('-lssl', '-lssl '+self.spec['openssl'].libs.search_flags, 'third_party/systemlibs/boringssl.BUILD')
-            filter_file('-lcrypto', '-lcrypto '+self.spec['openssl'].libs.search_flags, 'third_party/systemlibs/boringssl.BUILD')
+                        '.tf_configure.bazelrc')
 
         if '+cuda' in spec:
             bazel('-c', 'opt', '--config=cuda', '//tensorflow/tools/pip_package:build_pip_package')
