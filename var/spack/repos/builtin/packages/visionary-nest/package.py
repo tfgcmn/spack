@@ -42,7 +42,7 @@ class VisionaryNest(CMakePackage):
             git="git@gitviz.kip.uni-heidelberg.de:model-visionary-nest.git",
             branch="master")
 
-    depends_on('nest@2.14.0:')
+    depends_on('nest@2.14.0:+modules')
 
     def cmake_args(self):
         # TODO: should be specified by nest-package

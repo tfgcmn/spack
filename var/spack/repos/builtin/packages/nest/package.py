@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack import *
+import llnl.util.tty as tty
 
 
 class Nest(CMakePackage):
@@ -162,7 +163,7 @@ class Nest(CMakePackage):
 
         return args
 
-    @when('@:2.14.0+modules')
+    @when('@:2.14.999+modules')
     @run_after('install')
     def install_headers(self):
         # copy source files to installation folder for older versions
@@ -170,12 +171,14 @@ class Nest(CMakePackage):
         # see https://github.com/nest/nest-simulator/pull/844
         path_headers = join_path(prefix, "include", "nest")
 
+        # we need both the headers from the source directory as well as the
+        # generated config.h
+        path_source = self.stage.path
+
         mkdirp(path_headers)
 
-        for suffix in ["h", "hpp"]:
-            for f in find_headers('*.{0}'.format(suffix),
-                                  self.stage.source_path, recursive=True):
-                install(f, path_headers)
+        for f in find_headers('*', path_source, recursive=True):
+            install(f, path_headers)
 
     def setup_environment(self, spack_env, run_env):
         run_env.set("NEST_INSTALL_DIR", self.spec.prefix)
