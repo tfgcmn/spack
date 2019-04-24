@@ -48,6 +48,8 @@ packages:
     variants: ['~shared_libs+visionary+python~libcxx build_type=Release']
   openblas:
     variants: ['cpu_target=NEHALEM']
+  nest:
+    variants: ['~mpi']
   node-js:
     version: [8.15.0]
   openssl:
