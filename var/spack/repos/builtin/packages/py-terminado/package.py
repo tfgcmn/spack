@@ -31,6 +31,7 @@ class PyTerminado(PythonPackage):
     homepage = "https://pypi.python.org/pypi/terminado"
     url      = "https://pypi.io/packages/source/t/terminado/terminado-0.6.tar.gz"
 
+    version('0.8.2', '933a1c5ca7c28e59284d0ac7cadce1ea')
     version('0.6', '5b6c65da27fe1ed07a9f80f0588cdaba')
 
     depends_on('py-tornado@4:', type=('build', 'run'))
