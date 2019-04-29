@@ -42,6 +42,7 @@ class VisionarySimulation(Package):
 
     depends_on('nest+backports')
     depends_on('visionary-nest')
+    depends_on('py-elephant')
     depends_on('py-h5py')
     depends_on('py-ipython')
     depends_on('py-pandas')
