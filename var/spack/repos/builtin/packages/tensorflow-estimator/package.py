@@ -1,4 +1,5 @@
 from spack import *
+import os
 
 class TensorflowEstimator(Package):
     """TensorFlow Estimator is a high-level TensorFlow API that greatly simplifies machine learning programming."""
