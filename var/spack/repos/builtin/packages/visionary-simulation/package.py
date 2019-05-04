@@ -50,6 +50,8 @@ class VisionarySimulation(Package):
     depends_on('py-sbs')
     depends_on('py-scikit-learn')
     depends_on('py-yccp')
+    depends_on('tensorflow+openssl')
+    depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
