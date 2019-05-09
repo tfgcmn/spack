@@ -66,6 +66,8 @@ packages:
   py-matplotlib:
     version: [2.2.3]
   py-pytables:
+    # TODO: currently only 3.3.0 has a patch to enable the variants, FIX THIS
+    version: [3.3.0]
     variants: ['~auto', '~avx2', '+sse2']
   ruby:
     variants: ['~openssl']
