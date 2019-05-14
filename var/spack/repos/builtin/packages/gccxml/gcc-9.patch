@@ -1,0 +1,92 @@
+diff --git a/GCC/gcc/c-tree.h b/GCC/gcc/c-tree.h
+index 5139215..aa9bbca 100644
+--- a/GCC/gcc/c-tree.h
++++ b/GCC/gcc/c-tree.h
+@@ -624,7 +624,7 @@ extern void c_write_global_declarations (void);
+ /* In order for the format checking to accept the C frontend
+    diagnostic framework extensions, you must include this file before
+    toplev.h, not after.  */
+-#if GCC_VERSION >= 4001
++#if (GCC_VERSION >= 4001) && (GCC_VERSION < 9000)
+ #define ATTRIBUTE_GCC_CDIAG(m, n) __attribute__ ((__format__ (GCC_DIAG_STYLE, m ,n))) ATTRIBUTE_NONNULL(m)
+ #else
+ #define ATTRIBUTE_GCC_CDIAG(m, n) ATTRIBUTE_NONNULL(m)
+diff --git a/GCC/gcc/cp/cfns.h b/GCC/gcc/cp/cfns.h
+index 82cdef7..443103b 100644
+--- a/GCC/gcc/cp/cfns.h
++++ b/GCC/gcc/cp/cfns.h
+@@ -105,7 +105,7 @@ hash (register const char *str, register unsigned int len)
+   return hval + asso_values[(unsigned char)str[len - 1]];
+ }
+ 
+-#ifdef __GNUC__
++#if defined(__GNUC__) && (GCC_VERSION < 9000)
+ __inline
+ #endif
+ const char *
+diff --git a/GCC/gcc/pretty-print.h b/GCC/gcc/pretty-print.h
+index b2c6772..f2030f1 100644
+--- a/GCC/gcc/pretty-print.h
++++ b/GCC/gcc/pretty-print.h
+@@ -301,7 +301,7 @@ extern void pp_base_append_text (pretty_printer *, const char *, const char *);
+ 
+ /* This header may be included before toplev.h, hence the duplicate
+    definitions to allow for GCC-specific formats.  */
+-#if GCC_VERSION >= 3005
++#if (GCC_VERSION >= 3005) && (GCC_VERSION < 9000)
+ #define ATTRIBUTE_GCC_PPDIAG(m, n) __attribute__ ((__format__ (__gcc_diag__, m ,n))) ATTRIBUTE_NONNULL(m)
+ #else
+ #define ATTRIBUTE_GCC_PPDIAG(m, n) ATTRIBUTE_NONNULL(m)
+diff --git a/GCC/gcc/toplev.c b/GCC/gcc/toplev.c
+index 3526010..8d9f540 100644
+--- a/GCC/gcc/toplev.c
++++ b/GCC/gcc/toplev.c
+@@ -537,7 +537,7 @@ read_integral_parameter (const char *p, const char *pname, const int  defval)
+    for floor_log2 and exact_log2; see toplev.h.  That construct, however,
+    conflicts with the ISO C++ One Definition Rule.   */
+ 
+-#if GCC_VERSION < 3004 || !defined (__cplusplus)
++#if (GCC_VERSION < 3004 || GCC_VERSION >= 9000) || !defined (__cplusplus)
+ 
+ /* Given X, an unsigned number, return the largest int Y such that 2**Y <= X.
+    If X is 0, return -1.  */
+@@ -589,7 +589,7 @@ exact_log2 (unsigned HOST_WIDE_INT x)
+ #endif
+ }
+ 
+-#endif /*  GCC_VERSION < 3004 || !defined (__cplusplus)  */
++#endif /*  (GCC_VERSION < 3004 || GCC_VERSION >= 9000) || !defined (__cplusplus)  */
+ 
+ /* Handler for fatal signals, such as SIGSEGV.  These are transformed
+    into ICE messages, which is much more user friendly.  In case the
+diff --git a/GCC/gcc/toplev.h b/GCC/gcc/toplev.h
+index c935f7e..52d2511 100644
+--- a/GCC/gcc/toplev.h
++++ b/GCC/gcc/toplev.h
+@@ -49,7 +49,7 @@ extern void _fatal_insn (const char *, rtx, const char *, int, const char *)
+ /* None of these functions are suitable for ATTRIBUTE_PRINTF, because
+    each language front end can extend them with its own set of format
+    specifiers.  We must use custom format checks.  */
+-#if GCC_VERSION >= 4001
++#if (GCC_VERSION >= 4001) && (GCC_VERSION < 9000)
+ #define ATTRIBUTE_GCC_DIAG(m, n) __attribute__ ((__format__ (GCC_DIAG_STYLE, m, n))) ATTRIBUTE_NONNULL(m)
+ #else
+ #define ATTRIBUTE_GCC_DIAG(m, n) ATTRIBUTE_NONNULL(m)
+@@ -158,7 +158,7 @@ extern int exact_log2                  (unsigned HOST_WIDE_INT);
+ extern int floor_log2                  (unsigned HOST_WIDE_INT);
+ 
+ /* Inline versions of the above for speed.  */
+-#if GCC_VERSION >= 3004
++#if (GCC_VERSION >= 3004) && (GCC_VERSION < 9000)
+ # if HOST_BITS_PER_WIDE_INT == HOST_BITS_PER_LONG
+ #  define CLZ_HWI __builtin_clzl
+ #  define CTZ_HWI __builtin_ctzl
+@@ -181,7 +181,7 @@ exact_log2 (unsigned HOST_WIDE_INT x)
+ {
+   return x == (x & -x) && x ? (int) CTZ_HWI (x) : -1;
+ }
+-#endif /* GCC_VERSION >= 3004 */
++#endif /* (GCC_VERSION >= 3004) && (GCC_VERSION < 9000) */
+ 
+ /* Functions used to get and set GCC's notion of in what directory
+    compilation was started.  */

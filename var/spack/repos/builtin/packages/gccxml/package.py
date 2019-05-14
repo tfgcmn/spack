@@ -20,7 +20,8 @@ class Gccxml(CMakePackage):
 
     patch('darwin-gcc.patch', when='%gcc platform=darwin')
     # taken from https://github.com/gccxml/gccxml/issues/11#issuecomment-140334118
-    patch('gcc-5.patch', when='%gcc@5:')
+    patch('gcc-5.patch', when='%gcc@5:8.99.99')
+    patch('gcc-9.patch', when='%gcc@9:')
 
     # last supported version seems to be 4.9.3
     depends_on('gcc@:4.9.3', type='run')
