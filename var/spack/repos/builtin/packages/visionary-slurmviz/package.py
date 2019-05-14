@@ -51,6 +51,7 @@ class VisionarySlurmviz(Package):
     depends_on('curl')
     depends_on('glib')
     depends_on('json-c')
+    depends_on('libtomlc99')
     depends_on('libtool')
     depends_on('lz4')
     depends_on('munge')
