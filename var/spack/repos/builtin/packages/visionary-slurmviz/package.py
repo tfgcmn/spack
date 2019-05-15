@@ -34,6 +34,7 @@ class VisionarySlurmviz(Package):
 
     # This is only a dummy tarball (see difference between version numbers)
     # TODO: as soon as a MetaPackage-concept has been merged, please update this package
+    # TODO: Make new versions once we upgrade from 17.11 -> hwloc 2.0+ is supported
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
 
@@ -64,7 +65,8 @@ class VisionarySlurmviz(Package):
 
     depends_on('gtkplus', when='+gtk')
     depends_on('hdf5', when='+hdf5')
-    depends_on('hwloc', when='+hwloc')
+    # currently there is no support for hwloc 2.0+ in slurm-17.11 it seems
+    depends_on('hwloc@:1.999.999', when='+hwloc')
     depends_on('mariadb', when='+mariadb')
 
     def install(self, spec, prefix):
