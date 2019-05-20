@@ -94,6 +94,7 @@ class VisionaryDevTools(Package):
     depends_on('texinfo')
     depends_on('the-silver-searcher')
     depends_on('tig')
+    depends_on('time')
     depends_on('tmux')
     depends_on('units')
     depends_on('valgrind~ubsan')
