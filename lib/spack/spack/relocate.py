@@ -579,4 +579,5 @@ def mime_type(file):
     file_cmd = Executable('file')
     output = file_cmd('-b', '-h', '--mime-type', file, output=str, error=str)
     tty.debug('[MIME_TYPE] {0} -> {1}'.format(file, output.strip()))
-    return tuple(output.strip().split('/'))
+    split_by_slash = output.strip().split('/')
+    return (split_by_slash[0], "/".join(split_by_slash[1:]))
