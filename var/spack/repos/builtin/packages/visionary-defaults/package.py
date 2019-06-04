@@ -177,7 +177,7 @@ class VisionaryDefaults(Package):
     depends_on('boost@1.69.0+graph+icu+mpi+python+numpy', when='@0.2.19:')
     depends_on('yaml-cpp@0.5.3+shared', when='@:0.2.19')
     depends_on('yaml-cpp@0.6.2+shared', when='@0.2.20:')
-    depends_on('tensorflow+openssl', when='+tensorflow')
+    depends_on('tensorflow', when='+tensorflow')
     depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
     depends_on('log4cxx')
     # depends_on('libpsf')
