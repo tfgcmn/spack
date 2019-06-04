@@ -24,7 +24,7 @@
 ##############################################################################
 from spack import *
 
-class VisionDeepLoop(Package):
+class VisionaryDeepLoop(Package):
     """Meta Package"""
 
     homepage = None
