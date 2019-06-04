@@ -15,6 +15,7 @@ class Bazel(Package):
     homepage = "https://www.bazel.io"
     url = "https://github.com/bazelbuild/bazel/releases/download/0.11.1/bazel-0.11.1-dist.zip"
 
+    version('0.19.0', 'dd5347f82482747a6d5cae6d4787b5da')
     version('0.17.2', '9805c0593e781295126af6b8be8cc7a9')
     version('0.16.1', 'c333d903c5275286e79316eb19dd742d')
     version('0.15.0', 'fb6b928b62f068697bd66ad6d13aad53')
@@ -42,7 +43,7 @@ class Bazel(Package):
     patch('fix_env_handling-0.9.0.patch', when='@0.9.0:0.12.0')
     patch('fix_env_handling-0.13.0.patch', when='@0.13.0:0.13.999')
     patch('fix_env_handling-0.17.2.patch', when='@0.14.0:')
-    patch('link.patch')
+    patch('link.patch', when='@:0.17.2')
     patch('cc_configure.patch', when='@:0.4.5')
     patch('unix_cc_configure.patch', when='@0.9.0')
     patch('unix_cc_configure-0.10.0.patch', when='@0.10.0:0.14.999')

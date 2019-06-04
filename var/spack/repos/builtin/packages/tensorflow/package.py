@@ -8,21 +8,24 @@ class Tensorflow(Package):
     homepage = "https://www.tensorflow.org"
     url      = "https://github.com/tensorflow/tensorflow/archive/v0.10.0.tar.gz"
 
-    version('1.12.0',    '48164180a2573e75f1c8dff492a550a0')
-    version('1.9.0',     '3426192cce0f8e070b2010e5bd5695cd')
-    version('1.8.0',     'cd45874be9296644471dd43e7da3fbd0')
-    version('1.6.0',     '6dc60ac37e49427cd7069968da42c1ac')
-    version('1.5.0',     'e087dc1f47dbbda87cf4278acddf785b')
-    version('1.3.0',     '01c008c58d206324ef68cd5116a83965')
-    version('1.2.0',     '3f15746caabfd2583724258643fd1678')
-    version('1.1.0',     'fb745649d33954c97d29b7acaffe7d65')
-    version('1.0.0-rc2', 'a058a7e0ba2b9761cf2420c82d520049')
-    version('0.10.0',    'b75cbd494d61a809af5ef25d7fba561b')
+    version('2.0.0-alpha0', 'a26886611105d3399c2a5985fe14d904')
+    version('1.13.1',       '0fd6bd88f880c1d907e0bd898b37ee1b', preferred=True)
+    version('1.12.0',       '48164180a2573e75f1c8dff492a550a0')
+    version('1.9.0',        '3426192cce0f8e070b2010e5bd5695cd')
+    version('1.8.0',        'cd45874be9296644471dd43e7da3fbd0')
+    version('1.6.0',        '6dc60ac37e49427cd7069968da42c1ac')
+    version('1.5.0',        'e087dc1f47dbbda87cf4278acddf785b')
+    version('1.3.0',        '01c008c58d206324ef68cd5116a83965')
+    version('1.2.0',        '3f15746caabfd2583724258643fd1678')
+    version('1.1.0',        'fb745649d33954c97d29b7acaffe7d65')
+    version('1.0.0-rc2',    'a058a7e0ba2b9761cf2420c82d520049')
+    version('0.10.0',       'b75cbd494d61a809af5ef25d7fba561b')
 
     depends_on('swig',                          type='build')
 
     # old tensorflow needs old bazel
-    depends_on('bazel@0.15.0',                  type='build',          when='@1.8.0:')
+    depends_on('bazel@0.19.0',                  type='build',          when='@1.13.0:')
+    depends_on('bazel@0.15.0',                  type='build',          when='@1.8.0:1.12.0')
     depends_on('bazel@0.9.0',                   type='build',          when='@1.5.0:1.6.0')
     depends_on('bazel@0.4.5',                   type='build',          when='@1.2.0:1.3.0')
     depends_on('bazel@0.4.4:0.4.999',           type='build',          when='@1.0.0:1.1.0')
@@ -52,6 +55,8 @@ class Tensorflow(Package):
     depends_on('py-keras-preprocessing@1.0.5:', type=('build', 'run'), when='@1.12.0:')
     depends_on('py-h5py',                       type=('build', 'run'), when='@1.12.0:')
 
+    depends_on('py-google-pasta@0.1.2:',        type=('build', 'run'), when='@2.0.0:')
+
     patch('url-zlib.patch',  when='@0.10.0')
     patch('crosstool.patch', when='@1.0.0-rc2') # auch auf 0.10.0 wenn mit cuda!
 
@@ -61,9 +66,21 @@ class Tensorflow(Package):
     variant('cuda', default=False,
             description='Enable CUDA Support')
 
+    # openssl can be used to replace bazel's boringssl
+    # e.g., when system openssl is available, boringssl runs into namespace conflicts
+    variant('openssl', default=False,
+            description='Build with openssl instead of Bazel boringssl')
+
     depends_on('cuda', when='+cuda')
     depends_on('cudnn', when='+cuda')
+    depends_on('openssl@1.0.2:', type=('build', 'run'), when='@1.12.0:+openssl')
 
+    def setup_environment(self, spack_env, run_env):
+        # needed when building with openssl instead of bazel's boringssl
+        if self.spec.satisfies('@1.12.0:+openssl'):
+            openssl_lib_path = self.spec['openssl'].libs.search_flags[2:]
+            spack_env.prepend_path('LD_LIBRARY_PATH', openssl_lib_path)
+            run_env.prepend_path('LD_LIBRARY_PATH', openssl_lib_path)
 
     def install(self, spec, prefix):
         if '+gcp' in spec:
@@ -124,12 +141,14 @@ class Tensorflow(Package):
             env['TF_DOWNLOAD_CLANG'] = '0'
             env['TF_NEED_AWS'] = '0'
 
-        # boringssl error again, build against openssl instead via TF_SYSTEM_LIBS
-        # does not work for tf < 1.12.0
-        # (https://github.com/tensorflow/tensorflow/issues/25283#issuecomment-460124556)
         if self.spec.satisfies('@1.12.0:'):
             env['TF_NEED_IGNITE'] = '0'
             env['TF_NEED_ROCM'] = '0'
+            # boringssl error again, build against openssl instead via TF_SYSTEM_LIBS
+            # does not work for tf < 1.12.0
+            # (https://github.com/tensorflow/tensorflow/issues/25283#issuecomment-460124556)
+            if self.spec.satisfies('+openssl'):
+                env['TF_SYSTEM_LIBS'] = "boringssl"
 
         # set tmpdir to a non-NFS filesystem (because bazel uses ~/.cache/bazel)
         # TODO: This should be checked for non-nfsy filesystem, but the current
@@ -182,6 +201,27 @@ class Tensorflow(Package):
                         'build --distinct_host_configuration=false\n'
                         'build --action_env PYTHONPATH="{0}"'.format(env['PYTHONPATH']),
                         '.tf_configure.bazelrc')
+        if self.spec.satisfies('@1.12.0:+openssl'):
+            # add link to spack-installed openssl libs (needed when spack openssl replaces boringssl)
+            filter_file('-lssl', '-lssl '+self.spec['openssl'].libs.search_flags, 'third_party/systemlibs/boringssl.BUILD')
+            filter_file('-lcrypto', '-lcrypto '+self.spec['openssl'].libs.search_flags, 'third_party/systemlibs/boringssl.BUILD')
+        if self.spec.satisfies('@1.13.1'):
+            # tensorflow_estimator is an API for tensorflow
+            # tensorflow-estimator imports tensorflow during build, so tensorflow has to be set up first
+            filter_file(r"'tensorflow_estimator >=",
+                        r"#'tensorflow_estimator >=",
+                        'tensorflow/tools/pip_package/setup.py')
+        if self.spec.satisfies('@2.0.0:'):
+            # now it depends on the nightly versions...
+            filter_file(r"'tf-estimator-nightly >=",
+                        r"#'tf-estimator-nightly >=",
+                        'tensorflow/tools/pip_package/setup.py')
+            filter_file(r"REQUIRED_PACKAGES\[i\] = 'tb-nightly >=",
+                        r"pass #REQUIRED_PACKAGES\[i\] = 'tb-nightly >=",
+                        'tensorflow/tools/pip_package/setup.py')
+            filter_file(r"'tb-nightly >=",
+                        r"#'tb-nightly >=",
+                        'tensorflow/tools/pip_package/setup.py')
 
         if '+cuda' in spec:
             bazel('-c', 'opt', '--config=cuda', '//tensorflow/tools/pip_package:build_pip_package')

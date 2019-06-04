@@ -9,11 +9,9 @@ import sys
 
 class Valgrind(AutotoolsPackage):
     """An instrumentation framework for building dynamic analysis.
-
     There are Valgrind tools that can automatically detect many memory
     management and threading bugs, and profile your programs in
     detail. You can also use Valgrind to build new tools.
-
     Valgrind is Open Source / Free Software, and is freely available
     under the GNU General Public License, version 2.
     """

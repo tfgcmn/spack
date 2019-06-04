@@ -42,6 +42,7 @@ class VisionarySimulation(Package):
 
     depends_on('nest+backports')
     depends_on('visionary-nest')
+    depends_on('py-elephant')
     depends_on('py-h5py')
     depends_on('py-ipython')
     depends_on('py-pandas')
@@ -49,6 +50,8 @@ class VisionarySimulation(Package):
     depends_on('py-sbs')
     depends_on('py-scikit-learn')
     depends_on('py-yccp')
+    depends_on('tensorflow+openssl')
+    depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
