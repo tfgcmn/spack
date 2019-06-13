@@ -58,6 +58,7 @@ class VisionaryDevTools(Package):
     depends_on('git')
     depends_on('git-fat-git')
     depends_on('gtkplus')
+    depends_on('jq')
     depends_on('libpcap')
     depends_on('libtool')
     depends_on('llvm+visionary+python~libcxx@7.0.0: build_type=Release')
