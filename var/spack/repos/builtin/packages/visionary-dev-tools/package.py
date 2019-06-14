@@ -55,7 +55,7 @@ class VisionaryDevTools(Package):
     depends_on('emacs ~X')
     depends_on('gdb')
     depends_on('genpybind')
-    depends_on('git')
+    depends_on('git+tcltk')
     depends_on('git-fat-git')
     depends_on('gtkplus')
     depends_on('jq')
