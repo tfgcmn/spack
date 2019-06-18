@@ -33,7 +33,7 @@ try {
 
 			// Branch is not available when not triggered via gerrit
 			// TODO: Fix this when moving to a different branch!
-			NIGHTLY_INSTANCE = "/wang/environment/software/Carbon/spack/20180129_nightly"
+			NIGHTLY_INSTANCE = "/wang/environment/software/Carbon/spack/visionary_nightly"
 
 			if (MERGE_BUILD) {
 				// Clean up stages of this changeset
