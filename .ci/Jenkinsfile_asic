@@ -59,16 +59,19 @@ try {
 				sh("mkdir -p $TMPDIR")
 			}
 
-			stage('stack') {
+			stage('chain') {
 				if (!MERGE_BUILD && GERRIT_BUILD) {
 					sh "cd ${WORKING_DIR} && " +
 					   // we need two -f to also be able to deal with .git files that can
 					   // be added by sources of packages
 					   "git clean -dfxf && " +
 					   ". share/spack/setup-env.sh && " +
-					   "spack stack ${LIVE_INSTANCE}"
+					   "(echo 'upstreams:' && " +
+					   "echo '  live-instance:' && " +
+					   "echo '    install_tree: ${LIVE_INSTANCE}/opt/spack') " +
+					   "> etc/spack/upstreams.yaml"
 				} else {
-					echo "Omitting stack for nightly build."
+					echo "Omitting chaining for nightly build."
 				}
 			}
 
