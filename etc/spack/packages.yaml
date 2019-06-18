@@ -58,6 +58,9 @@ packages:
     variants: ['+X']
   pcre:
     variants: ['+jit']
+  py-astroid:
+    # newer version require py3
+    version: [1.6.6]
   py-h5py:
     variants: ['~mpi']
   py-ipython:
@@ -69,6 +72,9 @@ packages:
     # TODO: currently only 3.3.0 has a patch to enable the variants, FIX THIS
     version: [3.3.0]
     variants: ['~auto', '~avx2', '+sse2']
+  py-pylint:
+    # newer version require py3
+    version: [1.9.4]
   ruby:
     variants: ['~openssl']
   tk:
