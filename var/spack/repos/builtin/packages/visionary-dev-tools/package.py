@@ -99,7 +99,7 @@ class VisionaryDevTools(Package):
     depends_on('time')
     depends_on('tmux')
     depends_on('units')
-    depends_on('valgrind~ubsan')
+    depends_on('valgrind')
     depends_on('verilator')
     depends_on('vim +python +ruby +perl +cscope +huge +x')
     depends_on('visionary-xilinx')

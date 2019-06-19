@@ -134,6 +134,9 @@ class Boost(Package):
     variant('pic', default=False,
             description='Generate position-independent code (PIC), useful '
                         'for building static libraries')
+    variant('valgrind', default=False,
+            description='Let valgrind treat boost context memory regions as'
+            'stack space . Users must define BOOST_USE_VALGRIND!')
 
     depends_on('icu4c', when='+icu')
     depends_on('python', when='+python')
@@ -141,6 +144,8 @@ class Boost(Package):
     depends_on('bzip2', when='+iostreams')
     depends_on('zlib', when='+iostreams')
     depends_on('py-numpy', when='+numpy', type=('build', 'run'))
+    # depend on ~boost to prevent infinite recursion
+    depends_on('valgrind~boost', when="+valgrind")
 
     # Coroutine, Context, Fiber, etc., are not straightforward.
     conflicts('+context', when='@:1.50.99')  # Context since 1.51.0.
@@ -294,6 +299,9 @@ class Boost(Package):
                 '-s', 'BZIP2_LIBPATH=%s' % spec['bzip2'].prefix.lib,
                 '-s', 'ZLIB_INCLUDE=%s' % spec['zlib'].prefix.include,
                 '-s', 'ZLIB_LIBPATH=%s' % spec['zlib'].prefix.lib])
+
+        if '+valgrind' in spec:
+            options.append('valgrind=on')
 
         link_types = ['static']
         if '+shared' in spec:
