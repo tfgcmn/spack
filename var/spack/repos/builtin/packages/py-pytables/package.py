@@ -12,6 +12,7 @@ class PyPytables(PythonPackage):
     homepage = "http://www.pytables.org/"
     url      = "https://github.com/PyTables/PyTables/archive/v3.3.0.tar.gz"
 
+    version('3.5.2', '58667a5003838cc5c8773a796bf47632')
     version('3.4.4', '2cd52095ebb097f5bf58fa65dc6574bb')
     version('3.3.0', '056c161ae0fd2d6e585b766adacf3b0b')
     version('3.2.2', '7cbb0972e4d6580f629996a5bed92441',
@@ -23,6 +24,7 @@ class PyPytables(PythonPackage):
 
     depends_on('hdf5@1.8.0:1.8.999', when="@:3.3.99")
     depends_on('hdf5@1.8.0:1.10.999', when="@3.4.0:")
+    depends_on('py-numpy@1.8.0:1.15.99', type=('build', 'run'), when='@3.4.99')
     depends_on('py-numpy@1.8.0:', type=('build', 'run'))
     depends_on('py-numexpr@2.5.2:', type=('build', 'run'))
     depends_on('py-cython', type=('build', 'run'))
@@ -30,7 +32,9 @@ class PyPytables(PythonPackage):
     depends_on('py-setuptools', type=('build', 'run'))
     depends_on('py-cpuinfo', type='build')
 
-    patch('microarch.patch', when='~auto')
+    patch('microarch.patch', when='~auto@3.3.0')
+    patch('microarch_new.patch', when='~auto@3.4.4')
+    patch('microarch_35.patch', when='~auto@3.5.2')
 
     def setup_environment(self, spack_env, run_env):
         spack_env.set('HDF5_DIR', self.spec['hdf5'].prefix)
