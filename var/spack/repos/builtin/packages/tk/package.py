@@ -4,6 +4,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack import *
+import os
 
 
 class Tk(AutotoolsPackage):
@@ -29,6 +30,24 @@ class Tk(AutotoolsPackage):
     depends_on('libx11')
 
     configure_directory = 'unix'
+
+    def install(self, spec, prefix):
+        with working_dir(self.build_directory):
+            make('install')
+
+            # Some applications like Expect require private Tk headers.
+            make('install-private-headers')
+
+            # Copy source to install tree
+            installed_src = join_path(
+                self.spec.prefix, 'share', self.name, 'src')
+            stage_src = os.path.realpath(self.stage.source_path)
+            install_tree(stage_src, installed_src)
+
+            # Replace stage dir -> installed src dir in tkConfig
+            filter_file(
+                stage_src, installed_src,
+                join_path(self.spec.prefix, 'lib', 'tkConfig.sh'))
 
     @property
     def libs(self):

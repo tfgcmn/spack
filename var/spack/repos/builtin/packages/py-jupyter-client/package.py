@@ -28,5 +28,5 @@ class PyJupyterClient(PythonPackage):
     depends_on('py-zmq@13:', type=('build', 'run'), when='^py-tornado@:4.999.999')
     depends_on('py-zmq@17:', type=('build', 'run'), when='^py-tornado@5:')
     depends_on('py-setuptools', type='build', when='@5.2.4:')
-    depends_on('py-dateutil@2.1:', when='@5:')
+    depends_on('py-python-dateutil@2.1:', when='@5:')
     depends_on('py-tornado@4.1:', when='@5.2.2:')

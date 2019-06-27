@@ -18,7 +18,7 @@ class PyJupyterhub(PythonPackage):
     depends_on('node-js', type=('build', 'run'))
     depends_on('npm', type=('build', 'run'))
     depends_on('py-setuptools', type='build')
-    depends_on('py-dateutil', type='run')
+    depends_on('py-python-dateutil', type='run')
     depends_on('py-jinja2', type='run')
     depends_on('py-sqlalchemy@1.1:', type='run')
     depends_on('py-tornado@5.0:', type='run')

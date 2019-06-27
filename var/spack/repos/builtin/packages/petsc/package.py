@@ -24,6 +24,7 @@ class Petsc(Package):
     version('develop', branch='master')
     version('xsdk-0.2.0', tag='xsdk-0.2.0')
 
+    version('3.11.2', '4d244dd7d1565d6534e776445fcf6977a6ee2a8bb2be4a36ac1e0fc1f9ad9cfa')
     version('3.11.1', 'cb627f99f7ce1540ebbbf338189f89a5f1ecf3ab3b5b0e357f9e46c209f1fb23')
     version('3.11.0', 'b3bed2a9263193c84138052a1b92d47299c3490dd24d1d0bf79fb884e71e678a')
     version('3.10.5', '3a81c8406410e0ffa8a3e9f8efcdf2e683cc40613c9bb5cb378a6498f595803e')
@@ -107,6 +108,8 @@ class Petsc(Package):
     patch('pkg-config-3.7.6-3.8.4.diff', when='@3.7.6:3.8.4')
 
     patch('xcode_stub_out_of_sync.patch', when='@:3.10.4')
+
+    patch('xlf_fix-dup-petscfecreate.patch', when='@3.11.0')
 
     # Virtual dependencies
     # Git repository needs sowing to build Fortran interface
@@ -301,7 +304,7 @@ class Petsc(Package):
                 'camd,amd,suitesparseconfig'
             options.extend([
                 '--with-suitesparse-include=%s' % spec[ss_spec].prefix.include,
-                '--with-suitesparse-lib=%s' % spec[ss_spec].libs.ld_flags,
+                '--with-suitesparse-lib=%s' % spec[ss_spec].libs.joined(),
                 '--with-suitesparse=1'
             ])
         else:

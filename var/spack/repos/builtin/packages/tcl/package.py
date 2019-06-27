@@ -29,8 +29,6 @@ class Tcl(AutotoolsPackage):
 
     extendable = True
 
-    extendable = True
-
     depends_on('zlib')
 
     configure_directory = 'unix'
