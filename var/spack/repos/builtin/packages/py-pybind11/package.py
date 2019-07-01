@@ -30,6 +30,9 @@ class PyPybind11(CMakePackage):
     version('2.1.1', '5518988698df937ccee53fb6ba91d12a')
     version('2.1.0', '3cf07043d677d200720c928569635e12')
 
+    # otherwise we cannot use it in clang; an unconditionally good fix
+    patch('fix-for-clang6.patch', when='@2.3.0:')
+
     depends_on('py-pytest', type='test')
     depends_on('py-setuptools', type='build')
 
