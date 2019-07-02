@@ -68,6 +68,7 @@ class VisionaryWafer(Package):
     depends_on('py-jupyter-notebook')
     depends_on('py-pynn @0.7.5')
     depends_on('py-matplotlib~tk+qt+ipython')
+    depends_on('py-numba')
     depends_on('py-numpy')
     depends_on('py-pandas @0.19.0:')
     depends_on('py-pytables @3.3.0:')
