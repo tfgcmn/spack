@@ -22,6 +22,9 @@ class PyAstroid(PythonPackage):
     version('1.4.2', '677f7965840f375af51b0e86403bee6a')
     version('1.4.1', 'ed70bfed5e4b25be4292e7fe72da2c02')
 
+    # fixes symlink resolution, already included in 2: but not in 1.6.6
+    patch('PR546.patch', when='@1.6.6')
+
     depends_on('python@2.7:2.8,3.4:', when='@:1.999.999')
     depends_on('python@3.4:', when='@2:')
 
