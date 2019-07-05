@@ -64,7 +64,7 @@ class PyMatplotlib(PythonPackage):
     depends_on('py-functools32', type=('build', 'run'), when='@:2.0.999 ^python@2.7')
     depends_on('py-kiwisolver', type=('build', 'run'), when='@2.2.0:')
     depends_on('py-backports-functools-lru-cache', type=('build', 'run'),
-               when='@2.1.0:2.999.999')
+               when='@2.1.0:2.999.999 ^python@:3.2.999')
 
     # ------ Optional GUI frameworks
     depends_on('tk@8.3:', when='+tk')  # not 8.6.0 or 8.6.1
