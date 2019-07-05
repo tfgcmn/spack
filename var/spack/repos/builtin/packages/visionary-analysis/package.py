@@ -59,8 +59,9 @@ class VisionaryAnalysis(Package):
     depends_on('py-pandas')
     depends_on('py-pillow')
     depends_on('py-pip')
-    depends_on('py-pylint')
-    depends_on('py-pylint', when='@0.2.11:')
+    depends_on('py-pylint@1.9.4', when="^python@:2.999.999")
+    # TODO add py-pylint version for earlier python 3 releases if needed
+    depends_on('py-pylint', when="^python@3.5.0:")
     depends_on('py-pytest')
     depends_on('py-pytest-xdist')
     depends_on('py-pyyaml')

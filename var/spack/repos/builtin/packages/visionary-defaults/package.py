@@ -208,7 +208,9 @@ class VisionaryDefaults(Package):
     depends_on('python')
     depends_on('py-cython')
     depends_on('py-pip')
-    depends_on('py-pylint', when='@0.2.11:')
+    depends_on('py-pylint@1.9.4', when="^python@:2.999.999")
+    # TODO add py-pylint version for earlier python 3 releases if needed
+    depends_on('py-pylint', when="^python@3.5.0:")
 
     depends_on('py-ipython')
     # depends_on('py-ipdb')
@@ -235,7 +237,6 @@ class VisionaryDefaults(Package):
 
     depends_on('py-autopep8')
     depends_on('py-flake8', when='@0.2.16:')
-    # depends_on('py-pylint')
     depends_on('py-jedi', when='@0.2.6:')
 
     depends_on('py-sphinx')

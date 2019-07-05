@@ -72,9 +72,6 @@ packages:
   py-pytables:
     # TODO: currently only 3.3.0 has a patch to enable the variants, FIX THIS
     variants: ['~auto', '~avx2', '+sse2']
-  py-pylint:
-    # newer version require py3
-    version: [1.9.4]
   ruby:
     variants: ['~openssl']
   tk:

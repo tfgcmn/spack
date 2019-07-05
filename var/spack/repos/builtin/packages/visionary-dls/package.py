@@ -71,7 +71,9 @@ class VisionaryDls(Package):
     depends_on('py-nose')
     depends_on('py-numpy')
     depends_on('py-pybind11')
-    depends_on('py-pylint')
+    depends_on('py-pylint@1.9.4', when="^python@:2.999.999")
+    # TODO add py-pylint version for earlier python 3 releases if needed
+    depends_on('py-pylint', when="^python@3.5.0:")
     depends_on('py-scikit-learn')
     depends_on('py-sqlalchemy')
     depends_on('python')
