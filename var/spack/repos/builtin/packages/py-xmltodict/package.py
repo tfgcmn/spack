@@ -10,5 +10,8 @@ class PyXmltodict(PythonPackage):
     version('0.12.0', url="https://files.pythonhosted.org/packages/58/40/0d783e14112e064127063fbf5d1fe1351723e5dfe9d6daad346a305f6c49/xmltodict-0.12.0.tar.gz",
             sha256="50d8c638ed7ecb88d90561beedbf720c9b4e851a9fa6c47ebd64e99d166d8a21")
 
+    # taken from: https://github.com/martinblech/xmltodict/pull/216
+    patch("fix_py3_unicodedecode_error.patch", when="@0.12.0 ^python@3.0.0:")
+
     depends_on('pkgconfig', type="build")
     depends_on('py-setuptools', type="build")

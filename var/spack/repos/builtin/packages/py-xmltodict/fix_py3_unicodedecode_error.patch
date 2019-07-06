@@ -1,0 +1,14 @@
+diff --git a/setup.py b/setup.py
+index 2869e9a..0ad44a3 100755
+--- a/setup.py
++++ b/setup.py
+@@ -8,7 +8,10 @@ except ImportError:
+
+ import xmltodict
+
+-with open('README.md') as f:
++import io
++import os
++here = os.path.abspath(os.path.dirname(__file__))
++with io.open(os.path.join(here, 'README.md'), encoding='utf8') as f:
+     long_description = f.read()
