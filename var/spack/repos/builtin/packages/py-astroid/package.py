@@ -13,14 +13,10 @@ class PyAstroid(PythonPackage):
     homepage = "https://github.com/PyCQA/astroid"
     url      = "https://github.com/PyCQA/astroid/archive/astroid-1.4.5.tar.gz"
 
-    version('2.2.0', sha256='7e289d0aa4a537b4aa798bd609fdf745de0f3c37e6b67642ed328e1482421a6d')
-    version('1.6.6', 'ba7b90edc9f441b3be49ded3019d00ed')
-    # version('1.5.3', '6f65e4ea8290ec032320460905afb828') # has broken unit tests
-    version('1.4.5', '7adfc55809908297ef430efe4ea20ac3')
-    version('1.4.4', '8ae6f63f6a2b260bb7f647dafccbc796')
-    version('1.4.3', '4647159de7d4d0c4b1de23ecbfb8e246')
-    version('1.4.2', '677f7965840f375af51b0e86403bee6a')
-    version('1.4.1', 'ed70bfed5e4b25be4292e7fe72da2c02')
+    version('2.2.5', sha256='232c2cfc72bae18a28de6541bbd560a1a3f42e08c52e41bd3f1f00ed74b0a4a6')
+    version('2.0.4', sha256='e2161452b7a07a4663dba61bfb2191a7b61b792fb8239427581dad43773e071e')
+    version('1.6.6', sha256='3fbcc144457ba598fb48e0ddce5eacee62610ab11e6fe374b6eef5f7df2a3fbb')
+    version('1.4.5', sha256='28d8f5b898087ecf86fd66ca0934e5c0e51fc0beb5972cfc4e0c11080e0cb6ab')
 
     # fixes symlink resolution, already included in 2: but not in 1.6.6
     patch('PR546.patch', when='@1.6.6')
@@ -35,3 +31,5 @@ class PyAstroid(PythonPackage):
     depends_on('py-singledispatch', when='^python@:3.3.99')
     depends_on('py-backports-functools-lru-cache', when='^python@:3.2.99')
     depends_on('py-setuptools@17.1:')
+    # typed ast is only needed for CPython but there are no other python implementations in spack
+    depends_on('py-typed-ast@1.3.0:', when='@2.2.5: ^python@3.7.0:')
