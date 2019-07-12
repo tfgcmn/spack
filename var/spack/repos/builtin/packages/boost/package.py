@@ -138,6 +138,12 @@ class Boost(Package):
             description='Let valgrind treat boost context memory regions as'
             'stack space . Users must define BOOST_USE_VALGRIND!')
 
+    # https://boostorg.github.io/build/manual/develop/index.html#bbv2.builtin.features.visibility
+    variant('visibility', values=('global', 'protected', 'hidden'),
+            default='hidden', multi=False,
+            description='Default symbol visibility in compiled libraries '
+            '(1.69.0 or later)')
+
     depends_on('icu4c', when='+icu')
     depends_on('python', when='+python')
     depends_on('mpi', when='+mpi')
@@ -222,6 +228,7 @@ class Boost(Package):
         toolsets = {'g++': 'gcc',
                     'icpc': 'intel',
                     'clang++': 'clang',
+                    'armclang++': 'clang',
                     'xlc++': 'xlcpp',
                     'xlc++_r': 'xlcpp',
                     'pgc++': 'pgi'}
@@ -249,7 +256,12 @@ class Boost(Package):
 
     def determine_bootstrap_options(self, spec, with_libs, options):
         boost_toolset_id = self.determine_toolset(spec)
-        options.append('--with-toolset=%s' % boost_toolset_id)
+
+        # Arm compiler bootstraps with 'gcc' (but builds as 'clang')
+        if spec.satisfies('%arm'):
+            options.append('--with-toolset=gcc')
+        else:
+            options.append('--with-toolset=%s' % boost_toolset_id)
         options.append("--with-libraries=%s" % ','.join(with_libs))
 
         if '+python' in spec:
@@ -364,6 +376,10 @@ class Boost(Package):
 
         if cxxflags:
             options.append('cxxflags="{0}"'.format(' '.join(cxxflags)))
+
+        # Visibility was added in 1.69.0.
+        if spec.satisfies('@1.69.0:'):
+            options.append('visibility=%s' % spec.variants['visibility'].value)
 
         return threading_opts
 

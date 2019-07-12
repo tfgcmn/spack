@@ -1,40 +1,24 @@
-##############################################################################
-# Copyright (c) 2013-2017, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory.
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
-# This file is part of Spack.
-# Created by Todd Gamblin, tgamblin@llnl.gov, All rights reserved.
-# LLNL-CODE-647188
-#
-# For details, see https://github.com/spack/spack
-# Please also see the NOTICE and LICENSE files for our notice and the LGPL.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License (as
-# published by the Free Software Foundation) version 2.1, February 1999.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the IMPLIED WARRANTY OF
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the terms and
-# conditions of the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-##############################################################################
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
 from spack import *
+
 
 class PyAbslPy(PythonPackage):
     """
-    This repository is a collection of Python library code for building Python applications. 
-    The code is collected from Google's own Python code base, and has been extensively tested and used in production.
+    This repository is a collection of Python library code for building
+    Python applications.
+
+    The code is collected from Google's own Python code base, and has been
+    extensively tested and used in production.
     """
 
     homepage = "https://pypi.org/project/absl-py/"
     url      = "https://pypi.io/packages/source/a/absl-py/absl-py-0.7.0.tar.gz"
 
-    version('0.7.0', 'e323216d24426bf7b2458d07ba0619fa')
-    version('0.1.6', 'b76269cbf04502b7d12efabcfa51a299', url="https://cosmo-pypi.phys.ethz.ch/simple/absl-py/0.1.6/absl-py-0.1.6.tar.gz")
+    version('0.7.0', sha256='8718189e4bd6013bf79910b9d1cb0a76aecad8ce664f78e1144980fabdd2cd23')
+    version('0.1.6', sha256='02c577d618a8bc0a2a5d1a51f160d3649745d7a2516d87025322f46ac1391a22')
 
     depends_on('python@2.7:2.8,3.4:', type=('build', 'run'))
     depends_on('py-six', type=('build', 'run'))
