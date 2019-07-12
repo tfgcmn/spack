@@ -42,6 +42,6 @@ class VisionaryAsic(Package):
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
         # store a copy of this package.
-        install(__file__, join_path(prefix.etc, 'visionary-dls.py'))
+        install(__file__, join_path(prefix.etc, 'visionary-asic.py'))
 
         # we could create some filesystem view here?
