@@ -9,7 +9,7 @@ spack -d fetch -D "$modulespec"
 spack -d spec -I "$modulespec"
 if [ "$4" = "local" ]
 then
-    spack -d install --source --only dependencies --show-log-on-error -j1 "$modulespec"
+    spack -d install --source --only dependencies --show-log-on-error -j8 "$modulespec"
 else
     srun -p jenkins -c8 -t6:00:00 spack -d install --source --only dependencies --show-log-on-error "$modulespec"
 fi
