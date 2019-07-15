@@ -38,7 +38,7 @@ class VisionaryDeepLoop(Package):
     depends_on("py-pandas @0.19.0:")
     depends_on("py-pil")
     depends_on("py-pynn @0.7.5")
-    depends_on("py-pytables @3.3.0:")
+    depends_on("py-tables @3.3.0:")
     depends_on("py-scipy")
     depends_on("py-cython")
     # depends_on("py-notebook")

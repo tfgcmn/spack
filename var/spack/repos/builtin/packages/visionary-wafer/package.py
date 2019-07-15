@@ -71,7 +71,7 @@ class VisionaryWafer(Package):
     depends_on('py-numba')
     depends_on('py-numpy')
     depends_on('py-pandas @0.19.0:')
-    depends_on('py-pytables @3.3.0:')
+    depends_on('py-tables @3.3.0:')
     depends_on('py-scipy')
     depends_on('py-scikit-image')
     depends_on('py-lmfit')
