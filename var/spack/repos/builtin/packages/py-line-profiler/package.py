@@ -20,3 +20,11 @@ class PyLineProfiler(PythonPackage):
     depends_on('py-setuptools',     type='build')
     depends_on('py-cython',         type='build')
     depends_on('py-ipython@0.13:',  type=('build', 'run'))
+
+    @when("^python@3.7.0:")
+    @run_before("build")
+    def regenerate_cython_sources(self):
+        """The sources include pre-generated cython code that does not work for
+        newer python versions."""
+        cython = which('cython')
+        cython('_line_profiler.pyx')
