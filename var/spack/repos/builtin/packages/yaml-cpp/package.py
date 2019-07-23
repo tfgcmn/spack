@@ -22,7 +22,7 @@ class YamlCpp(CMakePackage):
     version('0.5.3', '2bba14e6a7f12c7272f87d044e4a7211')
 
     variant('shared', default=True,
-            description='Additionally build of shared libraries')
+            description='Enable build of shared libraries')
     variant('pic',   default=True,
             description='Build with position independent code')
     variant('tests', default=False,
@@ -59,7 +59,12 @@ class YamlCpp(CMakePackage):
         return (flags, None, None)
 
     def cmake_args(self):
-        options = [
+        spec = self.spec
+        options = []
+
+        options.extend([
+            '-DBUILD_SHARED_LIBS:BOOL=%s' % (
+                'ON' if '+shared' in spec else 'OFF'),
             '-DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=%s' % (
                 'ON' if '+pic' in spec else 'OFF'),
             '-DYAML_CPP_BUILD_TESTS:BOOL=%s' % (
