@@ -65,6 +65,7 @@ try {
 					   // we need two -f to also be able to deal with .git files that can
 					   // be added by sources of packages
 					   "git clean -dfxf && " +
+                       "export SPACK_ROOT=${WORKING_DIR} && " +
 					   ". share/spack/setup-env.sh && " +
 					   "(echo 'upstreams:' && " +
 					   "echo '  live-instance:' && " +
@@ -79,6 +80,7 @@ try {
 				for(compiler in ASIC_COMPILERS){
 					sh "env && " +
 					   "cd ${WORKING_DIR} && " +
+                       "export SPACK_ROOT=${WORKING_DIR} && " +
 					   "set +x && " +
 					   ". share/spack/setup-env.sh &&" +
 					   "set -x && " +
