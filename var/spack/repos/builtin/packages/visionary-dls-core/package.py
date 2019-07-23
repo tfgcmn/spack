@@ -19,7 +19,7 @@ class VisionaryDlsCore(Package):
     version('1.0', '372ce038842f20bf0ae02de50c26e85d', url='https://github.com/electronicvisions/spack/archive/v0.8.tar.gz')
 
     # Depend on visionary-nux to enable joint developement of host and PPU code with one meta package
-    depends_on('visionary-nux~dev')
+    depends_on('visionary-nux ~dev')
 
     # depends_on('libusb-1.0')  external dependency
     depends_on('boost@1.69.0: +graph+icu+mpi+python+numpy+coroutine+context+valgrind cxxstd=14')

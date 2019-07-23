@@ -83,7 +83,6 @@ class VisionaryWafer(Package):
     depends_on('cereal')
     depends_on('py-yccp@:0.5.0', when="^python@:2.999.999")  #TODO remove constraints once concretizer fixed
     depends_on('py-yccp@1.0.0:', when="^python@3:")          #TODO remove constraints once concretizer fixed
-    depends_on('pytorch')
     # TODO Re-enable once https://github.com/spack/spack/pull/13112 is merged
     #  depends_on('tensorflow', when='+tensorflow')
     #  depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
@@ -94,6 +93,13 @@ class VisionaryWafer(Package):
     # restrictions correctly -> should be removable in the future
     depends_on('tk@8.5.19')
     depends_on('tcl@8.5.19')
+
+    ##################
+    # Current fixups #
+    ##################
+    # intel-mkldnn depends on intel-mkl which also provides blas ->
+    # concretization error -> reinvestigate when needed
+    depends_on('py-torch ~mkldnn')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
