@@ -31,8 +31,11 @@ class Genpybind(WafPackage):
     homepage = "https://github.com/kljohann/genpybind"
     url      = "https://github.com/kljohann/genpybind/archive/v0.1.0.tar.gz"
 
+    # prefetches PR #14 typedef alias support
+    version('alias', git='https://github.com/electronicvisions/genpybind.git',
+            commit="d242fa116171a437871df9e0ce4078e17f240197", preferred=True)
     version('0.1.1-pre', git='https://github.com/kljohann/genpybind.git',
-            commit="9d06a3ad4b6b917c8fcc07261a97b13a3079bcba", preferred=True)
+            commit="9d06a3ad4b6b917c8fcc07261a97b13a3079bcba")
     version('0.1.0', '345ca9c6ca96f79c8a217e44a9c99fe6')
     version('develop', git='https://github.com/kljohann/genpybind.git')
 
