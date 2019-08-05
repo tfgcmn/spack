@@ -94,6 +94,9 @@ class Qt(Package):
     patch('qt4-gcc8.3-asm-volatile-fix.patch', when='@4')
     patch('qt5-gcc8.3-asm-volatile-fix.patch', when='@5.0.0:5.12.1')
 
+    # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=925811
+    patch('qt4-gcc9-qforeach.patch', when='@4 %gcc@9:')
+
     depends_on("pkgconfig", type='build')
     # Use system openssl for security.
     depends_on("openssl@:1.0", when='@:5.9')
