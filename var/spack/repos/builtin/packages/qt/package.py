@@ -30,6 +30,7 @@ class Qt(Package):
     version('5.4.0',  'e8654e4b37dd98039ba20da7a53877e6')
     version('5.3.2',  'febb001129927a70174467ecb508a682')
     version('5.2.1',  'a78408c887c04c34ce615da690e0b4c8')
+    version('4.8.7',  'd990ee66bf7ab0c785589776f35ba6ad')
     version('4.8.6',  '2edbe4d6c2eff33ef91732602f3518eb')
     version('4.8.5',  '1864987bdbb2f58f8ae8b350dfdbe133')
     version('3.3.8b', '9f05b4125cfe477cc52c9742c3c09009')
@@ -70,7 +71,8 @@ class Qt(Package):
     # https://github.com/spack/spack/issues/1517
     patch('qt5-pcre.patch', when='@5:')
 
-    patch('qt4-corewlan-new-osx.patch', when='@4')
+    patch('qt4-corewlan-new-osx.patch', when='@4.0.0:4.8.6')
+    patch('qt4-corewlan-new-osx-new.patch', when='@4.8.7:4.8.999')
     patch('qt4-pcre-include-conflict.patch', when='@4')
     patch('qt4-el-capitan.patch', when='@4')
 
@@ -78,7 +80,8 @@ class Qt(Package):
     # recent versions of gcc.
     # https://github.com/spack/spack/issues/9205
     # https://github.com/spack/spack/issues/9209
-    patch('qt4-gcc-and-webkit.patch', when='@4')
+    patch('qt4-gcc-and-webkit.patch', when='@4.0.0:4.8.6')
+    patch('qt4-gcc-and-webkit-new.patch', when='@4.8.7:4.8.999')
 
     # Fix build failure with newer versions of GCC
     patch('https://github.com/qt/qtbase/commit/a52d7861edfb5956de38ba80015c4dd0b596259b.patch',

@@ -46,7 +46,7 @@ class VisionarySpikey(Package):
     depends_on('boost+python')
 #    depends_on('libusb')  # needs to be an external requirement
     depends_on('log4cxx')
-    depends_on('qt@4.8.6')
+    depends_on('qt@:4.8.999')
     depends_on('googletest')
     depends_on('gsl')
     depends_on('pkg-config')
