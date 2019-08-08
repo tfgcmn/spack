@@ -17,6 +17,13 @@ class PyNose(PythonPackage):
         'nose', 'nose.ext', 'nose.plugins', 'nose.sphinx', 'nose.tools'
     ]
 
+    # https://github.com/nose-devs/nose/pull/1090
+    variant('xunit2', default=True, description='Some (in)sane people changed '
+                                                'the a variable name, so nose '
+                                                'needs a patch (PR 1090)')
+
+    patch('1090.patch', when='+xunit2')
+
     version('1.3.7', '4d3ad0ff07b61373d2cefc89c5d0b20b')
     version('1.3.6', '0ca546d81ca8309080fc80cb389e7a16')
     version('1.3.4', '6ed7169887580ddc9a8e16048d38274d')
