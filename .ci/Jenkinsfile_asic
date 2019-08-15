@@ -19,7 +19,7 @@ MERGE_BUILD = (env.GERRIT_EVENT_TYPE == "change-merged")
 
 
 try {
-	node("vrhea") {
+	runOnSlave(name: "uranus") {
 		withEnv(['ftp_proxy=ftp://proxy.kip.uni-heidelberg.de:2121',
 		         'http_proxy=http://proxy.kip.uni-heidelberg.de:8080',
 		         'https_proxy=http://proxy.kip.uni-heidelberg.de:8080',
@@ -95,11 +95,10 @@ try {
 	notifyFailure(mattermostChannel: "#spack")
 	throw t
 } finally {
-	node {
+	runOnSlave(name: "uranus") {
 		stage('Cleanup') {
 			// Remove temporary files
 			sh "rm -rf ${env.TMPDIR}"
-			cleanWs()
 		}
 	}
 }
