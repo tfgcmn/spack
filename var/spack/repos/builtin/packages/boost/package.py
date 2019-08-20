@@ -29,6 +29,7 @@ class Boost(Package):
             submodules=True)
 
     version('develop', branch='develop', submodules=True)
+    version('1.71.0', '5b0a3cef23f0c124dde5bbb64324f615ac843ace')
     version('1.70.0', '5b2e5ccc454503cfbba6c1221f5d495f0de279ea')
     version('1.69.0', 'ea6eee4b5999f9c02105386850f63a53f0250eaa')
     version('1.68.0', '18863a7cae4d58ae85eb63d400f774f60a383411')
