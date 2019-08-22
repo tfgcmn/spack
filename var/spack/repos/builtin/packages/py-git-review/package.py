@@ -12,6 +12,8 @@ class PyGitReview(PythonPackage):
     homepage = "http://docs.openstack.org/infra/git-review"
     url = "https://pypi.io/packages/source/g/git-review/git-review-1.25.0.tar.gz"
 
+    version('1.28.0', 'e5864b4a51419a420dbb6f928b53b78d')
+    version('1.27.0', 'fddbc66f51d611c10e550b6fe14a2e5e')
     version('1.26.0', 'dec20e8a259c03fe19c9dd2362c4ec3f')
     version('1.25.0', '0a061d0e23ee9b93c6212a3fe68fb7ab')
     version('1.24',   '145116fe58a3487c3ad1bf55538fd741')
