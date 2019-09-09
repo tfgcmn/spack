@@ -76,6 +76,7 @@ class VisionaryDls(Package):
     depends_on('py-pylint', when="^python@3.5.0:")
     depends_on('py-scikit-learn')
     depends_on('py-sqlalchemy')
+    depends_on('py-onnx')
     depends_on('python')
 
     # xilinx runtime dependencies

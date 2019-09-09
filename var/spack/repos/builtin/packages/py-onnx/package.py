@@ -21,6 +21,7 @@ class PyOnnx(PythonPackage):
 
     version('1.5.0', sha256='1a584a4ef62a6db178c257fffb06a9d8e61b41c0a80bfd8bcd8a253d72c4b0b4')
 
+    depends_on('cmake', type='build')
     depends_on('py-setuptools', type='build')
     depends_on('protobuf')
     depends_on('py-protobuf+cpp', type=('build', 'run'))
