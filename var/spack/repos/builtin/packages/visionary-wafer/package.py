@@ -55,7 +55,7 @@ class VisionaryWafer(Package):
     depends_on('pkg-config')
     depends_on('py-lxml') # collab tests
     depends_on('xerces-c')
-    depends_on('boost@1.69.0: +graph+icu+mpi+python+numpy')
+    depends_on('boost@1.69.0 +graph+icu+mpi+python+numpy')
     depends_on('tensorflow', when='+tensorflow')
     depends_on('log4cxx')
     depends_on('googletest +gmock')
