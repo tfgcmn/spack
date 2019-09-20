@@ -43,7 +43,7 @@ class Tensorflow(Package):
     depends_on('py-wheel',                      type=('build', 'run'))
     depends_on('py-mock@2.0.0:',                type=('build', 'run'))
 
-    depends_on('py-enum34@1.1.6:',              type=('build', 'run'), when='@1.5.0:')
+    depends_on('py-enum34@1.1.6:',              type=('build', 'run'), when='@1.5.0: ^python@:3.3.999')
     depends_on('py-absl-py@0.1.6',              type=('build', 'run'), when='@1.5.0:')
 
     depends_on('py-astor@0.1.6:',               type=('build', 'run'), when='@1.6.0:')
