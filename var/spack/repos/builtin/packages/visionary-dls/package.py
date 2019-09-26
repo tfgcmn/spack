@@ -64,19 +64,22 @@ class VisionaryDls(Package):
     depends_on('log4cxx')
     depends_on('munge')
     depends_on('pkg-config')
-    depends_on('py-pyelftools')
+    depends_on('py-h5py')
     depends_on('py-jupyter-notebook')
     depends_on('py-lxml') # collab tests
     depends_on('py-matplotlib')
     depends_on('py-nose')
     depends_on('py-numpy')
+    depends_on('py-onnx')
     depends_on('py-pybind11')
-    depends_on('py-pylint@1.9.4', when="^python@:2.999.999")
+    depends_on('py-pyelftools')
     # TODO add py-pylint version for earlier python 3 releases if needed
     depends_on('py-pylint', when="^python@3.5.0:")
+    depends_on('py-pylint@1.9.4', when="^python@:2.999.999")
     depends_on('py-scikit-learn')
     depends_on('py-sqlalchemy')
-    depends_on('py-onnx')
+    depends_on('py-yccp@1.0.0:', when="^python@3:")          #TODO remove constraints once concretizer fixed
+    depends_on('py-yccp@:0.5.0', when="^python@:2.999.999")  #TODO remove constraints once concretizer fixed
     depends_on('python')
 
     # xilinx runtime dependencies
