@@ -25,6 +25,7 @@
 from spack import *
 
 
+
 class VisionarySimulation(Package):
     """Visionary Meta Package"""
 
@@ -49,7 +50,8 @@ class VisionarySimulation(Package):
     depends_on('py-pyyaml')
     depends_on('py-sbs')
     depends_on('py-scikit-learn')
-    depends_on('py-yccp')
+    depends_on('py-yccp@:0.5.0', when="^python@:2.999.999")  #TODO remove constraints once concretizer fixed
+    depends_on('py-yccp@1.0.0:', when="^python@3:")          #TODO remove constraints once concretizer fixed
     depends_on('tensorflow')
     depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
 
