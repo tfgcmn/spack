@@ -60,6 +60,7 @@ class VisionaryDls(Package):
     depends_on('googletest+gmock')
     depends_on('intel-tbb') # ppu gdbserver
     depends_on('libelf')
+    depends_on('liblockfile')
     depends_on('llvm')
     depends_on('log4cxx')
     depends_on('munge')
@@ -81,6 +82,7 @@ class VisionaryDls(Package):
     depends_on('py-yccp@1.0.0:', when="^python@3:")          #TODO remove constraints once concretizer fixed
     depends_on('py-yccp@:0.5.0', when="^python@:2.999.999")  #TODO remove constraints once concretizer fixed
     depends_on('python')
+    depends_on('xerces-c')
 
     # xilinx runtime dependencies
     depends_on('visionary-xilinx')
