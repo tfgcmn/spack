@@ -28,6 +28,12 @@ class Fj(spack.compiler.Compiler):
     version_argument = '--version'
     version_regex = r'\((?:FCC|FRT)\) ([\d.]+)'
 
+    required_libs = ['libfj90i', 'libfj90f', 'libfjsrcinfo']
+
+    @classmethod
+    def verbose_flag(cls):
+        return "-v"
+
     @property
     def openmp_flag(self):
         return "-Kopenmp"
@@ -45,5 +51,13 @@ class Fj(spack.compiler.Compiler):
         return "-std=c++14"
 
     @property
+    def c99_flag(self):
+        return "-std=c99"
+
+    @property
+    def c11_flag(self):
+        return "-std=c11"
+
+    @property
     def pic_flag(self):
-        return "-fPIC"
+        return "-KPIC"

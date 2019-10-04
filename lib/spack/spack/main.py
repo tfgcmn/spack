@@ -17,6 +17,7 @@ import inspect
 import pstats
 import argparse
 import traceback
+import warnings
 from six import StringIO
 
 import llnl.util.tty as tty
@@ -246,9 +247,9 @@ class SpackArgumentParser(argparse.ArgumentParser):
 {help}:
   spack help --all       list all commands and options
   spack help <command>   help on a specific command
-  spack help --spec      help on the spec syntax
-  spack docs             open http://spack.rtfd.io/ in a browser"""
-.format(help=section_descriptions['help']))
+  spack help --spec      help on the package specification syntax
+  spack docs             open http://spack.rtfd.io/ in a browser
+""".format(help=section_descriptions['help']))
 
         # determine help from format above
         return formatter.format_help()
@@ -389,8 +390,16 @@ def make_argument_parser(**kwargs):
     return parser
 
 
+def send_warning_to_tty(message, *args):
+    """Redirects messages to tty.warn."""
+    tty.warn(message)
+
+
 def setup_main_options(args):
     """Configure spack globals based on the basic options."""
+    # Assign a custom function to show warnings
+    warnings.showwarning = send_warning_to_tty
+
     # Set up environment based on args.
     tty.set_verbose(args.verbose)
     tty.set_debug(args.debug)
@@ -576,12 +585,12 @@ def print_setup_info(*info):
 
     # print sys type
     shell_set('_sp_sys_type', spack.architecture.sys_type())
-
+    shell_set('_sp_compatible_sys_types',
+              ':'.join(spack.architecture.compatible_sys_types()))
     # print roots for all module systems
     module_roots = spack.config.get('config:module_roots')
     module_to_roots = {
         'tcl': list(),
-        'dotkit': list(),
         'lmod': list()
     }
     for name, path in module_roots.items():

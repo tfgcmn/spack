@@ -66,11 +66,6 @@ class Hpgmg(Package):
             cflags.append('-g')
         elif any(map(self.spec.satisfies, ['%gcc', '%clang', '%intel'])):
             cflags.append('-O3')
-            if self.compiler.target in ['x86_64']:
-                cflags.append('-march=native')
-            else:
-                cflags.append('-mcpu=native')
-                cflags.append('-mtune=native')
         else:
             cflags.append('-O3')
 
