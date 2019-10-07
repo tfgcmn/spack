@@ -2158,7 +2158,8 @@ class Spec(object):
 
         extra = set(user_spec_deps.keys()).difference(visited_user_specs)
         if extra:
-            raise InvalidDependencyError(self.name, extra)
+            # TODO: make configurable and bring upstream
+            tty.warn(str(InvalidDependencyError(self.name, extra)))
 
         # This dictionary will store object IDs rather than Specs as keys
         # since the Spec __hash__ will change as patches are added to them
