@@ -33,7 +33,7 @@ class VisionaryDeepLoop(Package):
 
     depends_on("py-elephant")
     depends_on("py-ipython")
-    depends_on("py-matplotlib+tk+ipython")
+    depends_on("py-matplotlib backend=tkagg")
     depends_on("py-numpy")
     depends_on("py-pandas @0.19.0:")
     depends_on("py-pil")
