@@ -37,6 +37,14 @@ class Mercurial(PythonPackage):
     depends_on('py-pygments', type=('build', 'run'))
     depends_on('py-certifi',  type=('build', 'run'))
 
+    def setup_environment(self, spack_env, run_env):
+        if self.spec.satisfies("^python@3:"):
+            spack_env.set("HGPYTHON3",
+                          "I have to be set because otherwise install will "
+                          "fail. Please delete  me once mercurial has caught "
+                          "up with 2019 and does not consider python 3 "
+                          "support to be in 'beta'.")
+
     @run_after('install')
     def post_install(self):
         prefix = self.prefix
