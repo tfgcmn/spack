@@ -50,6 +50,7 @@ class Bazel(Package):
     patch('unix_cc_configure.patch', when='@0.9.0')
     patch('unix_cc_configure-0.10.0.patch', when='@0.10.0:0.14.999')
     patch('unix_cc_configure-0.17.2.patch', when='@0.15.0:')
+    patch('cc_env.patch', when='@0.19.0')
 
     def url_for_version(self, version):
         if version >= Version('0.4.1'):
