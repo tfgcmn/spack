@@ -35,6 +35,7 @@ class Verilator(AutotoolsPackage):
     homepage = "https://www.veripool.org/projects/verilator"
     url      = "https://www.veripool.org/ftp/verilator-3.920.tgz"
 
+    version('4.020', sha256='abd79fc2a54cab9da33dfccd669bda3baa71e79060abec17517f0b7374dbc31a')
     version('3.920', sha256='2b5c38aa432d0766a38475219f9548d64d18104ce8bdcb5d29e42f5da06943ff')
     version('3.904', sha256='ea95e08b2d70682ad42e6c2f5ba99f59b2e7b220791214076099cdf6b7a8c1cb')
 
@@ -56,10 +57,13 @@ class Verilator(AutotoolsPackage):
     # wrapper scripts which aren't usable without spack
     @run_after('install')
     def patch_cxx(self):
-        filter_file(r'^CXX\s*=.*', 'CXX = {0}'.format(self.compiler.cxx),
-                    join_path(self.prefix.include, 'verilated.mk'))
-        filter_file(r'^LINK\s*=.*', 'LINK = {0}'.format(self.compiler.cxx),
-                    join_path(self.prefix.include, 'verilated.mk'))
+        for prefix in [
+                self.prefix.include,
+                join_path(self.prefix.share, "verilator", "include")]:
+            filter_file(r'^CXX\s*=.*', 'CXX = {0}'.format(self.compiler.cxx),
+                        join_path(prefix, 'verilated.mk'))
+            filter_file(r'^LINK\s*=.*', 'LINK = {0}'.format(self.compiler.cxx),
+                        join_path(prefix, 'verilated.mk'))
 
     @run_after('install')
     def link_bin_to_share(self):
