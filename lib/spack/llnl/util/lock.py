@@ -148,7 +148,8 @@ class Lock(object):
             total_wait_time = time.time() - start_time
             return total_wait_time, num_attempts
 
-        raise LockTimeoutError("Timed out waiting for lock.")
+        raise LockTimeoutError("Timed out waiting for lock afer {0}s.".format(
+            timeout))
 
     def _poll_lock(self, op):
         """Attempt to acquire the lock in a non-blocking manner. Return whether
