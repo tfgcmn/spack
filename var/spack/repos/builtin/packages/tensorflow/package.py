@@ -163,6 +163,9 @@ class Tensorflow(Package):
         env['TEST_TMPDIR'] = tmp_path
         env['HOME'] = tmp_path
 
+        env["CC"] = env["SPACK_CC"]
+        env["CXX"] = env["SPACK_CXX"]
+
         configure()
 
         # version dependent fixes
