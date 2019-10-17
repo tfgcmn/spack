@@ -23,6 +23,7 @@ class VisionaryExa(Package):
     depends_on('visionary-dls~gccxml+dev', when="+dev")  # let's try without gccxml for now
     depends_on('visionary-dls~gccxml~dev', when="~dev")  # let's try without gccxml for now
     depends_on('tensorflow')
+    depends_on('py-pandas')
 
     def install(self, spec, prefix):
         mkdirp(prefix.etc)
