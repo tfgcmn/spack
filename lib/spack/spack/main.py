@@ -614,8 +614,7 @@ def print_setup_info(*info):
     # print environment module system if available. This can be expensive
     # on clusters, so skip it if not needed.
     if 'modules' in info:
-        specs = spack.store.db.query(
-            'environment-modules arch=%s' % spack.architecture.sys_type())
+        specs = spack.store.db.query('environment-modules')
         if specs:
             shell_set('_sp_module_prefix', specs[-1].prefix)
         else:
