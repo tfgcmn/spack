@@ -18,6 +18,7 @@ class Cereal(CMakePackage):
     homepage = "http://uscilab.github.io/cereal/"
     url      = "https://github.com/USCiLab/cereal/archive/v1.1.2.tar.gz"
 
+    version('1.3.0', '4342e811f245403646c4175258f413f1')
     version('1.2.2', '4c56c7b9499dba79404250ef9a040481')
     version('1.2.1', '64476ed74c19068ee543b53ad3992261')
     version('1.2.0', 'e372c9814696481dbdb7d500e1410d2b')
