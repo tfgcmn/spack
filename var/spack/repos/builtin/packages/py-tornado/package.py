@@ -23,3 +23,4 @@ class PyTornado(PythonPackage):
     depends_on('py-singledispatch', when='^python@:3.3', type=('build', 'run'))
     depends_on('py-certifi', when='^python@:3.3', type=('build', 'run'))
     depends_on('py-backports-abc@0.4:', when='^python@:3.4', type=('build', 'run'))
+    depends_on('py-futures', when='@:5.999.999 ^python@:3.1.999', type=('build', 'run'))
