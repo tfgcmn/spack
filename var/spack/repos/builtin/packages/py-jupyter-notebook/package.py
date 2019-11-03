@@ -33,7 +33,6 @@ class PyJupyterNotebook(PythonPackage):
 
     variant('terminal', default=False, description="Enable terminal functionality")
 
-    depends_on('python@3.5:', when="@6:")
     depends_on('python@2.7:2.8,3.3:', when="@:5.999.999")
     depends_on('py-jinja2', type=('build', 'run'))
     depends_on('py-tornado@4:5.999.999', type=('build', 'run'))
@@ -42,9 +41,9 @@ class PyJupyterNotebook(PythonPackage):
     depends_on('py-traitlets', type=('build', 'run'))
     depends_on('py-traitlets@4.2.1:', when='@5:', type=('build', 'run'))
     depends_on('py-jupyter-core', type=('build', 'run'))
-    depends_on('py-jupyter-core@4.4.0:', when='@5:', type=('build', 'run'))
+    depends_on('py-jupyter-core@4.4.0:', when='@5:5.999.999', type=('build', 'run'))
     depends_on('py-jupyter-client', type=('build', 'run'))
-    depends_on('py-jupyter-client@5.2.0:', when='@5:', type=('build', 'run'))
+    depends_on('py-jupyter-client@5.2.0:', when='@5:5.999.999', type=('build', 'run'))
 
     # py-jupyter-console 6.x and above only supports python 3.5 and later
     depends_on('py-jupyter-console@:5.999.999', type=('build', 'run'), when='^python@2.7:2.8,3.3:3.4.999')
@@ -68,3 +67,7 @@ class PyJupyterNotebook(PythonPackage):
     depends_on('py-send2trash', when="@5:", type=('build', 'run'))
     depends_on('py-webencodings', when="@5:", type=('build', 'run')) 
 
+    # requirements new in 6.0.1
+    depends_on('python@3.5:', when="@6:")
+    depends_on('py-jupyter-client@5.3.4:', when='@6:', type=('build', 'run'))
+    depends_on('py-jupyter-core@4.6.0:', when='@6:', type=('build', 'run'))
