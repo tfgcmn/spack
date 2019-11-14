@@ -17,7 +17,7 @@ class Scala(Package):
     homepage = "https://www.scala-lang.org/"
     url = "https://downloads.lightbend.com/scala/2.12.1/scala-2.12.1.tgz"
 
-    version('2.12.6', '9b760a7df5284afa474bc14317feca3f')  # TODO_SPACK_MERGE_8 add sha256sum
+    version('2.12.6', sha256='1ac7444c5a85ed1ea45db4a268ee9ea43adf80e7f5724222863afb5492883416')
     version('2.12.5', sha256='b261ffe9a495b12e9dda2ed37331e579547e4d1b8b5810161b6c3b39ac806aa1')
     version('2.12.1', sha256='4db068884532a3e27010df17befaca0f06ea50f69433d58e06a5e63c7a3cc359')
     version('2.11.11', sha256='12037ca64c68468e717e950f47fc77d5ceae5e74e3bdca56f6d02fd5bfd6900b')

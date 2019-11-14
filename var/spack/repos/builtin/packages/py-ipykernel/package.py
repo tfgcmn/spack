@@ -13,7 +13,7 @@ class PyIpykernel(PythonPackage):
     url      = "https://github.com/ipython/ipykernel/archive/4.5.0.tar.gz"
 
     version('5.1.0', sha256='30f01a2a1470d3fabbad03f5c43606c1bc2142850fc4ccedcf44281664ae9122')
-    version('4.10.0', '08e99a7b03b4dffd02af190d4c021524')  # TODO_SPACK_MERGE_8 add sha256sum
+    version('4.10.0', sha256='df2714fd0084085ed68876f75ab846202d261420b5f4069af6335b8df0475391')
     version('4.5.0', sha256='c5ec5130f5f7eda71345b9ef638c9213c4c2f41610a9ad338a0f1d0819421adf')
     version('4.4.1', sha256='62fe16252e40fb3d443fcf31fc52e5596965cf17620571c10ea64502a6d51db7')
     version('4.4.0', sha256='a042bf202c5675da58dba66b9bd1e7aecc62d4f82058508b620a09e2f7baa0f2')

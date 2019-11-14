@@ -13,15 +13,22 @@ class PyJedi(PythonPackage):
     url      = "https://pypi.io/packages/source/j/jedi/jedi-0.9.0.tar.gz"
 
     # unfortunately pypi.io only offers a .whl
-    version('0.13.2', '451d3244896588b298dbc622fd461201',
-                url='https://github.com/davidhalter/jedi/archive/v0.13.2.tar.gz')  # TODO_SPACK_MERGE_8 add sha256sum
-    version('0.12.1', '49a94ffb781c1383e8542ca5f71cebf0',
-                url='https://github.com/davidhalter/jedi/archive/v0.12.1.tar.gz')  # TODO_SPACK_MERGE_8 add sha256sum
-    version('0.12.0', '8947d4d0201f857743da93c8bbf3889a',
-                url='https://github.com/davidhalter/jedi/archive/v0.12.0.tar.gz')  # TODO_SPACK_MERGE_8 add sha256sum
+    version('0.15.1', sha256='ba859c74fa3c966a22f2aeebe1b74ee27e2a462f56d3f5f7ca4a59af61bfe42e')
+    version('0.15.0', sha256='9f16cb00b2aee940df2efc1d7d7c848281fd16391536a3d4561f5aea49db1ee6')
+    version('0.14.1', sha256='53c850f1a7d3cfcd306cc513e2450a54bdf5cacd7604b74e42dd1f0758eaaf36')
+    version('0.14.0', sha256='49ccb782651bb6f7009810d17a3316f8867dde31654c750506970742e18b553d')
+    version('0.13.3', sha256='2bb0603e3506f708e792c7f4ad8fc2a7a9d9c2d292a358fbbd58da531695595b')
+    version('0.13.2', sha256='571702b5bd167911fe9036e5039ba67f820d6502832285cde8c881ab2b2149fd')
+    version('0.13.1', sha256='b7493f73a2febe0dc33d51c99b474547f7f6c0b2c8fb2b21f453eef204c12148')
+    version('0.13.0', sha256='e4db7a2e08980e48c6aec6588483629c81fdcf9b6d9e6a372b40ed7fec91f310')
+    version('0.12.1', sha256='b409ed0f6913a701ed474a614a3bb46e6953639033e31f769ca7581da5bd1ec1')
+    version('0.12.0', sha256='1972f694c6bc66a2fac8718299e2ab73011d653a6d8059790c3476d2353b99ad')
+    version('0.10.2', sha256='7abb618cac6470ebbd142e59c23daec5e6e063bfcecc8a43a037d2ab57276f4e')
+    version('0.10.1', sha256='2420daf6fd00e80caf1bc22903598b5bf5560c900113dcc120eaefc7b4d50e06')
+    # no source on pypi for v0.10.0
     version('0.10.0', sha256='d6a7344df9c80562c3f62199278004ccc7c5889be9f1a6aa5abde117ec085123',
                 url='https://github.com/davidhalter/jedi/archive/v0.10.0.tar.gz')
-    version('0.9.0', sha256='3b4c19fba31bdead9ab7350fb9fa7c914c59b0a807dcdd5c00a05feb85491d31')
+    version('0.9.0',  sha256='3b4c19fba31bdead9ab7350fb9fa7c914c59b0a807dcdd5c00a05feb85491d31')
 
     depends_on('py-setuptools', type='build')
     depends_on('py-parso', type=('build', 'run'), when='@0.12.1:')

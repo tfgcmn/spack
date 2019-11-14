@@ -12,8 +12,8 @@ class PyJupyterConsole(PythonPackage):
     homepage = "https://github.com/jupyter/jupyter_console"
     url      = "https://github.com/jupyter/jupyter_console/archive/5.0.0.tar.gz"
 
-    version('6.0.0', '10283e0e99f5e524166da9bd3e07257e',
-            url='https://github.com/jupyter/jupyter_console/archive/v6.0.0.tar.gz')  # TODO_SPACK_MERGE_8 add sha256sum
+    version('6.0.0', sha256='5cafb1a3b845dbab143c182f270f66396e1ef6a322c6bee7e6f4b0bf85fcf69e',
+            url='https://github.com/jupyter/jupyter_console/archive/v6.0.0.tar.gz')
     version('5.2.0', sha256='371d03aeefcf48967f2f00af4c1709f52d2a688deee33f395c6330e4e8aa171c')
     version('5.0.0', sha256='e966b2b5bf9a1e8c5bd11a6335bb11f68ec585ea39b801721b2ed9dd964468fa')
     version('4.1.1', sha256='0bb06a1f878d0c44c2f6f66406a80f949bcd86f3508035500af7dceffb9cc7dc')

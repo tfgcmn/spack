@@ -12,7 +12,7 @@ class PyJupyterCore(PythonPackage):
     homepage = "http://jupyter-core.readthedocs.io/"
     url      = "https://pypi.io/packages/source/j/jupyter-core/jupyter_core-4.6.0.tar.gz"
 
-    # TODO_SPACK_MERGE_8 add version 4.6.1
+    version('4.6.1', sha256='a183e0ec2e8f6adddf62b0a3fc6a2237e3e0056d381e536d3e7c7ecc3067e244')
     version('4.6.0', sha256='85103cee6548992780912c1a0a9ec2583a4a18f1ef79a248ec0db4446500bce3')
     version('4.4.0', sha256='ba70754aa680300306c699790128f6fbd8c306ee5927976cbe48adacf240c0b7')
     version('4.2.0', sha256='44ec837a53bebf4e937112d3f9ccf31fee4f8db3e406dd0dd4f0378a354bed9c')

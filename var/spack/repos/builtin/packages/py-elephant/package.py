@@ -14,7 +14,7 @@ class PyElephant(PythonPackage):
     homepage = "http://neuralensemble.org/elephant"
     url      = "https://pypi.io/packages/source/e/elephant/elephant-0.3.0.tar.gz"
 
-    version('0.5.0', 'fc64516556ac748cbfefa6d829a81f25')  # TODO_SPACK_MERGE_8 sha256sum
+    version('0.5.0', sha256='eeedc58f49200b158a9be329015c8dd562450b3c2aa01fdcd92375aca80e461c')
     version('0.4.1', sha256='86b21a44cbacdc09a6ba6f51738dcd5b42ecd553d73acb29f71a0be7c82eac81')
     version('0.3.0', sha256='747251ccfb5820bdead6391411b5faf205b4ddf3ababaefe865f50b16540cfef')
 

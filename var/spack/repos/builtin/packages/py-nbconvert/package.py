@@ -13,7 +13,7 @@ class PyNbconvert(PythonPackage):
     homepage = "https://github.com/jupyter/nbconvert"
     url      = "https://github.com/jupyter/nbconvert/archive/4.2.0.tar.gz"
 
-    version('5.4.1', '2da47f215c9cc4f10e3aa1a45c9317f9')  # TODO_SPACK_MERGE_8 add sha256sum
+    version('5.4.1', sha256='9a187e1b9269c248b5debc5bd89cfb0d3bfac2a1d0f17df8e94a5ae8d2d92353')
     version('4.2.0', sha256='32394be5a20f39f99fabfb9b2f2625df17f1c2a6699182ca41598e98e7cc9610')
     version('4.1.0', sha256='459f23381411fd1ff9ec5ed71fcd56b8c080d97b3a1e47dae1c5c391f9a47266')
     version('4.0.0', sha256='00e25eeca90523ba6b774b289073631ef5ac65bb2de9774e9b7f29604516265c')

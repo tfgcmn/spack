@@ -13,7 +13,7 @@ class PyMistune(PythonPackage):
     homepage = "http://mistune.readthedocs.org/en/latest/"
     url      = "https://github.com/lepture/mistune/archive/v0.7.1.tar.gz"
 
-    version('0.8.4', '22fc9ea84220214a2b9b2b5b4213e209')  # TODO_SPACK_MERGE_8 add sha256sum
+    version('0.8.4', sha256='a1443771ea9ed7268a0cb3cf31462604ae148938ba32070bd5c54545f8f36a5d')
     version('0.7.1', sha256='d6684534174caa30e0169e106a7152aee14507796a610b76be9fe9b335b18410')
     version('0.7', sha256='9b2cac8053d21dde5f2b3edb01948dac8ee5c3a85eeeeb6913c3ddf2f773c7b6')
     version('0.6', sha256='c2d976c06c099edb525b8ac3745f3d3b5c49af6189edb6de390ddf9c248913cf')
