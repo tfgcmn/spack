@@ -87,7 +87,7 @@ class VisionaryDevTools(Package):
     depends_on('py-pudb')
     depends_on('py-pytest')
     depends_on('py-pytest-xdist')
-    depends_on('py-ranger')
+    depends_on('py-ranger-fm')
     depends_on('py-sqlalchemy')
     depends_on('py-virtualenv')
     depends_on('py-xmlrunner')
