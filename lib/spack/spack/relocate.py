@@ -6,11 +6,11 @@
 
 import os
 import re
+import shutil
 import platform
 import spack.repo
 import spack.cmd
 import llnl.util.lang
-import llnl.util.filesystem as fs
 from spack.util.executable import Executable, ProcessError
 import llnl.util.tty as tty
 
@@ -87,7 +87,14 @@ def get_existing_elf_rpaths(path_name):
     Return the RPATHS returned by patchelf --print-rpath path_name
     as a list of strings.
     """
-    patchelf = Executable(get_patchelf())
+
+    # if we're relocating patchelf itself, use it
+
+    if path_name[-13:] == "/bin/patchelf":
+        patchelf = Executable(path_name)
+    else:
+        patchelf = Executable(get_patchelf())
+
     try:
         output = patchelf('--print-rpath', '%s' %
                           path_name, output=str, error=str)
@@ -290,23 +297,15 @@ def modify_object_macholib(cur_path, old_dir, new_dir):
         return
     try:
         from macholib.MachO import MachO
-        from macholib.mach_o import LC_RPATH
     except ImportError as e:
         raise MissingMacholibException(e)
 
     def match_func(cpath):
-        return str(cpath).replace(old_dir, new_dir)
+        rpath = cpath.replace(old_dir, new_dir)
+        return rpath
 
     dll = MachO(cur_path)
     dll.rewriteLoadCommands(match_func)
-    for header in dll.headers:
-        for (idx, (lc, cmd, data))  in enumerate(header.commands):
-            if lc.cmd == LC_RPATH:
-                rpath = data
-                rpath = rpath.strip('\x00')
-                new_rpath = match_func(rpath)
-                header.rewriteDataForCommand(idx, new_rpath)
-
     try:
         f = open(dll.filename, 'rb+')
         for header in dll.headers:
@@ -335,8 +334,18 @@ def modify_elf_object(path_name, new_rpaths):
     """
     Replace orig_rpath with new_rpath in RPATH of elf object path_name
     """
+
     new_joined = ':'.join(new_rpaths)
-    patchelf = Executable(get_patchelf())
+
+    # if we're relocating patchelf itself, use it
+
+    if path_name[-13:] == "/bin/patchelf":
+        bak_path = path_name + ".bak"
+        shutil.copy(path_name, bak_path)
+        patchelf = Executable(bak_path)
+    else:
+        patchelf = Executable(get_patchelf())
+
     try:
         patchelf('--force-rpath', '--set-rpath', '%s' % new_joined,
                  '%s' % path_name, output=str, error=str)
@@ -364,6 +373,26 @@ def needs_text_relocation(m_type, m_subtype):
     return (m_type == "text")
 
 
+def replace_prefix_text(path_name, old_dir, new_dir):
+    """
+    Replace old install prefix with new install prefix
+    in text files using utf-8 encoded strings.
+    """
+
+    def replace(match):
+        return match.group().replace(old_dir.encode('utf-8'),
+                                     new_dir.encode('utf-8'))
+    with open(path_name, 'rb+') as f:
+        data = f.read()
+        f.seek(0)
+        pat = re.compile(old_dir.encode('utf-8'))
+        if not pat.search(data):
+            return
+        ndata = pat.sub(replace, data)
+        f.write(ndata)
+        f.truncate()
+
+
 def replace_prefix_bin(path_name, old_dir, new_dir):
     """
     Attempt to replace old install prefix with new install prefix
@@ -372,23 +401,27 @@ def replace_prefix_bin(path_name, old_dir, new_dir):
     """
 
     def replace(match):
-        occurances = match.group().count(old_dir)
-        padding = (len(old_dir) - len(new_dir)) * occurances
+        occurances = match.group().count(old_dir.encode('utf-8'))
+        olen = len(old_dir.encode('utf-8'))
+        nlen = len(new_dir.encode('utf-8'))
+        padding = (olen - nlen) * occurances
         if padding < 0:
             return data
-        return match.group().replace(old_dir, new_dir) + b'\0' * padding
+        return match.group().replace(old_dir.encode('utf-8'),
+                                     new_dir.encode('utf-8')) + b'\0' * padding
 
     with open(path_name, 'rb+') as f:
         data = f.read()
         f.seek(0)
         original_data_len = len(data)
-        pat = re.compile(re.escape(old_dir) + b'([^\0]*?)\0')
+        pat = re.compile(old_dir.encode('utf-8') + b'([^\0]*?)\0')
+        if not pat.search(data):
+            return
         ndata = pat.sub(replace, data)
-        new_data_len = len(ndata)
-        if not new_data_len == original_data_len:
+        if not len(ndata) == original_data_len:
             raise BinaryStringReplacementException(
-                path_name, original_data_len, new_data_len)
-        f.write(data)
+                path_name, original_data_len, len(ndata))
+        f.write(ndata)
         f.truncate()
 
 
@@ -429,7 +462,8 @@ def relocate_macho_binaries(path_names, old_dir, new_dir, allow_root):
             modify_object_macholib(path_name, placeholder, new_dir)
             modify_object_macholib(path_name, old_dir, new_dir)
         if len(new_dir) <= len(old_dir):
-            replace_prefix_bin(path_name, old_dir, new_dir)
+            replace_prefix_bin(path_name, old_dir,
+                               new_dir)
         else:
             tty.warn('Cannot do a binary string replacement'
                      ' with padding for %s'
@@ -468,11 +502,11 @@ def make_link_relative(cur_path_names, orig_path_names):
     Change absolute links to be relative.
     """
     for cur_path, orig_path in zip(cur_path_names, orig_path_names):
-        old_src = os.readlink(orig_path)
-        new_src = os.path.relpath(old_src, orig_path)
+        target = os.readlink(orig_path)
+        relative_target = os.path.relpath(target, os.path.dirname(orig_path))
 
         os.unlink(cur_path)
-        os.symlink(new_src, cur_path)
+        os.symlink(relative_target, cur_path)
 
 
 def make_macho_binaries_relative(cur_path_names, orig_path_names, old_dir,
@@ -562,16 +596,15 @@ def relocate_links(path_names, old_dir, new_dir):
 
 def relocate_text(path_names, oldpath, newpath, oldprefix, newprefix):
     """
-    Replace old path with new path in text file path_name
+    Replace old path with new path in text files
+    including the path the the spack sbang script.
     """
-    fs.filter_file('%s' % oldpath, '%s' % newpath, *path_names,
-                   backup=False, string=True)
     sbangre = '#!/bin/bash %s/bin/sbang' % oldprefix
     sbangnew = '#!/bin/bash %s/bin/sbang' % newprefix
-    fs.filter_file(sbangre, sbangnew, *path_names,
-                   backup=False, string=True)
-    fs.filter_file(oldprefix, newprefix, *path_names,
-                   backup=False, string=True)
+    for path_name in path_names:
+        replace_prefix_text(path_name, oldpath, newpath)
+        replace_prefix_text(path_name, sbangre, sbangnew)
+        replace_prefix_text(path_name, oldprefix, newprefix)
 
 
 def substitute_rpath(orig_rpath, topdir, new_root_path):
@@ -618,7 +651,8 @@ def is_relocatable(spec):
     return True
 
 
-def file_is_relocatable(file):
+def file_is_relocatable(
+        file, paths_to_relocate=[spack.store.layout.root, spack.paths.prefix]):
     """Returns True if the file passed as argument is relocatable.
 
     Args:
@@ -644,7 +678,13 @@ def file_is_relocatable(file):
         raise ValueError('{0} is not an absolute path'.format(file))
 
     strings = Executable('strings')
-    patchelf = Executable(get_patchelf())
+
+    # if we're relocating patchelf itself, use it
+
+    if file[-13:] == "/bin/patchelf":
+        patchelf = Executable(file)
+    else:
+        patchelf = Executable(get_patchelf())
 
     # Remove the RPATHS from the strings in the executable
     set_of_strings = set(strings(file, output=str).split())
@@ -665,19 +705,13 @@ def file_is_relocatable(file):
             if idpath is not None:
                 set_of_strings.discard(idpath)
 
-    if any(spack.store.layout.root in x for x in set_of_strings):
-        # One binary has the root folder not in the RPATH,
-        # meaning that this spec is not relocatable
-        msg = 'Found "{0}" in {1} strings'
-        tty.debug(msg.format(spack.store.layout.root, file))
-        return False
-
-    if any(spack.paths.prefix in x for x in set_of_strings):
-        # One binary has the root folder not in the RPATH,
-        # meaning that this spec is not relocatable
-        msg = 'Found "{0}" in {1} strings'
-        tty.debug(msg.format(spack.paths.prefix, file))
-        return False
+    for path_to_relocate in paths_to_relocate:
+        if any(path_to_relocate in x for x in set_of_strings):
+            # One binary has the root folder not in the RPATH,
+            # meaning that this spec is not relocatable
+            msg = 'Found "{0}" in {1} strings'
+            tty.debug(msg.format(path_to_relocate, file))
+            return False
 
     return True
 

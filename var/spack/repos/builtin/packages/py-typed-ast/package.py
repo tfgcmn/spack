@@ -7,12 +7,7 @@ from spack import *
 
 
 class PyTypedAst(PythonPackage):
-    """typed_ast is a Python 3 package that provides a Python 2.7 and Python 3
-    parser similar to the standard ast library. Unlike ast, the parsers in
-    typed_ast include PEP 484 type comments and are independent of the version
-    of Python under which they are run. The typed_ast parsers produce the
-    standard Python AST (plus type comments), and are both fast and correct, as
-    they are based on the CPython 2.7 and 3.6 parsers. """
+    """A fork of Python 2 and 3 ast modules with type comment support."""
 
     homepage = "https://github.com/python/typed_ast"
     url      = "https://pypi.io/packages/source/t/typed-ast/typed_ast-1.4.0.tar.gz"
@@ -24,3 +19,6 @@ class PyTypedAst(PythonPackage):
             url="https://files.pythonhosted.org/packages/00/be/c3769a5d6a179c42eba04186dc7efeb165edf92f7b1582ccfe81cb17d7f9/typed-ast-1.2.0.tar.gz")
     version('1.1.2', sha256='4304399ff89452871348f6fb7a7112454cd508fbe3eb49b5ed711cce9b99fe9e',
             url="https://files.pythonhosted.org/packages/68/72/96ba023d854ce8b3bf11cf261e4b2774787768834c9e30b77a94d02c98ad/typed-ast-1.1.2.tar.gz")
+
+    depends_on('python@3.3:', type=('build', 'run'))
+    depends_on('py-setuptools', type='build')

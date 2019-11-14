@@ -12,7 +12,7 @@ class Rtags(CMakePackage):
     homepage = "https://github.com/Andersbakken/rtags/"
     url      = "https://andersbakken.github.io/rtags-releases/rtags-2.17.tar.gz"
 
-    version('2.17', '95b24d7729678645a027d83be114d624')
+    version('2.17', sha256='cde8882aceb09d65690007e214cc1979e0105842beb7747d49f79e33ed37d383')
 
     depends_on("llvm@3.3: +clang")
     depends_on("zlib")

@@ -10,15 +10,16 @@ class PyTornado(PythonPackage):
     """Tornado is a Python web framework and asynchronous networking
     library."""
     homepage = "https://github.com/tornadoweb/tornado"
-    url      = "https://github.com/tornadoweb/tornado/archive/v4.4.0.tar.gz"
+    url      = "https://github.com/tornadoweb/tornado/archive/v6.0.3.tar.gz"
 
-    version('6.0.1', '709ed2a7b3b428cd133ad311fd71de6142e93207')
-    version('5.1.1', 'c6d1b6356ba11d330b550b3972dc9d1515e19fbb')
-    version('4.4.0', 'c28675e944f364ee96dda3a8d2527a87ed28cfa3')
+    version('6.0.3',   sha256='a97ac3b8c95867e534b48cb6fbbf156f5ca5b20c423bb06894c17b240d7a18fc')
+    version('5.1.1', 'c6d1b6356ba11d330b550b3972dc9d1515e19fbb')  # TODO_SPACK_MERGE_8 add sha256sum
+    version('4.4.0', sha256='ae556a0848e5d428d00597a18b38b9ca9d20f4600535e1dd33b3a576ab234194')
 
     depends_on('py-setuptools', type='build')
 
     # requirements from setup.py
+    depends_on('python@3.5:', when='@6:', type=('build', 'run'))
     depends_on('py-backports-ssl-match-hostname', when='^python@:2.7.8', type=('build', 'run'))
     depends_on('py-singledispatch', when='^python@:3.3', type=('build', 'run'))
     depends_on('py-certifi', when='^python@:3.3', type=('build', 'run'))
