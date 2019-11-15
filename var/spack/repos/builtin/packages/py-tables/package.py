@@ -55,7 +55,7 @@ class PyTables(PythonPackage):
     depends_on('py-cython', type=('build', 'run'))
     depends_on('py-six', type=('build', 'run'))
     depends_on('py-setuptools', type=('build', 'run'))
-    depends_on('py-cpuinfo', type='build')
+    depends_on('py-py-cpuinfo', type='build')
 
     patch('microarch.patch', when='~auto@3.3.0')
     patch('microarch_new.patch', when='~auto@3.4.4')
