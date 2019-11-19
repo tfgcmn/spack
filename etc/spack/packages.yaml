@@ -53,8 +53,6 @@ packages:
     variants: ['~mpi']
   node-js:
     version: [8.15.0]
-  openssl:
-    version: [1.0.2r]
   pango:
     variants: ['+X']
   pcre:
