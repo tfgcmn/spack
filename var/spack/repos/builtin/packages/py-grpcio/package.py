@@ -32,7 +32,7 @@ class PyGrpcio(PythonPackage):
 
     version('1.16.0', 'f7793df1c31a89a89d18966790c740b4')
 
-    depends_on('cares',                      type=('build', 'run'))
+    depends_on('c-ares',                     type=('build', 'run'))
     depends_on('zlib',                       type=('build', 'run'))
     depends_on('openssl@1.0.2:',             type=('build', 'run'))
     depends_on('py-setuptools',              type='build')
@@ -48,6 +48,6 @@ class PyGrpcio(PythonPackage):
         spack_env.set('GRPC_PYTHON_BUILD_SYSTEM_OPENSSL', '1')
         spack_env.set('GRPC_PYTHON_BUILD_SYSTEM_ZLIB', '1')
         spack_env.set('GRPC_PYTHON_BUILD_SYSTEM_CARES', '1')
-        spack_env.append_flags('LDFLAGS', self.spec['cares'].libs.search_flags)
-        spack_env.append_flags('CPATH', self.spec['cares'].prefix.include)
+        spack_env.append_flags('LDFLAGS', self.spec['c-ares'].libs.search_flags)
+        spack_env.append_flags('CPATH', self.spec['c-ares'].prefix.include)
         spack_env.append_flags('LDFLAGS', self.spec['zlib'].libs.search_flags)
