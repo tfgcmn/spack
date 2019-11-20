@@ -50,7 +50,6 @@ class VisionaryAnalysis(Package):
     depends_on('py-ipython')
     depends_on('py-jedi')
     depends_on('py-junit-xml')
-#    depends_on('py-jupyter-notebook')
     depends_on('py-line-profiler')
     depends_on('py-lmfit')
     depends_on('py-matplotlib')

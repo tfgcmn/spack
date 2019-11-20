@@ -66,7 +66,7 @@ class VisionaryDls(Package):
     depends_on('munge')
     depends_on('pkg-config')
     depends_on('py-h5py')
-    depends_on('py-jupyter-notebook')
+    depends_on('py-notebook')
     depends_on('py-lxml') # collab tests
     depends_on('py-matplotlib')
     depends_on('py-nose')
