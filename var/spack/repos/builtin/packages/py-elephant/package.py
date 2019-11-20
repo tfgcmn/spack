@@ -37,7 +37,7 @@ class PyElephant(PythonPackage):
              url='http://www.borgelt.net/bin64/py2/fim.so',
              placement='elephant/spade_src/fim264.so',
              destination='.',
-             sha256='2a33e222a214401c092b29a6144f3fb6455ac2d9d5635462300ab36eaac4e290',
+             sha256='9fabf43d0a5b6b2c0d8b5cb78c23af591a059c160a9b7f7831e64c09e60b8465',
              when='^python@:2.8',
              expand=False)
 
@@ -53,7 +53,7 @@ class PyElephant(PythonPackage):
              url='http://www.borgelt.net/bin32/py2/fim.so',
              placement='elephant/spade_src/fim232.so',
              destination='.',
-             sha256='14f312d6b09a723d1c8dd162015cd5343721d66171a03cbc311926ec3b7d878f',
+             sha256='1ecc4d63af01005a530ab4a19be177d30be31aea7626c4a168610f1680c26401',
              when='^python@:2.8',
              expand=False)
 
