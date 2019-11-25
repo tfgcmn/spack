@@ -1,53 +1,32 @@
-##############################################################################
-# Copyright (c) 2013-2017, Lawrence Livermore National Security, LLC.
-# Produced at the Lawrence Livermore National Laboratory.
+# Copyright 2013-2019 Lawrence Livermore National Security, LLC and other
+# Spack Project Developers. See the top-level COPYRIGHT file for details.
 #
-# This file is part of Spack.
-# Created by Todd Gamblin, tgamblin@llnl.gov, All rights reserved.
-# LLNL-CODE-647188
-#
-# For details, see https://github.com/spack/spack
-# Please also see the NOTICE and LICENSE files for our notice and the LGPL.
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License (as
-# published by the Free Software Foundation) version 2.1, February 1999.
-#
-# This program is distributed in the hope that it will be useful, but
-# WITHOUT ANY WARRANTY; without even the IMPLIED WARRANTY OF
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the terms and
-# conditions of the GNU Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-##############################################################################
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
 from spack import *
 
+
 class PyGrpcio(PythonPackage):
-    """Package for gRPC Python"""
+    """HTTP/2-based RPC framework."""
 
-    homepage = "https://pypi.org/project/grpcio/"
-    url      = "https://github.com/grpc/grpc/archive/v1.16.0.tar.gz"
+    homepage = "https://grpc.io/"
+    url      = "https://pypi.io/packages/source/g/grpcio/grpcio-1.25.0.tar.gz"
 
-    version('1.16.0', 'f7793df1c31a89a89d18966790c740b4')
+    version('1.25.0', sha256='c948c034d8997526011960db54f512756fb0b4be1b81140a15b4ef094c6594a4')
+    version('1.16.0', sha256='d99db0b39b490d2469a8ef74197d5f211fa740fc9581dccecbb76c56d080fce1',
+            url="https://github.com/grpc/grpc/archive/v1.16.0.tar.gz")
 
-    depends_on('c-ares',                     type=('build', 'run'))
-    depends_on('zlib',                       type=('build', 'run'))
-    depends_on('openssl@1.0.2:',             type=('build', 'run'))
-    depends_on('py-setuptools',              type='build')
-    depends_on('py-six@1.10:',               type=('build', 'run'))
-    depends_on('py-futures@2.2.0:',          type=('build', 'run'))
-    depends_on('py-enum34@1.0.4:',           type=('build', 'run'), when="^python@:3.3.999")
-    depends_on('py-sphinx@1.3:',             type=('build', 'run'))
-    depends_on('py-sphinx-rtd-theme@0.1.8:', type=('build', 'run'))
-    depends_on('py-cython@0.23:',            type=('build', 'run'))
+    depends_on('py-setuptools', type='build')
+    depends_on('py-six@1.5.2:', type=('build', 'run'))
+    depends_on('py-futures@2.2.0:', when='^python@:3.1', type=('build', 'run'))
+    depends_on('py-enum34@1.0.4:', when='^python@:3.3', type=('build', 'run'))
+    depends_on('py-cython@0.23:', type='build')
+    depends_on('openssl@1.0.2:')
+    depends_on('zlib')
+    depends_on('c-ares')
 
-    def setup_environment(self, spack_env, run_env):
-        spack_env.set('GRPC_PYTHON_BUILD_WITH_CYTHON', '1')
-        spack_env.set('GRPC_PYTHON_BUILD_SYSTEM_OPENSSL', '1')
-        spack_env.set('GRPC_PYTHON_BUILD_SYSTEM_ZLIB', '1')
-        spack_env.set('GRPC_PYTHON_BUILD_SYSTEM_CARES', '1')
-        spack_env.append_flags('LDFLAGS', self.spec['c-ares'].libs.search_flags)
-        spack_env.append_flags('CPATH', self.spec['c-ares'].prefix.include)
-        spack_env.append_flags('LDFLAGS', self.spec['zlib'].libs.search_flags)
+    def setup_build_environment(self, env):
+        env.set('GRPC_PYTHON_BUILD_WITH_CYTHON', True)
+        env.set('GRPC_PYTHON_BUILD_SYSTEM_OPENSSL', True)
+        env.set('GRPC_PYTHON_BUILD_SYSTEM_ZLIB', True)
+        env.set('GRPC_PYTHON_BUILD_SYSTEM_CARES', True)
