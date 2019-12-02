@@ -406,7 +406,13 @@ class URLFetchStrategy(FetchStrategy):
                 mkdirp(self.stage.source_path)
             dest = os.path.join(self.stage.source_path,
                                 os.path.basename(self.archive_file))
-            shutil.move(self.archive_file, dest)
+            # if the archive is a symlink itself, copy the target because
+            # otherwise the symlink target might get modified by
+            # staging-operations
+            if os.path.islink(self.archive_file):
+                shutil.copy(self.archive_file, dest)
+            else:
+                shutil.move(self.archive_file, dest)
             return
 
         tty.msg("Staging archive: %s" % self.archive_file)
