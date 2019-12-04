@@ -43,8 +43,9 @@ class VisionaryDeepLoop(Package):
     depends_on("py-cython")
     # depends_on("py-notebook")
     depends_on("python")
-    depends_on("tensorflow")
-    depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
+    # TODO Re-enable once https://github.com/spack/spack/pull/13112 is merged
+    #  depends_on("tensorflow")
+    #  depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
 
     def install(self, spec, prefix):
         pass

@@ -22,7 +22,8 @@ class VisionaryExa(Package):
 
     depends_on('visionary-dls~gccxml+dev', when="+dev")  # let's try without gccxml for now
     depends_on('visionary-dls~gccxml~dev', when="~dev")  # let's try without gccxml for now
-    depends_on('tensorflow')
+    # TODO Re-enable once https://github.com/spack/spack/pull/13112 is merged
+    #  depends_on('tensorflow')
     depends_on('py-pandas')
 
     def install(self, spec, prefix):

@@ -83,8 +83,9 @@ class VisionaryWafer(Package):
     depends_on('py-yccp@:0.5.0', when="^python@:2.999.999")  #TODO remove constraints once concretizer fixed
     depends_on('py-yccp@1.0.0:', when="^python@3:")          #TODO remove constraints once concretizer fixed
     depends_on('pytorch')
-    depends_on('tensorflow', when='+tensorflow')
-    depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
+    # TODO Re-enable once https://github.com/spack/spack/pull/13112 is merged
+    #  depends_on('tensorflow', when='+tensorflow')
+    #  depends_on('tensorflow-estimator', when='^tensorflow@1.13:')
 
     # hmf-fpga register file requires:
     depends_on('tcl-osys@890eafffbda95b58a472a2005c3cb9e90fd22ff6')
