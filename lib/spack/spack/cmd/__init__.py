@@ -9,6 +9,7 @@ import os
 import re
 import sys
 import argparse
+import ruamel.yaml as yaml
 
 import six
 
@@ -26,6 +27,7 @@ import spack.store
 import spack.util.spack_json as sjson
 import spack.util.string
 from spack.error import SpackError
+from ruamel.yaml.error import MarkedYAMLError
 
 
 # cmd has a submodule called "list" so preserve the python list module
@@ -395,7 +397,19 @@ def display_specs(specs, args=None, **kwargs):
 def spack_is_git_repo():
     """Ensure that this instance of Spack is a git clone."""
     with working_dir(spack.paths.prefix):
-        return os.path.isdir('.git')
+        if os.path.isdir('.git'):
+            # we are in a regular git repo
+            return True
+        elif os.path.isfile('.git'):
+            # we might be in a git worktree
+            try:
+                with open('.git', "rb") as f:
+                    dotgit = yaml.load(f)
+                return os.path.isdir(dotgit.get("gitdir", ".git"))
+            except MarkedYAMLError:
+                pass
+        else:
+            return False
 
 
 ########################################
