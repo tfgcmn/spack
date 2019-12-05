@@ -58,8 +58,13 @@ class PyProtobuf(PythonPackage):
     version('2.0.3',          sha256='5e17f2b3b9e459fc25c718c18ae4bf1b8eba3a9d5b5c18c178369d58a469c6d1')
     version('2.0.0beta',      sha256='cf04f05851eb7aac66a29fa6e6ba7072a4808389848c01cbfd82fb5e68cf2b73')
 
-    depends_on('py-setuptools', type='build')
-    depends_on('protobuf', when='+cpp')
+    depends_on('py-setuptools', type=('build', 'run'))
+    depends_on('py-six@1.9:', when='@3:', type=('build', 'run'))
+    depends_on('py-ordereddict', when='@3: ^python@:2', type=('build', 'run'))
+    depends_on('py-unittest2', when='@3: ^python@:2', type=('build', 'run'))
+
+    same_version_as("protobuf", when="+cpp",
+                    pkg_to_dep_version=lambda v: v.up_to(3))
 
     @when('+cpp')
     def build_args(self, spec, prefix):
