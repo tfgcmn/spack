@@ -71,7 +71,6 @@ class VisionaryDls(Package):
     depends_on('py-matplotlib')
     depends_on('py-nose')
     depends_on('py-numpy')
-    depends_on('py-onnx')
     depends_on('py-pybind11')
     depends_on('py-pyelftools')
     # TODO add py-pylint version for earlier python 3 releases if needed
