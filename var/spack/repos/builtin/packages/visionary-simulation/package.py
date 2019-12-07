@@ -42,7 +42,7 @@ class VisionarySimulation(Package):
     depends_on('visionary-dev-tools', when='+dev')
 
     depends_on('nest+backports')
-    depends_on('visionary-nest')
+    depends_on('py-cython')  # add runtime dependency so cython is available in visionary-simulation app (needed for sbs)
     depends_on('py-elephant')
     depends_on('py-h5py')
     depends_on('py-ipython')
@@ -50,6 +50,7 @@ class VisionarySimulation(Package):
     depends_on('py-pyyaml')
     depends_on('py-sbs')
     depends_on('py-scikit-learn')
+    depends_on('visionary-nest')
     depends_on('py-yccp@:0.5.0', when="^python@:2.999.999")  #TODO remove constraints once concretizer fixed
     depends_on('py-yccp@1.0.0:', when="^python@3:")          #TODO remove constraints once concretizer fixed
     # TODO Re-enable once https://github.com/spack/spack/pull/13112 is merged
