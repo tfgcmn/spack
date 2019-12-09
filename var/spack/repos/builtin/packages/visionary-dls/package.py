@@ -77,6 +77,7 @@ class VisionaryDls(Package):
     depends_on('py-pylint', when="^python@3.5.0:")
     depends_on('py-pylint@1.9.4', when="^python@:2.999.999")
     depends_on('py-scikit-learn')
+    depends_on('py-seaborn')
     depends_on('py-sqlalchemy')
     depends_on('py-yccp@1.0.0:', when="^python@3:")          #TODO remove constraints once concretizer fixed
     depends_on('py-yccp@:0.5.0', when="^python@:2.999.999")  #TODO remove constraints once concretizer fixed
