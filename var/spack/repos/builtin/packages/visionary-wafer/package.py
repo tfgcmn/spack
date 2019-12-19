@@ -47,6 +47,7 @@ class VisionaryWafer(Package):
     # to provide non-gccxml spack views we manually add the gccxml w/o dependencies later :)
     variant('gccxml', default=False)
 
+    depends_on('catch2')
     depends_on('gccxml', when='+gccxml')
     depends_on('gsl')
     depends_on('intel-tbb')
